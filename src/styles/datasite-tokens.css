@@ -1,0 +1,165 @@
+/**
+ * Datasite design tokens — names and values mirror repository `cursorrules`.
+ * Utilities: font-ds-body, text-ds-text-primary, bg-ds-paper-alt, gap-ds-1, rounded-ds-m, etc.
+ */
+
+:root {
+  /* Primary */
+  --ds-primary-main: #485ef0;
+  --ds-primary-contrast: #ffffff;
+  --ds-primary-dark: #454eb0;
+  --ds-primary-hover-overlay: rgba(72, 94, 240, 0.04);
+  --ds-primary-focus: rgba(72, 94, 240, 0.3);
+  --ds-primary-border: rgba(72, 94, 240, 0.5);
+
+  /* Text & action */
+  --ds-text-primary: #323232;
+  --ds-text-secondary: #6a6a69;
+  --ds-action-active: #4e4e4d;
+  --ds-action-disabled: rgba(31, 34, 39, 0.38);
+  --ds-action-disabled-bg: rgba(31, 34, 39, 0.12);
+  /* RGB base for action/disabled and related icon ink (31, 34, 39) */
+  --ds-action-base: #1f2227;
+
+  /* Backgrounds & surfaces */
+  --ds-bg-default: #ffffff;
+  --ds-bg-alt: #fafaf7;
+  --ds-paper-default: #ffffff;
+  --ds-paper-alt: #fafaf7;
+  --ds-moondust-100: #f7f6f2;
+  --ds-moondust-400: #a3a2a0;
+  --ds-moondust-900: #191919;
+  --ds-surface-neutral: #dbdad7;
+  --ds-divider: rgba(25, 25, 25, 0.12);
+  --ds-border-strong: rgba(25, 25, 25, 0.5);
+  --ds-logotype: #0d0d0d;
+
+  /* Semantic */
+  --ds-warning: #b34814;
+  --ds-amber-500: #ff8818;
+  --ds-amber-bg: rgba(255, 136, 24, 0.1);
+  --ds-error: #d43034;
+  --ds-error-border: rgba(212, 48, 52, 0.5);
+
+  /* Data viz */
+  --ds-emerald-500: #53856d;
+  --ds-emerald-700: #1e4d36;
+  --ds-purpurite-500: #9f5481;
+  --ds-purpurite-700: #651f4a;
+  --ds-peridot-700: #6c6e1c;
+  --ds-turquoise-700: #1d595c;
+  --ds-ruby-700: #c02641;
+  --ds-teal-strong: #00796b;
+
+  /* Spacing & radius (cursorrules) */
+  --ds-space-new: 4px;
+  --ds-space-1: 8px;
+  --ds-space-2: 16px;
+  --ds-radius-s: 4px;
+  --ds-radius-m: 8px;
+  --ds-button-height: 36px;
+  --ds-chip-sm-height: 24px;
+  --ds-chip-md-height: 32px;
+
+  --ds-shadow-card: 0px 0px 8px 2px rgba(219, 218, 215, 0.25);
+
+  --ds-font-body-stack: "TT Hoves Pro VF Trial", "Roboto", system-ui, sans-serif;
+  --ds-font-display-stack: "AL Sigla Trial", ui-serif, Georgia, serif;
+}
+
+@theme inline {
+  --font-ds-body: var(--ds-font-body-stack);
+  --font-ds-display: var(--ds-font-display-stack);
+
+  --text-ds-2xs: 0.625rem;
+  --text-ds-caption: 0.75rem;
+  --text-ds-chip: 0.8125rem;
+  --text-ds-button: 0.875rem;
+  --text-ds-body1: 1rem;
+  --text-ds-h6: 1.25rem;
+  --text-ds-h2: 3.75rem;
+  --text-ds-h1: 6rem;
+
+  --leading-ds-caption: 1.66;
+  --leading-ds-body1: 1.5;
+  --leading-ds-subtitle2: 1.57;
+  --leading-ds-button: 24px;
+  --leading-ds-chip: 18px;
+  --leading-ds-h6: 1.6;
+  --leading-ds-h2: 1.2;
+  --leading-ds-h1: 1.167;
+  --leading-ds-tooltip: 14px;
+
+  --tracking-ds-caption: 0.4px;
+  --tracking-ds-body1: 0.15px;
+  --tracking-ds-subtitle2: 0.1px;
+  --tracking-ds-button: 0.4px;
+  --tracking-ds-chip: 0.16px;
+  --tracking-ds-badge: 0.14px;
+  --tracking-ds-h2: -0.5px;
+  --tracking-ds-h1: -1.5px;
+
+  --color-ds-primary-main: var(--ds-primary-main);
+  --color-ds-primary-contrast: var(--ds-primary-contrast);
+  --color-ds-primary-dark: var(--ds-primary-dark);
+  --color-ds-primary-hover-overlay: var(--ds-primary-hover-overlay);
+  --color-ds-primary-focus: var(--ds-primary-focus);
+  --color-ds-primary-border: var(--ds-primary-border);
+
+  --color-ds-text-primary: var(--ds-text-primary);
+  --color-ds-text-secondary: var(--ds-text-secondary);
+  --color-ds-action-active: var(--ds-action-active);
+  --color-ds-action-disabled: var(--ds-action-disabled);
+  --color-ds-action-disabled-bg: var(--ds-action-disabled-bg);
+  --color-ds-action-base: var(--ds-action-base);
+
+  --color-ds-bg-default: var(--ds-bg-default);
+  --color-ds-bg-alt: var(--ds-bg-alt);
+  --color-ds-paper-default: var(--ds-paper-default);
+  --color-ds-paper-alt: var(--ds-paper-alt);
+  --color-ds-moondust-100: var(--ds-moondust-100);
+  --color-ds-moondust-400: var(--ds-moondust-400);
+  --color-ds-moondust-900: var(--ds-moondust-900);
+  --color-ds-surface-neutral: var(--ds-surface-neutral);
+  --color-ds-divider: var(--ds-divider);
+  --color-ds-border-strong: var(--ds-border-strong);
+  --color-ds-logotype: var(--ds-logotype);
+
+  --color-ds-warning: var(--ds-warning);
+  --color-ds-amber-500: var(--ds-amber-500);
+  --color-ds-amber-bg: var(--ds-amber-bg);
+  --color-ds-error: var(--ds-error);
+  --color-ds-error-border: var(--ds-error-border);
+
+  --color-ds-emerald-500: var(--ds-emerald-500);
+  --color-ds-emerald-700: var(--ds-emerald-700);
+  --color-ds-purpurite-500: var(--ds-purpurite-500);
+  --color-ds-purpurite-700: var(--ds-purpurite-700);
+  --color-ds-peridot-700: var(--ds-peridot-700);
+  --color-ds-turquoise-700: var(--ds-turquoise-700);
+  --color-ds-ruby-700: var(--ds-ruby-700);
+  --color-ds-teal-strong: var(--ds-teal-strong);
+
+  --spacing-ds-new: var(--ds-space-new);
+  --spacing-ds-1: var(--ds-space-1);
+  --spacing-ds-2: var(--ds-space-2);
+
+  --radius-ds-s: var(--ds-radius-s);
+  --radius-ds-m: var(--ds-radius-m);
+
+  --height-ds-button: var(--ds-button-height);
+  --height-ds-chip-sm: var(--ds-chip-sm-height);
+  --height-ds-chip-md: var(--ds-chip-md-height);
+
+  --shadow-ds-card: var(--ds-shadow-card);
+}
+
+@layer components {
+  .bg-ds-page-gradient {
+    background-image: linear-gradient(
+      178.591deg,
+      var(--ds-paper-alt) 1.7353%,
+      var(--ds-moondust-100) 50.432%
+    );
+  }
+}

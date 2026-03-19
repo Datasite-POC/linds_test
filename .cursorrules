@@ -1,0 +1,1 @@
+Datasite UI uses the design system in **`cursorrules`** (repo root). Tailwind/CSS implementation: **`src/styles/datasite-tokens.css`** (`text-ds-*`, `bg-ds-*`, `font-ds-body`, `gap-ds-*`, `rounded-ds-*`, and `var(--ds-*)` in SVG).

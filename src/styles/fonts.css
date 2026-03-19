@@ -1,0 +1,3 @@
+/* Roboto matches many labels in the Figma export. Trial fonts (TT Hoves, AL Sigla)
+   are not on Google Fonts — add @font-face rules here when you have font files. */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");

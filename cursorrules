@@ -1,0 +1,120 @@
+You are helping a product designer refine UI prototypes for a product called Datasite.
+Always follow this design system exactly. Never invent values — if something isn't defined here, ask before guessing.
+
+---
+
+## Fonts
+- Primary font: TT Hoves Pro VF Trial (body, UI, buttons, labels)
+- Display font: AL Sigla Trial (h1, h2 only)
+- Weights: 300 (light), 400 (regular), 500 (medium)
+
+## Type styles
+- body1: 16px / regular 400 / line-height 1.5 / tracking 0.15px
+- subtitle2: 14px / medium 500 / line-height 1.57 / tracking 0.1px
+- caption: 12px / regular 400 / line-height 1.66 / tracking 0.4px
+- button: 14px / medium 500 / line-height 24px / tracking 0.4px
+- h6: 20px / medium 500 / line-height 1.6 / tracking 0.15px
+- h2: 60px / light 300 / line-height 1.2 / tracking -0.5px (AL Sigla Trial)
+- h1: 96px / light 300 / line-height 1.167 / tracking -1.5px (AL Sigla Trial)
+- chip/label: 13px / regular 400 / line-height 18px / tracking 0.16px
+- tooltip/label: 12px / regular 400 / line-height 14px / tracking 0.15px
+
+---
+
+## Colors
+### Primary
+- primary/main: #485EF0
+- primary/contrastText: #ffffff
+- primary/dark (hover): #454eb0
+- primary/hover overlay: rgba(72, 94, 240, 0.04)
+- primary/focus: rgba(72, 94, 240, 0.3)
+- primary/border: rgba(72, 94, 240, 0.5)
+
+### Text
+- text/primary: #323232
+- text/secondary: #6a6a69
+- action/active: #4e4e4d
+- action/disabled: rgba(31, 34, 39, 0.38)
+- action/disabledBackground: rgba(31, 34, 39, 0.12)
+
+### Backgrounds & surfaces
+- background/default: #ffffff
+- background/alt: #fafaf7
+- paper/default: #ffffff
+- paper/alt: #fafaf7
+- MoonDust50: #fafaf7
+- MoonDust100: #f7f6f2
+- MoonDust400: #a3a2a0
+- MoonDust900: #191919
+- surfaceNeutral / LeftNav selected: #dbdad7
+- divider: rgba(25, 25, 25, 0.12)
+
+### Semantic
+- warning/main: #b34814
+- Amber500: #ff8818
+- AmberBG: rgba(255, 136, 24, 0.1)
+- error/main: #d43034
+- error/border: rgba(212, 48, 52, 0.5)
+
+### Data viz
+- Emerald500: #53856d / Emerald700: #1e4d36
+- Purpurite500: #9f5481 / Purpurite700: #651f4a
+- Peridot700: #6c6e1c
+- Turquoise700: #1d595c
+- Ruby700: #c02641
+- tealStrong: #00796b
+
+---
+
+## Spacing & radius
+- Tight padding (button py): 4px
+- Gap / horizontal padding (text buttons): 8px
+- Horizontal padding (contained/outlined buttons): 16px
+- borderRadiusS: 4px
+- borderRadiusM: 8px (default for buttons, inputs, cards)
+
+---
+
+## Buttons
+- Height: 36px
+- Border radius: 8px (borderRadiusM)
+- Font: button/medium token (14px / 500 / 24px line-height / 0.4px tracking)
+- Icons: 16×16px slots
+
+| Variant    | Background         | Border                        | Label color         |
+|------------|--------------------|-------------------------------|---------------------|
+| Contained  | #485EF0            | none                          | #ffffff             |
+| Outlined   | transparent        | rgba(72, 94, 240, 0.5)        | #485EF0             |
+| Text       | transparent        | none                          | #485EF0             |
+| Disabled   | rgba(31,34,39,0.12)| —                             | rgba(31,34,39,0.38) |
+| Error      | #d43034            | rgba(212, 48, 52, 0.5)        | #ffffff or #d43034  |
+
+Hover states:
+- Contained hover: background #454eb0
+- Outlined/text hover: background rgba(72, 94, 240, 0.04)
+
+---
+
+## Chips
+- Small: 24px tall / Medium: 32px tall
+- Label font: chip/label token (13px / 400 / 18px / 0.16px tracking)
+- Variants: Filled, Outlined
+- Colors: Default, Primary, Secondary, Error, Warning, Info, Success
+- States: Enabled, Hovered, Focused, Pressed, Disabled
+
+---
+
+## Cards & surfaces
+- Default background: #ffffff (paper/default)
+- Alternate background: #fafaf7 (paper/alt)
+- Subtle blocks: #f7f6f2 (MoonDust100)
+- Border radius: 8px (borderRadiusM) or 4px (borderRadiusS) for inner elements
+- Dividers: rgba(25, 25, 25, 0.12)
+
+---
+
+## Other components
+- Tooltip: background MoonDust900 (#191919), borderRadiusS (4px), tooltip/label type token
+- Switch: MUI Switch, color="primary", size="small"
+- Divider: MUI Divider, color rgba(25,25,25,0.12)
+- Badge: MUI Badge, variant="standard", label font badge/label token (12px / 500 / 20px / 0.14px)
