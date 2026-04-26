@@ -167,6 +167,7 @@ html, body {
 }
 .avatar--ds { background-color: var(--avatar-a); }
 .avatar--dc { background-color: var(--avatar-c); }
+.avatar--slate { background-color: #546E7A; }
 
 /* ── APP SHELL ───────────────────────────────────────── */
 .app-shell {
@@ -309,6 +310,7 @@ html, body {
   flex: 1;
   display: flex;
   overflow: hidden;
+  position: relative;
 }
 
 /* ── PANEL NAV ───────────────────────────────────────── */
@@ -395,6 +397,7 @@ html, body {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow: hidden;
   background: var(--bg-surface);
 }
 
@@ -667,6 +670,47 @@ tbody tr.row-selected { background: var(--bg-selected); }
 .chip-dot-general { background: var(--chip-general-dot); }
 .chip-dot-access  { background: var(--chip-access-dot); }
 
+/* ── TYPE CHANGE MENU ────────────────────────────────── */
+.type-menu {
+  position: fixed;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(31,34,39,0.14);
+  padding: 10px 12px 12px;
+  z-index: 500;
+  min-width: 200px;
+  display: none;
+}
+.type-menu.open { display: block; }
+.type-menu-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-disabled);
+  margin-bottom: 8px;
+}
+.type-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 2px;
+  transition: background 0.1s;
+}
+.type-menu-item:last-child { margin-bottom: 0; }
+.type-menu-item:hover { background: var(--bg-alt); }
+.type-menu-item.selected { background: var(--bg-selected); }
+.type-menu-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 .col-q-text {
   max-width: 0;
   overflow: hidden;
@@ -776,6 +820,21 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 }
 body.side-buy .setup-card { display: none; }
 body.side-buy .buy-coming-soon { display: block; }
+
+.buy-side-cover {
+  display: none;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--bg-base);
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  z-index: 10;
+}
+body.side-buy .buy-side-cover { display: flex; }
 .empty-state-view {
   flex: 1;
   display: flex;
@@ -1149,13 +1208,14 @@ body.side-buy .buy-coming-soon { display: block; }
   border: none;
   padding: 0;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-primary);
   font-family: 'Roboto', sans-serif;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 4px;
 }
+.btn-setup-ghost:hover { text-decoration: underline; text-underline-offset: 2px; }
 .setup-card-footer {
   padding: 14px 36px 20px 36px;
   border-top: 1px solid var(--border-light);
@@ -1659,12 +1719,13 @@ body.side-buy .buy-coming-soon { display: block; }
   z-index: 100;
   display: none; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 40px 24px;
+  padding: 24px;
 }
 .wizard-overlay.open { display: flex; }
 .wizard-modal {
-  width: 860px;
-  height: 760px;
+  width: 100%;
+  max-width: 1100px;
+  height: 100%;
   max-height: 100%;
   background: var(--bg-surface);
   border-radius: var(--radius-md);
@@ -1699,12 +1760,12 @@ body.side-buy .buy-coming-soon { display: block; }
 .wizard-tab:hover { color: var(--text-primary); }
 .wizard-tab.active { color: var(--warning-main); border-bottom-color: var(--warning-main); font-weight: 500; }
 .tab-optional {
-  font-size: 10px; font-weight: 500;
+  font-size: 11px; font-weight: 500;
   color: var(--text-disabled);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-pill);
-  padding: 1px 6px;
-  margin-left: 5px;
+  padding: 2px 9px;
+  margin-left: 2px;
   vertical-align: middle;
   letter-spacing: 0.02em;
 }
@@ -1727,7 +1788,7 @@ body.side-buy .buy-coming-soon { display: block; }
 .wizard-step { display: none; height: 100%; }
 .wizard-step.active { display: flex; }
 .wizard-left {
-  width: 240px; min-width: 240px;
+  width: 200px; flex-shrink: 0;
   border-right: 1px solid var(--border-light);
   display: flex; flex-direction: column;
   background: var(--bg-base); overflow-y: auto;
@@ -1745,7 +1806,7 @@ body.side-buy .buy-coming-soon { display: block; }
 .wiz-search-input::placeholder { color: var(--text-disabled); }
 .wiz-team-item {
   display: flex; align-items: center;
-  padding: 0 20px; height: 36px;
+  padding: 0 20px; height: 36px; width: 100%;
   font-size: 13px; color: var(--text-secondary);
   cursor: pointer; transition: background 0.1s; position: relative;
 }
@@ -1758,6 +1819,13 @@ body.side-buy .buy-coming-soon { display: block; }
   width: 3px; background: var(--warning-main); border-radius: 0 2px 2px 0;
 }
 .wizard-left-footer { margin-top: auto; padding: 12px 16px; }
+.wiz-add-team-link {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 20px; font-size: 13px; font-weight: 400;
+  color: #4E4E4D; cursor: pointer;
+  transition: background 0.1s;
+}
+.wiz-add-team-link:hover { background: var(--bg-alt); font-weight: 500; }
 .wiz-alt-link {
   font-size: 13px; font-weight: 400;
   color: var(--text-secondary);
@@ -1868,12 +1936,61 @@ body.side-buy .buy-coming-soon { display: block; }
 .btn-add-members {
   display: flex; align-items: center; gap: 6px;
   height: 32px; padding: 0 14px;
-  border: 1px solid var(--warning-main); border-radius: var(--radius-sm);
-  background: var(--bg-surface); color: var(--warning-main);
+  border: 1px solid var(--primary-main); border-radius: var(--radius-sm);
+  background: var(--bg-surface); color: var(--primary-main);
   font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
-  cursor: pointer; transition: background 0.12s;
+  cursor: pointer; transition: background 0.12s; flex-shrink: 0;
 }
-.btn-add-members:hover { background: rgba(231,92,0,0.06); }
+.btn-add-members:hover { background: rgba(72,94,240,0.06); }
+.members-table {
+  width: 100%; border: 1px solid var(--border-light); border-radius: var(--radius-md);
+  margin-bottom: 20px; overflow: hidden; display: flex; flex-direction: column;
+}
+.members-table-rows { overflow-y: auto; max-height: 240px; }
+.members-add-link {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 16px; border-top: 1px solid var(--border-light);
+  font-size: 13px; font-weight: 400; color: var(--primary-main);
+  cursor: pointer; background: var(--bg-surface);
+  transition: background 0.12s;
+}
+.members-add-link:hover { background: var(--bg-alt); font-weight: 500; }
+.members-table-head {
+  display: grid; grid-template-columns: 2fr 1.4fr 1.2fr 2fr 1fr;
+  padding: 0 16px; background: var(--bg-base); border-bottom: 1px solid var(--border-light);
+  height: 36px; align-items: center;
+}
+.members-table-head-cell {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--text-disabled);
+  text-transform: uppercase;
+}
+.members-table-row {
+  display: grid; grid-template-columns: 2fr 1.4fr 1.2fr 2fr 1fr;
+  padding: 0 16px; align-items: center; height: 52px;
+}
+.members-table-row + .members-table-row { border-top: 1px solid var(--border-light); }
+.status-tooltip-wrap { display: inline-flex; align-items: center; cursor: default; }
+#global-tooltip {
+  display: none; position: fixed; z-index: 9999; pointer-events: none;
+  background: #2C2C2C; color: #fff; font-size: 10.5px; line-height: 1.6;
+  padding: 7px 10px; border-radius: var(--radius-sm);
+  white-space: normal; width: 190px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+}
+#global-tooltip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: #2C2C2C;
+}
+.members-table-cell { font-size: 13px; color: var(--text-primary); }
+.member-name-cell { display: flex; align-items: center; gap: 10px; }
+.member-name-text { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.member-status-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500; color: var(--success-main);
+}
+.member-status-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--success-main); flex-shrink: 0;
+}
 .members-empty {
   display: flex; flex-direction: column; align-items: center; gap: 10px;
   padding: 36px 20px; text-align: center;
@@ -1886,6 +2003,7 @@ body.side-buy .buy-coming-soon { display: block; }
   border: 1px solid var(--border-light); border-radius: var(--radius-md);
   padding: 16px 20px; display: flex; align-items: flex-start; gap: 16px;
 }
+.import-card + .import-card { margin-top: 16px; }
 .import-card-body { flex: 1; }
 .import-card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; }
 .import-card-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
@@ -1901,7 +2019,7 @@ body.side-buy .buy-coming-soon { display: block; }
   top: 2px; right: 2px;
 }
 /* Categories */
-.cat-input-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.cat-input-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; max-width: 480px; }
 .cat-name-input {
   flex: 1; height: 36px;
   border: none; border-bottom: 1px solid var(--border);
@@ -1917,7 +2035,7 @@ body.side-buy .buy-coming-soon { display: block; }
 }
 .btn-cat-add:hover { background: var(--bg-alt); color: var(--text-primary); }
 .cat-hint { font-size: 12px; color: var(--text-disabled); margin-bottom: 24px; padding-left: 4px; }
-.cat-list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.cat-list-header { display: flex; align-items: center; justify-content: space-between; margin-top: 48px; margin-bottom: 4px; max-width: 75%; }
 .cat-list-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
 .btn-sort-order {
   display: flex; align-items: center; gap: 4px;
@@ -1938,6 +2056,33 @@ body.side-buy .buy-coming-soon { display: block; }
 .btn-cat-del:hover { color: #C62828; background: rgba(198,40,40,0.06); }
 /* Workflow */
 .wiz-flow-actions { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.wiz-workflow-layout { display: flex; flex: 1; overflow: hidden; height: 100%; }
+.wiz-workflow-main { flex: 1; overflow-y: auto; padding: 28px 32px; }
+.wiz-groups-panel {
+  width: 220px; flex-shrink: 0; border-left: 1px solid var(--border-light);
+  background: var(--bg-base); display: flex; flex-direction: column; overflow-y: auto;
+}
+.wiz-groups-panel-head { padding: 20px 16px 14px; }
+.wiz-groups-panel-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
+.wiz-groups-panel-desc { font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px; }
+.btn-new-group {
+  display: flex; align-items: center; gap: 6px; width: 100%;
+  height: 32px; padding: 0 12px;
+  border: 1px solid var(--primary-main); border-radius: var(--radius-sm);
+  background: transparent; color: var(--primary-main);
+  font-size: 12px; font-weight: 500; font-family: 'Roboto', sans-serif;
+  cursor: pointer; margin-bottom: 16px; transition: background 0.12s;
+}
+.btn-new-group:hover { background: rgba(72,94,240,0.06); }
+.wiz-group-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; font-size: 13px; font-weight: 500;
+  color: var(--text-primary); border-top: 1px solid var(--border-light);
+  cursor: pointer;
+}
+.wiz-group-item:hover { background: var(--bg-alt); }
+.wiz-group-item-icons { display: flex; align-items: center; gap: 6px; color: var(--text-disabled); }
+.wiz-group-item-warn { color: #E75C00; }
 .btn-wiz-outlined {
   display: flex; align-items: center; gap: 6px;
   height: 34px; padding: 0 14px;
@@ -1957,7 +2102,10 @@ body.side-buy .buy-coming-soon { display: block; }
 }
 .btn-wiz-filled:hover { opacity: 0.88; }
 .wiz-flow-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.4; margin-left: 4px; flex: 1; }
-.wiz-workflow-section { margin-bottom: 28px; }
+.wiz-workflow-section {
+  margin-bottom: 28px; padding: 20px;
+  border: 1px solid var(--border-light); border-radius: var(--radius-md);
+}
 .wiz-workflow-label {
   display: flex; align-items: center; gap: 6px;
   font-size: 15px; font-weight: 600; color: var(--text-primary);
@@ -1986,9 +2134,21 @@ body.side-buy .buy-coming-soon { display: block; }
 .workflow-card-badge {
   display: inline-flex; align-items: center;
   height: 20px; padding: 0 8px;
-  border: 1px solid #C62828; border-radius: var(--radius-sm);
-  color: #C62828; font-size: 10px; font-weight: 600; letter-spacing: 0.02em;
+  border: 1px solid var(--text-primary); border-radius: var(--radius-sm);
+  color: var(--text-primary); font-size: 10px; font-weight: 600; letter-spacing: 0.02em;
 }
+.workflow-add-card {
+  width: 120px; align-self: stretch;
+  border: 2px dashed var(--text-secondary); border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+.workflow-add-card:hover { border-color: var(--primary-main); background: rgba(72,94,240,0.04); }
+.workflow-add-card svg { color: var(--text-secondary); transition: color 0.15s; }
+.workflow-add-card:hover svg { color: var(--primary-main); }
+.wf-info-link { color: #1A237E; font-weight: 600; text-decoration: none; }
+.wf-info-link:hover { text-decoration: underline; }
 .wiz-custom-section { margin-top: 28px; }
 .wiz-custom-header { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 14px; }
 .custom-empty {
@@ -2098,6 +2258,136 @@ body.side-buy .buy-coming-soon { display: block; }
   font-size: 13px; color: var(--text-secondary); line-height: 1.5;
 }
 .alt-ai-icon { color: var(--warning-main); flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+/* ─── Add/Remove Members Dialog ─── */
+.am-overlay {
+  display: none; position: fixed;
+  top: 56px; left: 72px; right: 0; bottom: 0;
+  z-index: 400; padding: 24px;
+  background: rgba(31,34,39,0.35);
+}
+.am-overlay.open { display: flex; }
+.am-dialog {
+  width: 100%; height: 100%;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(31,34,39,0.22);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.am-dialog-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border-light); flex-shrink: 0;
+}
+.am-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.btn-bulk-actions {
+  position: relative; height: 28px; padding: 0 12px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-surface); color: var(--text-primary);
+  font-size: 12px; font-weight: 500; font-family: inherit;
+  cursor: pointer; display: flex; align-items: center; gap: 5px;
+  transition: background 0.12s;
+}
+.btn-bulk-actions:hover { background: var(--bg-alt); }
+.bulk-menu {
+  display: none; position: absolute; top: calc(100% + 4px); right: 0;
+  background: var(--bg-surface); border: 1px solid var(--border-light);
+  border-radius: var(--radius-md); box-shadow: 0 4px 16px rgba(31,34,39,0.12);
+  min-width: 180px; z-index: 500; overflow: hidden;
+}
+.bulk-menu.open { display: block; }
+.bulk-menu-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; font-size: 13px; color: var(--text-primary);
+  cursor: pointer; transition: background 0.1s;
+}
+.bulk-menu-item:hover { background: var(--bg-alt); }
+.am-dialog-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+.am-info-notice {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: #EEF0FD; border-radius: var(--radius-sm);
+  padding: 10px 14px; font-size: 13px; color: var(--text-primary);
+}
+.am-info-notice svg { flex-shrink: 0; margin-top: 1px; color: var(--primary-main); }
+.am-info-notice a { color: var(--primary-main); font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 3px; }
+.am-info-notice a:hover { text-decoration: underline; }
+.am-table-wrap { flex: 1; overflow-y: auto; }
+.am-table { width: 100%; border-collapse: collapse; }
+.am-table thead tr { background: var(--bg-base); }
+.am-table th {
+  padding: 0 12px; height: 36px; text-align: left;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--text-disabled); border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
+}
+.am-table th:first-child { width: 40px; padding: 0 0 0 20px; }
+.am-table td {
+  padding: 0 12px; height: 52px; font-size: 13px;
+  color: var(--text-primary); border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+}
+.am-table td:first-child { padding: 0 0 0 20px; width: 40px; }
+.am-table tbody tr:hover { background: var(--bg-alt); }
+.am-table tbody tr:last-child td { border-bottom: none; }
+.am-name-cell { display: flex; align-items: center; gap: 10px; }
+.am-name-text { font-weight: 500; }
+.am-email { color: var(--text-secondary); }
+.am-status-active {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500; color: var(--success-main);
+  background: rgba(20,131,40,0.09); border-radius: var(--radius-pill);
+  padding: 2px 10px;
+}
+.am-status-active::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--success-main); }
+.am-status-invited {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500; color: #B45309;
+  background: rgba(251,191,36,0.15); border-radius: var(--radius-pill);
+  padding: 2px 10px;
+}
+.am-status-invited::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #D97706; }
+.am-status-none {
+  font-size: 12px; color: var(--text-disabled);
+  display: block; text-align: center;
+}
+.am-cb { width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary-main); }
+.am-add-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border: none; background: none;
+  cursor: pointer; padding: 0; border-radius: 50%; flex-shrink: 0;
+  transition: background 0.12s;
+}
+.am-add-btn:hover { background: rgba(72,94,240,0.08); }
+.am-add-btn .icon-add { color: var(--primary-main); }
+.am-add-btn .icon-added { color: var(--primary-main); display: none; }
+.am-add-btn.selected .icon-add { display: none; }
+.am-add-btn.selected .icon-added { display: block; }
+.am-delete-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border: none; background: none;
+  color: #E53935; cursor: pointer; border-radius: 50%;
+  opacity: 0; transition: opacity 0.12s; flex-shrink: 0; padding: 0;
+}
+.am-delete-btn:hover { background: rgba(229,57,53,0.08); }
+.am-table tbody tr:hover .am-delete-btn { opacity: 1; }
+.am-status-cell { display: flex; align-items: center; gap: 6px; }
+.am-dialog-footer {
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+  padding: 14px 24px; border-top: 1px solid var(--border-light); flex-shrink: 0;
+}
+.am-btn-cancel {
+  height: 36px; padding: 0 18px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); background: var(--bg-surface);
+  color: var(--text-primary); font-size: 13px; font-weight: 500;
+  font-family: inherit; cursor: pointer;
+}
+.am-btn-cancel:hover { background: var(--bg-alt); }
+.am-btn-save {
+  height: 36px; padding: 0 20px; border: none;
+  border-radius: var(--radius-sm); background: var(--primary-main);
+  color: #fff; font-size: 13px; font-weight: 500;
+  font-family: inherit; cursor: pointer;
+}
+.am-btn-save:hover:not(:disabled) { background: #3a4cc0; }
+.am-btn-save:disabled { background: var(--border-light); color: var(--text-disabled); cursor: not-allowed; }
 </style>
 </head>
 <body>
@@ -2158,6 +2448,7 @@ body.side-buy .buy-coming-soon { display: block; }
 
   <!-- CONTENT AREA -->
   <div class="content-area">
+    <div class="buy-side-cover">View coming soon</div>
 
     <!-- PANEL NAV -->
     <aside class="panel-nav">
@@ -2220,7 +2511,7 @@ body.side-buy .buy-coming-soon { display: block; }
               <div class="setup-item">
                 <div class="setup-item-bullet"></div>
                 <div>
-                  <div class="setup-item-title">4 bidder teams — completely isolated</div>
+                  <div class="setup-item-title">4 bidder teams. Completely isolated.</div>
                   <div class="setup-item-desc">Buyside A, B, C, D. Each team sees only their own questions and answers.</div>
                 </div>
               </div>
@@ -2235,7 +2526,7 @@ body.side-buy .buy-coming-soon { display: block; }
                 <div class="setup-item-bullet"></div>
                 <div>
                   <div class="setup-item-title">Full admin visibility</div>
-                  <div class="setup-item-desc">You see every question, answer, and audit entry — across all teams.</div>
+                  <div class="setup-item-desc">You see every question, answer, and audit entry across all teams.</div>
                 </div>
               </div>
               <div class="setup-item">
@@ -2248,7 +2539,7 @@ body.side-buy .buy-coming-soon { display: block; }
             </div>
             <div class="setup-card-cta">
               <button class="btn-setup-primary" onclick="goToTeamConfirm()">Quick launch Q&amp;A setup</button>
-              <button class="btn-setup-ghost" onclick="openWizard()">Advanced setup</button>
+              <button class="btn-setup-ghost" onclick="openWizard()">Advanced setup <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></button>
               <p class="setup-path-hint">Use Advanced Setup if you need custom categories, workflow routing, or per-team question limits.</p>
             </div>
           </div>
@@ -2551,8 +2842,8 @@ body.side-buy .buy-coming-soon { display: block; }
       <span class="wizard-title">Advanced Setup</span>
       <div class="wizard-tabs">
         <button class="wizard-tab active" id="wtab-teams" onclick="showWizardStep('teams')">Q&amp;A Teams</button>
-        <button class="wizard-tab" id="wtab-categories" onclick="showWizardStep('categories')">Categories <span class="tab-optional">Optional</span></button>
-        <button class="wizard-tab" id="wtab-workflow" onclick="showWizardStep('workflow')">Workflow</button>
+        <button class="wizard-tab" id="wtab-categories" onclick="showWizardStep('categories')">Categories</button>
+        <button class="wizard-tab" id="wtab-workflow" onclick="showWizardStep('workflow')">Workflows</button>
       </div>
       <div class="wizard-header-right">
         <span class="badge-not-launched">
@@ -2576,33 +2867,61 @@ body.side-buy .buy-coming-soon { display: block; }
           </div>
 
           <div class="wiz-team-item active">Answer Team</div>
-          <div class="wiz-team-item">Question Team</div>
-          <div class="wizard-left-footer">
-            <button class="btn-create-team">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Create new question team…
-            </button>
+          <div class="wiz-team-item" style="color:#4E4E4D;font-weight:400;">Question Team</div>
+          <div class="wiz-add-team-link">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Add Question Team
           </div>
         </div>
         <div class="wizard-main">
-          <div class="info-banner">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--primary-main);margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <div>Users must be invited to this project before they can be added to Q&amp;A. <a href="#">Invite users here →</a><br/>
-            Invited users will not receive notifications and will be unable to interact with Q&amp;A until they have registered.</div>
-          </div>
+
           <div class="wiz-section-row">
             <div class="wiz-section-title">Answer Team</div>
-            <button class="btn-add-members">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Add/remove Team Members
-            </button>
           </div>
-          <div class="members-empty">
-            <svg class="members-empty-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-            <button class="btn-add-members">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Add/remove Team Members
-            </button>
+          <div class="members-table">
+            <div class="members-table-head">
+              <div class="members-table-head-cell">Name</div>
+              <div class="members-table-head-cell">Role</div>
+              <div class="members-table-head-cell">Company</div>
+              <div class="members-table-head-cell">Email</div>
+              <div class="members-table-head-cell">Status</div>
+            </div>
+            <div class="members-table-rows">
+              <div class="members-table-row">
+                <div class="members-table-cell member-name-cell">
+                  <div class="avatar avatar--ds" style="width:32px;height:32px;font-size:11px;">DS</div>
+                  <span class="member-name-text">Samuels, Daniel</span>
+                </div>
+                <div class="members-table-cell">Project Admin</div>
+                <div class="members-table-cell">Datasite</div>
+                <div class="members-table-cell" style="color:var(--text-secondary);">daniel.samuels@datasite.com</div>
+                <div class="members-table-cell">
+                  <span class="member-status-badge">
+                    <span class="member-status-dot"></span>Active
+                  </span>
+                </div>
+              </div>
+              <div class="members-table-row">
+                <div class="members-table-cell member-name-cell">
+                  <div class="avatar avatar--slate" style="width:32px;height:32px;font-size:11px;">PR</div>
+                  <span class="member-name-text">Park, Rachel</span>
+                </div>
+                <div class="members-table-cell">Analyst</div>
+                <div class="members-table-cell">Datasite</div>
+                <div class="members-table-cell" style="color:var(--text-secondary);">rachel.park@datasite.com</div>
+                <div class="members-table-cell">
+                  <div class="status-tooltip-wrap" data-tip="Pending registration — notifications and Q&A access are paused until this person registers.">
+                    <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);">
+                      <span class="member-status-dot" style="background:#D97706;"></span>Invited
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="members-add-link" onclick="openAddMembersDialog()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Add/remove answer team members
+            </div>
           </div>
           <div class="import-card">
             <div class="import-card-body">
@@ -2614,26 +2933,33 @@ body.side-buy .buy-coming-soon { display: block; }
               <span style="font-size:13px;font-weight:500;color:var(--text-primary)">On</span>
             </div>
           </div>
+          <div class="import-card">
+            <div class="import-card-body">
+              <div class="import-card-title">Similar Questions</div>
+              <div class="import-card-desc">Enables the answer team to identify similar questions</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+              <div class="toggle-switch"></div>
+              <span style="font-size:13px;font-weight:500;color:var(--text-primary)">On</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Step: Categories -->
       <div class="wizard-step" id="wstep-categories">
-        <div class="wizard-left">
-          <div class="wizard-left-head">
-            <div class="wizard-left-title">Categories</div>
-            <div class="wizard-left-desc">Creating categories can help organise questions more efficiently.<br/><br/>Some categories have already been created for you. These may be edited if needed.</div>
-          </div>
-        </div>
         <div class="wizard-main">
-          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Create, modify, or delete categories below.</p>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <div class="wizard-left-title" style="margin-bottom:0;">Categories</div>
+            <span class="tab-optional">Optional</span>
+          </div>
+          <div class="wizard-left-desc" style="margin-bottom:20px;">Keep questions organized with categories. Add, modify or delete categories to fit your deal. Defaults have been provided below as a starting point.</div>
           <div class="cat-input-row">
-            <input class="cat-name-input" type="text" placeholder="Question category name" />
+            <input class="cat-name-input" type="text" placeholder="New question category" />
             <button class="btn-cat-add">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </button>
           </div>
-          <div class="cat-hint">e.g. Legal</div>
           <div class="cat-list-header">
             <span class="cat-list-title">Categories (6)</span>
             <button class="btn-sort-order">
@@ -2642,7 +2968,7 @@ body.side-buy .buy-coming-soon { display: block; }
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </button>
           </div>
-          <div id="cat-list">
+          <div id="cat-list" style="max-width:75%">
             <div class="cat-item"><span class="cat-item-text">Finance</span><button class="btn-cat-del" onclick="this.closest('.cat-item').remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
             <div class="cat-item"><span class="cat-item-text">General</span><button class="btn-cat-del" onclick="this.closest('.cat-item').remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
             <div class="cat-item"><span class="cat-item-text">HR</span><button class="btn-cat-del" onclick="this.closest('.cat-item').remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
@@ -2657,7 +2983,6 @@ body.side-buy .buy-coming-soon { display: block; }
       <div class="wizard-step" id="wstep-workflow">
         <div class="wizard-left">
           <div class="wizard-left-head">
-            <div class="wizard-left-title">Workflow</div>
           </div>
           <div class="wiz-team-item active">Answer Team</div>
           <div class="wiz-team-item">Question Team</div>
@@ -2665,30 +2990,19 @@ body.side-buy .buy-coming-soon { display: block; }
             <a href="#" class="wiz-alt-link" onclick="showWizardStep('alt-workflow'); return false;">Alternate workflow</a>
           </div>
         </div>
-        <div class="wizard-main">
-          <div class="wiz-flow-actions">
-            <button class="btn-wiz-outlined">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              New Custom Workflow
-            </button>
-            <button class="btn-wiz-filled">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              New Workflow Group
-            </button>
-            <span class="wiz-flow-desc">Create or edit groups to be added into workflow approval sequence.</span>
-          </div>
+        <div class="wiz-workflow-layout">
+        <div class="wiz-workflow-main">
+          <div class="wizard-left-title" style="margin-bottom:6px;">Workflows</div>
+          <div class="wizard-left-desc" style="margin-bottom:24px;">Workflows control how answers get reviewed and approved before reaching the question team. The default workflow applies to all categories unless a custom one is created.</div>
 
           <div class="wiz-workflow-section">
             <div class="wiz-workflow-label">
               Default Workflow — Answer Team
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-disabled)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             </div>
-            <div class="warn-banner">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;color:var(--warning-main);margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <div class="warn-banner-body">
-                <div class="warn-banner-title">Reset Workflow Questions</div>
-                There are 0 active team members in one or more workflow groups in this workflow.
-              </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;background:#E8EAF6;border:1px solid #C5CAE9;border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:14px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:1px;color:#3F51B5"><circle cx="12" cy="12" r="10" fill="#3F51B5" opacity="0.15"/><circle cx="12" cy="12" r="10" stroke="#3F51B5" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="8" stroke="#3F51B5" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="11" x2="12" y2="16" stroke="#3F51B5" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span style="font-size:12px;color:#1A237E;line-height:1.5;">Your workflow groups need at least one active member to route questions. Add members in <a href="#" onclick="showWizardStep('teams');return false;" class="wf-info-link">Q&amp;A Teams</a>.</span>
             </div>
             <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;">Categories: 6</div>
             <div class="cat-chips">
@@ -2704,20 +3018,46 @@ body.side-buy .buy-coming-soon { display: block; }
                 <div class="workflow-card-title">Answer Team</div>
                 <span class="workflow-card-badge">Level 1 · Final</span>
               </div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-disabled)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+              <div class="workflow-add-card" title="Add a workflow step">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              </div>
             </div>
           </div>
 
           <div class="wiz-custom-section">
-            <div class="wiz-custom-header">
-              Custom Workflows (0)
+            <div class="wiz-custom-header" style="display:flex;align-items:center;gap:6px;">
+              <span>Custom Workflows (0)</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-disabled)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             </div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Use custom workflows when different categories need separate review and approval chains.</div>
             <div class="custom-empty">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="color:var(--primary-main);opacity:0.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-              Create <a href="#">New Custom Workflows</a> to restrict visibility for questions and answers.
+              <button class="btn-wiz-outlined" style="font-size:12px;height:28px;border-color:var(--border);color:var(--text-secondary);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                New Custom Workflow
+              </button>
             </div>
           </div>
-        </div>
+        </div><!-- /.wiz-workflow-main -->
+
+        <div class="wiz-groups-panel">
+          <div class="wiz-groups-panel-head">
+            <button class="btn-new-group">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Workflow Group
+            </button>
+            <div class="wiz-groups-panel-desc">Workflow groups are the reviewers in your approval chain. Create a group, then assign it to a workflow step.</div>
+          </div>
+          <div class="wiz-group-item">
+            <span>Answer Team</span>
+            <div class="wiz-group-item-icons">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              <svg class="wiz-group-item-warn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+          </div>
+        </div><!-- /.wiz-groups-panel -->
+
+        </div><!-- /.wiz-workflow-layout -->
       </div>
 
       <!-- Step: Alternate Workflow -->
@@ -2926,10 +3266,6 @@ body.side-buy .buy-coming-soon { display: block; }
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
               Link Files
             </button>
-            <button class="reply-footer-action" onclick="toggleDropzone()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-              Upload Files
-            </button>
             <div class="reply-footer-spacer"></div>
             <button class="btn-edit">Edit</button>
           </div>
@@ -3106,7 +3442,7 @@ function renderTable() {
       <td class="text-secondary-cell">${row.team}</td>
       <td class="text-secondary-cell">${row.num}</td>
       <td>
-        <span class="q-chip ${meta.cls}">
+        <span class="q-chip ${meta.cls}" onclick="openTypeMenu(event,${row.id})" style="cursor:pointer;">
           <span class="q-chip-dot ${meta.dotCls}"></span>
           ${meta.label}
         </span>
@@ -3311,7 +3647,20 @@ function showWizardStep(step) {
 }
 
 function wizardNav(dir) {
-  const idx = WIZARD_STEPS.indexOf(wizardStep);
+  if (dir === 1 && wizardStep === 'teams') {
+    showWizardStep('categories');
+    return;
+  }
+  if (dir === 1 && wizardStep === 'categories') {
+    showWizardStep('workflow');
+    return;
+  }
+  if (dir === 1 && wizardStep === 'workflow') {
+    closeWizard();
+    activateQA();
+    return;
+  }
+const idx = WIZARD_STEPS.indexOf(wizardStep);
   const next = WIZARD_STEPS[idx + dir];
   if (dir === 1 && !next) {
     closeWizard();
@@ -3334,11 +3683,205 @@ function _applyWizardStep() {
   const nextBtn = document.getElementById('wiz-next');
   backBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
   const isLast = idx === WIZARD_STEPS.length - 1;
-  nextBtn.innerHTML = isLast
+  const showLaunchText = wizardStep === 'workflow' || isLast;
+  nextBtn.innerHTML = showLaunchText
     ? 'Launch Q&A <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
     : 'Next <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
   nextBtn.style.background = isLast ? 'var(--success-main)' : 'var(--warning-main)';
 }
+
+/* ── TYPE CHANGE MENU ────────────────────────────────── */
+let _typeMenuRow = null;
+
+function openTypeMenu(e, rowId) {
+  e.stopPropagation();
+  const menu = document.getElementById('type-menu');
+  const rect = e.currentTarget.getBoundingClientRect();
+  const row = ROWS.find(r => r.id === rowId);
+  _typeMenuRow = rowId;
+
+  // Build options
+  const order = ['general', 'doc', 'access', 'clarif'];
+  const dotColors = {
+    doc:     'var(--chip-doc-req-dot)',
+    clarif:  'var(--chip-clarif-dot)',
+    general: 'var(--chip-general-dot)',
+    access:  'var(--chip-access-dot)',
+  };
+  menu.querySelector('.type-menu-items').innerHTML = order.map(key => {
+    const m = TYPE_META[key];
+    const selected = row.type === key;
+    return `<div class="type-menu-item${selected ? ' selected' : ''}" onclick="changeType(${rowId},'${key}')">
+      <span class="q-chip ${m.cls}" style="${selected ? 'box-shadow:0 0 0 2px currentColor;' : ''}">
+        <span class="q-chip-dot ${m.dotCls}"></span>
+        ${m.label}
+      </span>
+    </div>`;
+  }).join('');
+
+  menu.style.top  = (rect.bottom + 4) + 'px';
+  menu.style.left = rect.left + 'px';
+  menu.classList.add('open');
+}
+
+function changeType(rowId, newType) {
+  const row = ROWS.find(r => r.id === rowId);
+  if (row) row.type = newType;
+  document.getElementById('type-menu').classList.remove('open');
+  renderTable();
+}
+
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('type-menu');
+  if (!menu.contains(e.target)) menu.classList.remove('open');
+});
+
+// Global tooltip — init after DOM is ready so getElementById finds the element
+document.addEventListener('DOMContentLoaded', () => {
+  const gt = document.getElementById('global-tooltip');
+  if (!gt) return;
+  document.addEventListener('mouseover', e => {
+    const wrap = e.target.closest('.status-tooltip-wrap[data-tip]');
+    if (!wrap) return;
+    gt.textContent = wrap.dataset.tip;
+    gt.style.display = 'block';
+    const r = wrap.getBoundingClientRect();
+    const tw = 190;
+    gt.style.left = Math.max(4, r.left + r.width / 2 - tw / 2) + 'px';
+    gt.style.width = tw + 'px';
+    requestAnimationFrame(() => {
+      gt.style.top = (r.top - gt.offsetHeight - 10) + 'px';
+    });
+  });
+  document.addEventListener('mouseout', e => {
+    const wrap = e.target.closest('.status-tooltip-wrap[data-tip]');
+    if (!wrap) return;
+    if (!wrap.contains(e.relatedTarget)) gt.style.display = 'none';
+  });
+});
+
+// ─── Add/Remove Members Dialog ───
+const AM_MEMBERS = [
+  { initials:'DS', cls:'avatar--ds', name:'Samuels, Daniel',   role:'Project Admin', company:'Datasite',         email:'daniel.samuels@datasite.com',    qaStatus:'active',   checked:false },
+  { initials:'PR', cls:'avatar--slate', name:'Park, Rachel',      role:'Analyst',       company:'Datasite',         email:'rachel.park@datasite.com',       qaStatus:'invited',  checked:false },
+  { initials:'DH', cls:'avatar--slate', name:'Hammond, Desmond',  role:'Project Admin', company:'Datasite',         email:'desmond.hammond@datasite.com',   qaStatus:'none',     checked:false },
+  { initials:'SC', cls:'avatar--ds', name:'Chen, Sarah',       role:'Project Admin', company:'Datasite',         email:'sarah.chen@datasite.com',        qaStatus:'none',     checked:false },
+  { initials:'JW', cls:'avatar--dc', name:'Williams, Jennifer',role:'CapVest',       company:'CapVest Partners', email:'jennifer.williams@capvest.com',  qaStatus:'none',     checked:false },
+  { initials:'CM', cls:'avatar--slate', name:'Martinez, Carlos',  role:'CapVest',       company:'CapVest Partners', email:'carlos.martinez@capvest.com',    qaStatus:'none',     checked:false },
+  { initials:'MT', cls:'avatar--ds', name:'Thompson, Michael', role:'Project Admin', company:'Firmex',           email:'michael.thompson@firmex.com',    qaStatus:'none',     checked:false },
+  { initials:'ED', cls:'avatar--dc', name:'Davis, Emily',      role:'Analyst',       company:'Barclays',         email:'emily.davis@barclays.com',       qaStatus:'none',     checked:false },
+  { initials:'RP', cls:'avatar--slate', name:'Patel, Raj',        role:'Analyst',       company:'Barclays',         email:'raj.patel@barclays.com',         qaStatus:'none',     checked:false },
+  { initials:'LJ', cls:'avatar--dc', name:'Johnson, Lisa',     role:'Project Admin', company:'Datasite',         email:'lisa.johnson@datasite.com',      qaStatus:'none',     checked:false },
+  { initials:'KB', cls:'avatar--ds', name:'Brown, Kevin',      role:'CapVest',       company:'CapVest Partners', email:'kevin.brown@capvest.com',        qaStatus:'none',     checked:false },
+];
+
+function openAddMembersDialog() {
+  const tbody = document.getElementById('am-table-body');
+  tbody.innerHTML = AM_MEMBERS.map((m, i) => {
+    const isActive = m.qaStatus === 'active';
+    const isInvited = m.qaStatus === 'invited';
+    const checkboxCell = (isActive || isInvited)
+      ? `<td></td>`
+      : `<td><button class="am-add-btn${m.checked ? ' selected' : ''}" id="am-cb-${i}" onclick="toggleAmMember(${i}, this)" title="${m.checked ? 'Remove from team' : 'Add to team'}">
+          <svg class="icon-add" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <svg class="icon-added" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" fill="var(--primary-main)" stroke="var(--primary-main)"/><polyline points="8 12 11 15 16 9" stroke="white" stroke-width="2"/></svg>
+        </button></td>`;
+    const removeBtnHtml = `<button class="am-delete-btn" title="Remove from team"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>`;
+    const deleteBtn = isActive ? removeBtnHtml : '';
+    const TIP = 'Pending registration — notifications and Q&amp;A access are paused until this person registers.';
+    const statusHtml = isActive
+      ? `<div class="am-status-cell"><span class="am-status-active">Active</span>${deleteBtn}</div>`
+      : m.qaStatus === 'invited'
+      ? `<div class="am-status-cell"><div class="status-tooltip-wrap" data-tip="Pending registration — notifications and Q&A access are paused until this person registers."><span class="am-status-invited">Invited</span></div>${removeBtnHtml}</div>`
+      : `<span class="am-status-none">—</span>`;
+    return `<tr>
+      ${checkboxCell}
+      <td><div class="am-name-cell"><div class="avatar ${m.cls}" style="width:28px;height:28px;font-size:10px;flex-shrink:0">${m.initials}</div><span class="am-name-text">${m.name}</span></div></td>
+      <td>${m.role}</td>
+      <td>${m.company}</td>
+      <td class="am-email">${m.email}</td>
+      <td>${statusHtml}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('am-overlay').classList.add('open');
+}
+
+function closeAddMembersDialog() {
+  document.getElementById('am-overlay').classList.remove('open');
+  document.getElementById('bulk-menu').classList.remove('open');
+}
+
+function toggleBulkMenu(e) {
+  e.stopPropagation();
+  document.getElementById('bulk-menu').classList.toggle('open');
+}
+
+document.addEventListener('click', () => {
+  const m = document.getElementById('bulk-menu');
+  if (m) m.classList.remove('open');
+});
+
+function toggleAmMember(i, btn) {
+  AM_MEMBERS[i].checked = !AM_MEMBERS[i].checked;
+  btn.classList.toggle('selected', AM_MEMBERS[i].checked);
+  btn.title = AM_MEMBERS[i].checked ? 'Remove from team' : 'Add to team';
+}
+
+function saveAddMembers() {
+  closeAddMembersDialog();
+}
 </script>
+
+<!-- ADD/REMOVE MEMBERS DIALOG -->
+<div class="am-overlay" id="am-overlay" onclick="if(event.target===this)closeAddMembersDialog()">
+  <div class="am-dialog">
+    <div class="am-dialog-header">
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px;">
+        <div>
+          <div class="am-dialog-title">Manage Answer Team Members</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Everyone invited to this project appears on this list. Select users to add or remove to the Answer Team.</div>
+        </div>
+        <div style="position:relative; flex-shrink:0;">
+          <button class="btn-bulk-actions" id="btn-bulk-actions" onclick="toggleBulkMenu(event)">
+            Bulk Actions
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="bulk-menu" id="bulk-menu">
+            <div class="bulk-menu-item">Add Multiple Users</div>
+            <div class="bulk-menu-item">Remove Multiple Users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="am-table-wrap">
+      <table class="am-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>NAME</th>
+            <th>ROLE</th>
+            <th>COMPANY</th>
+            <th>EMAIL</th>
+            <th>Q&amp;A STATUS</th>
+          </tr>
+        </thead>
+        <tbody id="am-table-body"></tbody>
+      </table>
+    </div>
+    <div class="am-dialog-footer">
+      <button class="am-btn-cancel" onclick="closeAddMembersDialog()">Cancel</button>
+      <button class="am-btn-save" onclick="saveAddMembers()" disabled>Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="global-tooltip"></div>
+
+<!-- TYPE CHANGE MENU -->
+<div class="type-menu" id="type-menu">
+  <div class="type-menu-label">QUESTION TYPE</div>
+  <div class="type-menu-items"></div>
+</div>
+
 </body>
 </html>
