@@ -679,15 +679,22 @@ tbody tr.row-selected { background: var(--bg-selected); }
 .text-muted { color: var(--text-disabled); }
 
 /* ── APP STATE ───────────────────────────────────────── */
-body.state-empty .panel-nav       { display: none; }
-body.state-empty .list-view       { display: none; }
-body.state-empty .confirm-view    { display: none; }
-body.state-confirm .panel-nav     { display: none; }
-body.state-confirm .list-view     { display: none; }
+body.state-empty .panel-nav          { display: none; }
+body.state-empty .list-view          { display: none; }
+body.state-empty .confirm-view       { display: none; }
+body.state-empty .team-confirm-view  { display: none; }
+body.state-team-confirm .panel-nav        { display: none; }
+body.state-team-confirm .list-view        { display: none; }
+body.state-team-confirm .empty-state-view { display: none; }
+body.state-team-confirm .confirm-view     { display: none; }
+body.state-confirm .panel-nav        { display: none; }
+body.state-confirm .list-view        { display: none; }
 body.state-confirm .empty-state-view { display: none; }
-body.state-list  .empty-state-view { display: none; }
-body.state-list  .confirm-view    { display: none; }
-body.state-setup .panel-nav       { display: none; }
+body.state-confirm .team-confirm-view { display: none; }
+body.state-list  .empty-state-view   { display: none; }
+body.state-list  .confirm-view       { display: none; }
+body.state-list  .team-confirm-view  { display: none; }
+body.state-setup .panel-nav          { display: none; }
 
 /* Sub-view toggles within state-list */
 .question-list-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
@@ -801,6 +808,16 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 }
 .confirm-card-accent { height: 4px; background: var(--success-main); flex-shrink: 0; }
 .confirm-card-body   { padding: 36px 40px 32px 40px; flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+.confirm-card-footer {
+  padding: 14px 40px 18px;
+  border-top: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+.confirm-card-footer p {
+  font-size: 12px;
+  color: var(--text-disabled);
+  line-height: 1.5;
+}
 .confirm-icon-wrap {
   width: 52px;
   height: 52px;
@@ -1039,6 +1056,84 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
   align-items: center;
   gap: 14px;
 }
+.setup-path-hint {
+  font-size: 11px;
+  color: var(--text-disabled);
+  text-align: center;
+  line-height: 1.5;
+  margin-top: -4px;
+}
+
+/* ── TEAM CONFIRM VIEW ───────────────────────────────── */
+.team-confirm-view {
+  flex: 1; display: flex;
+  align-items: center; justify-content: center;
+  background: var(--bg-base);
+  padding: 40px 24px; overflow: auto;
+}
+.team-confirm-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  border-top: 4px solid var(--warning-main);
+  width: 560px;
+  box-shadow: 0 1px 4px rgba(31,34,39,0.06);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.team-confirm-body { padding: 40px 44px 36px; }
+.team-confirm-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-disabled); text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.team-confirm-headline {
+  font-size: 24px; font-weight: 400; color: var(--text-primary);
+  margin-bottom: 8px; line-height: 1.25;
+}
+.team-confirm-desc {
+  font-size: 13px; color: var(--text-secondary);
+  line-height: 1.6; margin-bottom: 32px;
+}
+.team-confirm-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+  color: var(--text-secondary); text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.team-confirm-select-wrap { position: relative; margin-bottom: 10px; }
+.team-confirm-select {
+  width: 100%; height: 42px; padding: 0 36px 0 14px;
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-surface); color: var(--text-primary);
+  font-size: 14px; font-weight: 500; font-family: 'Roboto', sans-serif;
+  cursor: pointer; outline: none; appearance: none; -webkit-appearance: none;
+  transition: border-color 0.12s;
+}
+.team-confirm-select:focus { border-color: var(--warning-main); }
+.team-confirm-select-chevron {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; color: var(--text-disabled);
+}
+.team-confirm-hint {
+  font-size: 12px; color: var(--text-disabled);
+  line-height: 1.5; margin-bottom: 36px;
+}
+.team-confirm-actions {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.btn-team-confirm-primary {
+  width: 100%; padding: 11px 0;
+  background: var(--warning-main); color: #fff;
+  border: none; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 600; font-family: 'Roboto', sans-serif;
+  cursor: pointer; transition: opacity 0.15s;
+}
+.btn-team-confirm-primary:hover { opacity: 0.9; }
+.btn-team-confirm-back {
+  background: none; border: none; padding: 0;
+  font-size: 13px; color: var(--text-secondary);
+  font-family: 'Roboto', sans-serif; cursor: pointer;
+}
+.btn-team-confirm-back:hover { color: var(--text-primary); }
 .btn-setup-primary {
   width: 100%;
   padding: 11px 0;
@@ -1608,6 +1703,16 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 }
 .wizard-tab:hover { color: var(--text-primary); }
 .wizard-tab.active { color: var(--warning-main); border-bottom-color: var(--warning-main); font-weight: 500; }
+.tab-optional {
+  font-size: 10px; font-weight: 500;
+  color: var(--text-disabled);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  padding: 1px 6px;
+  margin-left: 5px;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+}
 .wizard-header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .badge-not-launched {
   height: 26px; padding: 0 10px;
@@ -2152,12 +2257,41 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
               </div>
             </div>
             <div class="setup-card-cta">
-              <button class="btn-setup-primary" onclick="activateQA()">Set up Q&amp;A</button>
+              <button class="btn-setup-primary" onclick="goToTeamConfirm()">Set up Q&amp;A</button>
               <button class="btn-setup-ghost" onclick="openWizard()">I'll customize</button>
+              <p class="setup-path-hint">Use Advanced Setup if you need custom categories,<br>workflow routing, or per-team question limits.</p>
             </div>
           </div>
           <div class="setup-card-footer">
             <p>Bidder isolation cannot be disabled after launch. Workstreams, routing, and approvals can be added anytime.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEAM CONFIRM VIEW -->
+      <div class="team-confirm-view">
+        <div class="team-confirm-card">
+          <div class="team-confirm-body">
+            <div class="team-confirm-eyebrow">Quick Launch · Step 1 of 1</div>
+            <h1 class="team-confirm-headline">Who will answer questions?</h1>
+            <p class="team-confirm-desc">All questions from bidder teams will be routed to this group. You can add custom routing rules after launch at any time.</p>
+
+            <div class="team-confirm-label">Default answer team</div>
+            <div class="team-confirm-select-wrap">
+              <select class="team-confirm-select">
+                <option>Answer Team (default)</option>
+                <option>Legal team</option>
+                <option>Finance team</option>
+                <option>HR team</option>
+              </select>
+              <svg class="team-confirm-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+            <p class="team-confirm-hint">All members of this team will be notified when new questions arrive. Individual routing can be configured after launch.</p>
+
+            <div class="team-confirm-actions">
+              <button class="btn-team-confirm-primary" onclick="activateQA()">Confirm &amp; Launch Q&amp;A</button>
+              <button class="btn-team-confirm-back" onclick="goToEmpty()">← Back to setup options</button>
+            </div>
           </div>
         </div>
       </div>
@@ -2207,7 +2341,8 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
                 <li><span class="confirm-next-bullet"></span>Bidder teams will receive an email invitation to access Q&amp;A within the next 15 minutes.</li>
                 <li><span class="confirm-next-bullet"></span>Questions submitted by bidders will appear in your Question List for review and response.</li>
                 <li><span class="confirm-next-bullet"></span>AI-assisted draft answers will be suggested — you review and approve before they're sent.</li>
-                <li><span class="confirm-next-bullet"></span>You can add workstreams, routing rules, and approvals at any time from Q&amp;A Settings.</li>
+                <li><span class="confirm-next-bullet"></span>Advanced routing and workflows remain available — switch to Advanced Setup at any time from Q&amp;A Settings.</li>
+                <li><span class="confirm-next-bullet"></span>Q&amp;A launch and activity will be tracked for reporting and analytics.</li>
               </ul>
             </div>
 
@@ -2218,6 +2353,9 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
               </button>
               <button class="btn-confirm-ghost" onclick="openWizard()">Edit setup</button>
             </div>
+          </div>
+          <div class="confirm-card-footer">
+            <p>Advanced routing and workflows remain available — switch to Advanced Setup at any time from Q&amp;A Settings. Q&amp;A activity is tracked for reporting.</p>
           </div>
         </div>
       </div>
@@ -2431,10 +2569,10 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 
     <!-- Header -->
     <div class="wizard-header">
-      <span class="wizard-title">Q&amp;A Settings</span>
+      <span class="wizard-title">Advanced Setup</span>
       <div class="wizard-tabs">
         <button class="wizard-tab active" id="wtab-teams" onclick="showWizardStep('teams')">Q&amp;A Teams</button>
-        <button class="wizard-tab" id="wtab-categories" onclick="showWizardStep('categories')">Categories</button>
+        <button class="wizard-tab" id="wtab-categories" onclick="showWizardStep('categories')">Categories <span class="tab-optional">Optional</span></button>
         <button class="wizard-tab" id="wtab-workflow" onclick="showWizardStep('workflow')">Workflow</button>
       </div>
       <div class="wizard-header-right">
@@ -3072,12 +3210,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function goToEmpty() {
-  ['state-confirm', 'state-list'].forEach(c => document.body.classList.remove(c));
+  ['state-confirm', 'state-list', 'state-team-confirm'].forEach(c => document.body.classList.remove(c));
   document.body.classList.add('state-empty');
 }
 
+function goToTeamConfirm() {
+  document.body.classList.replace('state-empty', 'state-team-confirm');
+}
+
 function activateQA() {
-  document.body.classList.replace('state-empty', 'state-confirm');
+  ['state-empty', 'state-team-confirm'].forEach(c => document.body.classList.remove(c));
+  document.body.classList.add('state-confirm');
 }
 
 function goToDashboard() {
