@@ -336,7 +336,7 @@ html, body {
   height: 32px;
   padding: 0 12px;
   background: transparent;
-  border: 1px solid var(--primary-main);
+  border: none;
   border-radius: var(--radius-sm);
   color: var(--primary-main);
   font-size: 13px;
@@ -766,9 +766,16 @@ th.dash-col-asked { width: 160px; }
 th.dash-col-stat  { width: 120px; }
 td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 .dash-asked-cell  { display: flex; align-items: center; gap: 8px; }
-.dash-asked-bar   { width: 60px; height: 3px; background: var(--bg-alt); border-radius: 2px; flex-shrink: 0; }
-.dash-asked-fill  { height: 100%; border-radius: 2px; background: var(--primary-main); }
 
+.buy-coming-soon {
+  display: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+body.side-buy .setup-card { display: none; }
+body.side-buy .buy-coming-soon { display: block; }
 .empty-state-view {
   flex: 1;
   display: flex;
@@ -868,17 +875,6 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
   font-size: 13px;
   font-weight: 500;
   color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-.confirm-grid-item-value:hover { color: var(--primary-main); }
-.confirm-grid-item-value:hover .confirm-edit-icon { color: var(--primary-main); }
-.confirm-edit-icon {
-  color: var(--text-disabled);
-  flex-shrink: 0;
-  transition: color 0.12s;
 }
 .confirm-next-box {
   border: 1.5px solid var(--border-light);
@@ -962,14 +958,13 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
   width: 560px;
-  height: 760px;
   box-shadow: 0 1px 4px rgba(31,34,39,0.06);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 .setup-card-accent { height: 4px; background: var(--warning-main); flex-shrink: 0; }
-.setup-card-body   { padding: 36px 40px 28px 40px; flex: 1; display: flex; flex-direction: column; }
+.setup-card-body   { padding: 36px 40px 20px 40px; display: flex; flex-direction: column; }
 .setup-card-project {
   display: flex;
   align-items: center;
@@ -1026,9 +1021,8 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 .setup-items {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  flex: 1;
-  margin-bottom: 28px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 .setup-item { display: flex; gap: 12px; align-items: flex-start; }
 .setup-item-bullet {
@@ -1059,9 +1053,10 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 .setup-path-hint {
   font-size: 11px;
   color: var(--text-disabled);
-  text-align: center;
+  text-align: left;
   line-height: 1.5;
   margin-top: -4px;
+  width: 100%;
 }
 
 /* ── TEAM CONFIRM VIEW ───────────────────────────────── */
@@ -1873,12 +1868,12 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 .btn-add-members {
   display: flex; align-items: center; gap: 6px;
   height: 32px; padding: 0 14px;
-  border: none; border-radius: var(--radius-sm);
-  background: var(--warning-main); color: #fff;
+  border: 1px solid var(--warning-main); border-radius: var(--radius-sm);
+  background: var(--bg-surface); color: var(--warning-main);
   font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
-  cursor: pointer; transition: opacity 0.12s;
+  cursor: pointer; transition: background 0.12s;
 }
-.btn-add-members:hover { opacity: 0.88; }
+.btn-add-members:hover { background: rgba(231,92,0,0.06); }
 .members-empty {
   display: flex; flex-direction: column; align-items: center; gap: 10px;
   padding: 36px 20px; text-align: center;
@@ -2166,12 +2161,6 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 
     <!-- PANEL NAV -->
     <aside class="panel-nav">
-      <div class="panel-nav-top">
-        <button class="btn-new-faq">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          New FAQ
-        </button>
-      </div>
 
       <div class="panel-section-label">Shortcuts</div>
 
@@ -2213,6 +2202,7 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 
       <!-- EMPTY STATE -->
       <div class="empty-state-view">
+        <div class="buy-coming-soon">View coming soon</div>
         <div class="setup-card">
           <div class="setup-card-accent"></div>
           <div class="setup-card-body">
@@ -2222,7 +2212,7 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
               </span>
               <span class="setup-card-project-label">Project Orion</span>
             </div>
-            <h1 class="setup-card-headline">One-click <em>setup</em></h1>
+            <h1 class="setup-card-headline">Quick launch <em>setup</em></h1>
             <p class="setup-card-desc">We've pre-configured a safe, secure setup based on Project Orion. You can start accepting questions immediately. No configuration required.</p>
             <div class="setup-card-divider"></div>
             <div class="setup-card-section-label">What will be set up</div>
@@ -2257,13 +2247,10 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
               </div>
             </div>
             <div class="setup-card-cta">
-              <button class="btn-setup-primary" onclick="goToTeamConfirm()">Set up Q&amp;A</button>
-              <button class="btn-setup-ghost" onclick="openWizard()">I'll customize</button>
-              <p class="setup-path-hint">Use Advanced Setup if you need custom categories,<br>workflow routing, or per-team question limits.</p>
+              <button class="btn-setup-primary" onclick="goToTeamConfirm()">Quick launch Q&amp;A setup</button>
+              <button class="btn-setup-ghost" onclick="openWizard()">Advanced setup</button>
+              <p class="setup-path-hint">Use Advanced Setup if you need custom categories, workflow routing, or per-team question limits.</p>
             </div>
-          </div>
-          <div class="setup-card-footer">
-            <p>Bidder isolation cannot be disabled after launch. Workstreams, routing, and approvals can be added anytime.</p>
           </div>
         </div>
       </div>
@@ -2274,7 +2261,7 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
           <div class="team-confirm-body">
             <div class="team-confirm-eyebrow">Quick Launch · Step 1 of 1</div>
             <h1 class="team-confirm-headline">Who will answer questions?</h1>
-            <p class="team-confirm-desc">All questions from bidder teams will be routed to this group. You can add custom routing rules after launch at any time.</p>
+            <p class="team-confirm-desc">All questions from bidder teams will be routed to this group.<br>You can add and configure workstreams and custom routing rules after launch at any time.</p>
 
             <div class="team-confirm-label">Default answer team</div>
             <div class="team-confirm-select-wrap">
@@ -2286,7 +2273,7 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
               </select>
               <svg class="team-confirm-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </div>
-            <p class="team-confirm-hint">All members of this team will be notified when new questions arrive. Individual routing can be configured after launch.</p>
+            <p class="team-confirm-hint">All members of this team will be notified when new questions arrive.</p>
 
             <div class="team-confirm-actions">
               <button class="btn-team-confirm-primary" onclick="activateQA()">Confirm &amp; Launch Q&amp;A</button>
@@ -2311,27 +2298,27 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
             <div class="confirm-grid">
               <div>
                 <div class="confirm-grid-item-label">Bidder Teams</div>
-                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>4 teams (A, B, C, D)</div>
+                <div class="confirm-grid-item-value">4 teams (A, B, C, D)</div>
               </div>
               <div>
                 <div class="confirm-grid-item-label">Categories</div>
-                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>6 default categories</div>
+                <div class="confirm-grid-item-value">6 default categories</div>
               </div>
               <div>
                 <div class="confirm-grid-item-label">Workflow</div>
-                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>1 answer group</div>
+                <div class="confirm-grid-item-value">1 answer group</div>
               </div>
               <div>
                 <div class="confirm-grid-item-label">SLA Target</div>
-                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>48 hours</div>
+                <div class="confirm-grid-item-value">48 hours</div>
               </div>
               <div>
                 <div class="confirm-grid-item-label">AI Assistance</div>
-                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Enabled (review before publish)</div>
+                <div class="confirm-grid-item-value">Enabled (review before publish)</div>
               </div>
               <div>
                 <div class="confirm-grid-item-label">Bidder Isolation</div>
-                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>On — permanent</div>
+                <div class="confirm-grid-item-value">On — permanent</div>
               </div>
             </div>
 
@@ -2351,11 +2338,11 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
                 Go to Q&amp;A Dashboard
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
-              <button class="btn-confirm-ghost" onclick="openWizard()">Edit setup</button>
+              <span class="btn-confirm-ghost" style="cursor:default">Edit setup</span>
             </div>
           </div>
           <div class="confirm-card-footer">
-            <p>Advanced routing and workflows remain available — switch to Advanced Setup at any time from Q&amp;A Settings. Q&amp;A activity is tracked for reporting.</p>
+            <p>Advanced routing and workflows remain available. Access advanced setup at any time from Q&amp;A Settings. Q&amp;A activity is tracked for reporting.</p>
           </div>
         </div>
       </div>
@@ -2365,9 +2352,7 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 
       <!-- CONTENT TOOLBAR -->
       <div class="content-toolbar">
-        <button class="btn-icon" aria-label="Back">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
+
         <button class="btn-outlined">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           Import
@@ -2380,10 +2365,7 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           New FAQ
         </button>
-        <button class="btn-clear-filter">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          Clear Filters (1)
-        </button>
+
         <div class="toolbar-spacer"></div>
       </div>
 
@@ -2394,9 +2376,6 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
             <thead>
               <tr>
                 <th class="dash-col-team sortable">Question Team</th>
-                <th class="dash-col-filt">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-                </th>
                 <th class="dash-col-date sortable">Last activity</th>
                 <th class="dash-col-asgn sortable">Assigned to</th>
                 <th class="dash-col-cat sortable">Category</th>
@@ -2413,7 +2392,7 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
                     <button class="dash-filter-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
                   </div>
                 </td>
-                <td class="dash-col-filt"></td>
+                
                 <td>
                   <div class="dash-filter-cell">
                     <input class="dash-filter-input" type="date">
@@ -2451,48 +2430,48 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
             <tbody>
               <tr style="cursor:pointer;" onclick="setSubView('list')">
                 <td>Engage</td>
-                <td class="dash-col-filt"></td>
+                
                 <td class="text-secondary-cell">Apr 25, 2026</td>
                 <td class="text-muted">Unassigned</td>
                 <td class="text-secondary-cell">Financial</td>
                 <td class="text-muted">—</td>
-                <td><div class="dash-asked-cell">45 <span class="text-disabled">/ 250</span><div class="dash-asked-bar"><div class="dash-asked-fill" style="width:18%"></div></div></div></td>
+                <td><div class="dash-asked-cell">45 <span class="text-disabled">/ 250</span></div></td>
                 <td class="dash-val-unanswered">32</td>
                 <td class="dash-val-progress">8</td>
                 <td class="dash-val-answered">5</td>
               </tr>
               <tr style="cursor:pointer;" onclick="setSubView('list')">
                 <td>Edgehall</td>
-                <td class="dash-col-filt"></td>
+                
                 <td class="text-secondary-cell">Apr 24, 2026</td>
                 <td class="text-secondary-cell">M. Chen</td>
                 <td class="text-secondary-cell">Legal</td>
                 <td class="text-secondary-cell">High</td>
-                <td><div class="dash-asked-cell">67 <span class="text-disabled">/ 250</span><div class="dash-asked-bar"><div class="dash-asked-fill" style="width:27%"></div></div></div></td>
+                <td><div class="dash-asked-cell">67 <span class="text-disabled">/ 250</span></div></td>
                 <td class="dash-val-unanswered">48</td>
                 <td class="dash-val-progress">12</td>
                 <td class="dash-val-answered">7</td>
               </tr>
               <tr style="cursor:pointer;" onclick="setSubView('list')">
                 <td>MRG</td>
-                <td class="dash-col-filt"></td>
+                
                 <td class="text-secondary-cell">Apr 23, 2026</td>
                 <td class="text-muted">Unassigned</td>
                 <td class="text-secondary-cell">Commercial</td>
                 <td class="text-muted">—</td>
-                <td><div class="dash-asked-cell">23 <span class="text-disabled">/ 250</span><div class="dash-asked-bar"><div class="dash-asked-fill" style="width:9%"></div></div></div></td>
+                <td><div class="dash-asked-cell">23 <span class="text-disabled">/ 250</span></div></td>
                 <td class="dash-val-unanswered">15</td>
                 <td class="dash-val-progress">5</td>
                 <td class="dash-val-answered">3</td>
               </tr>
               <tr style="cursor:pointer;" onclick="setSubView('list')">
                 <td>Eldon</td>
-                <td class="dash-col-filt"></td>
+                
                 <td class="text-secondary-cell">Apr 22, 2026</td>
                 <td class="text-secondary-cell">J. Pereira</td>
                 <td class="text-secondary-cell">Operations</td>
                 <td class="text-secondary-cell">Medium</td>
-                <td><div class="dash-asked-cell">52 <span class="text-disabled">/ 250</span><div class="dash-asked-bar"><div class="dash-asked-fill" style="width:21%"></div></div></div></td>
+                <td><div class="dash-asked-cell">52 <span class="text-disabled">/ 250</span></div></td>
                 <td class="dash-val-unanswered">38</td>
                 <td class="dash-val-progress">9</td>
                 <td class="dash-val-answered">5</td>
@@ -2595,11 +2574,7 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
           <div class="wizard-left-head">
             <div class="wizard-left-title">Q&amp;A Teams</div>
           </div>
-          <div class="wizard-left-search">
-            <input class="wiz-search-input" type="text" placeholder="Search team name" />
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-disabled);flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-disabled);flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
-          </div>
+
           <div class="wiz-team-item active">Answer Team</div>
           <div class="wiz-team-item">Question Team</div>
           <div class="wizard-left-footer">
@@ -2624,7 +2599,10 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
           </div>
           <div class="members-empty">
             <svg class="members-empty-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-            Start by <a href="#" style="color:var(--primary-main);text-decoration:none;font-weight:500">adding members</a> to your team.
+            <button class="btn-add-members">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add/remove Team Members
+            </button>
           </div>
           <div class="import-card">
             <div class="import-card-body">
@@ -3297,6 +3275,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDialog(
 function setSide(side) {
   document.getElementById('btn-sell').classList.toggle('active', side === 'sell');
   document.getElementById('btn-buy').classList.toggle('active', side === 'buy');
+  document.body.classList.toggle('side-buy', side === 'buy');
   document.getElementById('nav-items').innerHTML = side === 'sell' ? NAV_SELL : NAV_BUY;
   const avatar = document.getElementById('nav-avatar');
   if (side === 'sell') {
