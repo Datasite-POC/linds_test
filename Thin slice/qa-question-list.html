@@ -1,0 +1,3222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Q&A — Question List · Datasite Diligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-base:        #F7F8FA;
+  --bg-surface:     #FFFFFF;
+  --bg-alt:         #F0F2F5;
+  --bg-selected:    rgba(31,34,39,0.08);
+  --text-primary:   rgba(31,34,39,0.87);
+  --text-secondary: rgba(31,34,39,0.60);
+  --text-disabled:  rgba(31,34,39,0.38);
+  --border:         rgba(31,34,39,0.23);
+  --border-light:   rgba(31,34,39,0.12);
+  --primary-main:   #485EF0;
+  --warning-main:   #E75C00;
+  --success-main:   #148328;
+  --avatar-a:       #374EA8;
+  --avatar-c:       #2E7D4A;
+  --grey-400:       #A6A9AF;
+  --radius-sm:      4px;
+  --radius-md:      8px;
+  --radius-pill:    999px;
+  --space-new: 4px;
+  --space-1:   8px;
+  --space-2:   16px;
+  --space-3:   24px;
+
+  /* Question type chip colors */
+  --chip-doc-req-bg:   rgba(231,92,0,0.08);
+  --chip-doc-req-dot:  #E75C00;
+  --chip-doc-req-text: #E75C00;
+  --chip-clarif-bg:    rgba(20,131,40,0.08);
+  --chip-clarif-dot:   #148328;
+  --chip-clarif-text:  #148328;
+  --chip-general-bg:   rgba(31,34,39,0.06);
+  --chip-general-dot:  #A6A9AF;
+  --chip-general-text: rgba(31,34,39,0.60);
+  --chip-access-bg:    rgba(72,94,240,0.08);
+  --chip-access-dot:   #485EF0;
+  --chip-access-text:  #485EF0;
+
+  /* Flagged row tint */
+  --row-flagged-bg: rgba(231,92,0,0.05);
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-base);
+  -webkit-font-smoothing: antialiased;
+  min-width: 1200px;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(31,34,39,0.15); border-radius: 3px; }
+
+/* ── GLOBAL LEFT NAV ─────────────────────────────────── */
+.global-nav {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: 72px;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-2) 0;
+  z-index: 100;
+}
+
+.nav-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.nav-items::-webkit-scrollbar { display: none; }
+
+.nav-icon-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  padding: var(--space-new) 0;
+  cursor: pointer;
+  position: relative;
+}
+.nav-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: background 0.13s, color 0.13s;
+}
+.nav-icon-wrap:hover .nav-icon-box { background: var(--bg-alt); color: var(--text-primary); }
+.nav-icon-wrap.active .nav-icon-box { background: var(--bg-selected); color: var(--text-primary); }
+.nav-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+.nav-icon-wrap.active .nav-label { color: var(--text-primary); font-weight: 500; }
+.nav-tooltip {
+  position: absolute;
+  left: 76px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(31,34,39,0.9);
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 200;
+}
+.nav-icon-wrap:hover .nav-tooltip { opacity: 1; }
+.nav-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-bottom: var(--space-1);
+}
+
+/* ── AVATARS ─────────────────────────────────────────── */
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.avatar--ds { background-color: var(--avatar-a); }
+.avatar--dc { background-color: var(--avatar-c); }
+
+/* ── APP SHELL ───────────────────────────────────────── */
+.app-shell {
+  margin-left: 72px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── TOP APP BAR ─────────────────────────────────────── */
+.app-bar {
+  height: 48px;
+  min-height: 48px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  z-index: 50;
+  flex-shrink: 0;
+}
+.nav-waffle {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  flex-shrink: 0;
+}
+.nav-waffle:hover { background: var(--bg-alt); }
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-right: var(--space-2);
+}
+.wordmark-d {
+  width: 22px;
+  height: 22px;
+  background: var(--warning-main);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+}
+.wordmark-text { font-size: 15px; font-weight: 500; color: var(--text-primary); }
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+.breadcrumb .sep { color: var(--text-disabled); }
+.breadcrumb .crumb-active { color: var(--text-primary); font-weight: 500; }
+.bar-spacer { flex: 1; }
+.search-wrap { display: flex; align-items: center; width: 240px; }
+.search-input {
+  flex: 1;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+  padding: 0 var(--space-2);
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+}
+.search-input::placeholder { color: var(--text-disabled); }
+.search-btn {
+  height: 32px;
+  width: 36px;
+  background: var(--primary-main);
+  border: none;
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.bar-right { display: flex; align-items: center; gap: var(--space-2); margin-left: var(--space-2); }
+.bar-action {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  padding: 0;
+}
+.bar-action:hover { color: var(--text-primary); }
+
+/* ── SIDE TOGGLE ─────────────────────────────────────── */
+.side-toggle {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  height: 32px;
+  margin-left: var(--space-2);
+}
+.side-toggle-btn {
+  padding: 0 12px;
+  height: 100%;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--text-secondary);
+  transition: background 0.15s, color 0.15s;
+}
+.side-toggle-btn.active { background: var(--grey-400); color: #fff; }
+.side-toggle-btn:not(.active):hover { background: var(--bg-alt); color: var(--text-primary); }
+
+/* ── CONTENT AREA (panel nav + main) ────────────────── */
+.content-area {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── PANEL NAV ───────────────────────────────────────── */
+.panel-nav {
+  width: 240px;
+  min-width: 240px;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.panel-nav-top {
+  padding: 12px var(--space-2);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.btn-new-faq {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 32px;
+  padding: 0 12px;
+  background: transparent;
+  border: 1px solid var(--primary-main);
+  border-radius: var(--radius-sm);
+  color: var(--primary-main);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-new-faq:hover { background: rgba(72,94,240,0.06); }
+
+.panel-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-disabled);
+  text-transform: uppercase;
+  padding: 14px var(--space-2) 4px var(--space-2);
+}
+
+.panel-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 var(--space-2);
+  height: 36px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  margin: 1px var(--space-new);
+  position: relative;
+  transition: background 0.12s, color 0.12s;
+}
+.panel-nav-item:hover { background: var(--bg-selected); color: var(--text-primary); }
+.panel-nav-item.active {
+  background: var(--bg-selected);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.panel-nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--space-new));
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  background: var(--primary-main);
+  border-radius: 0 2px 2px 0;
+}
+.panel-nav-item svg { flex-shrink: 0; color: var(--text-disabled); }
+.panel-nav-item.active svg { color: var(--text-primary); }
+
+/* ── MAIN CONTENT ────────────────────────────────────── */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+/* ── CONTENT TOOLBAR ─────────────────────────────────── */
+.content-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 8px var(--space-2);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.btn-icon:hover { background: var(--bg-alt); color: var(--text-primary); }
+
+.btn-outlined {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s;
+}
+.btn-outlined:hover { background: var(--bg-alt); }
+
+.btn-outlined-primary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--primary-main);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--primary-main);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s;
+}
+.btn-outlined-primary:hover { background: rgba(72,94,240,0.06); }
+
+.toolbar-spacer { flex: 1; }
+
+.btn-settings {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s;
+}
+.btn-settings:hover { background: var(--bg-alt); color: var(--text-primary); }
+
+/* ── FILTER BAR ──────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 8px var(--space-2);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+.filter-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  margin-right: 4px;
+}
+.filter-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.12s, background 0.12s;
+}
+.filter-chip:hover { border-color: var(--border); background: var(--bg-alt); }
+.filter-chip.active {
+  background: var(--warning-main);
+  border-color: var(--warning-main);
+  color: #fff;
+  font-weight: 500;
+}
+.filter-chip .chip-count {
+  font-size: 11px;
+  font-weight: 600;
+}
+.filter-chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.filter-spacer { flex: 1; }
+.filter-access-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* ── DRAG ROW GROUP BAR ──────────────────────────────── */
+.drag-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  height: 34px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-alt);
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.drag-handle-icon {
+  display: flex;
+  align-items: center;
+  color: var(--text-disabled);
+}
+
+/* ── TABLE ───────────────────────────────────────────── */
+.table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-surface);
+}
+
+th {
+  border-bottom: 1px solid var(--border-light);
+  padding: 0 var(--space-2);
+  height: 38px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-disabled);
+  text-align: left;
+  white-space: nowrap;
+  user-select: none;
+  cursor: default;
+}
+th.sortable { cursor: pointer; }
+th.sortable:hover { color: var(--text-secondary); }
+
+th.col-cb   { width: 40px; text-align: center; padding: 0; }
+th.col-bm   { width: 36px; text-align: center; padding: 0; }
+th.col-flag { width: 36px; text-align: center; padding: 0; }
+th.col-team { width: 130px; }
+th.col-num  { width: 80px; }
+th.col-type { width: 190px; }
+th.col-q    { min-width: 280px; }
+th.col-cat  { width: 120px; }
+th.col-asgn { width: 120px; }
+th.col-ans  { width: 80px; }
+
+td {
+  border-bottom: 1px solid var(--border-light);
+  padding: 0 var(--space-2);
+  height: 44px;
+  font-size: 13px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+td.col-cb   { text-align: center; padding: 0; }
+td.col-bm   { text-align: center; padding: 0; }
+td.col-flag { text-align: center; padding: 0; }
+
+tbody tr { background: var(--bg-surface); transition: background 0.1s; }
+tbody tr:hover { background: var(--bg-alt); }
+tbody tr.flagged { background: var(--row-flagged-bg); }
+tbody tr.flagged:hover { background: rgba(231,92,0,0.09); }
+tbody tr.row-selected { background: var(--bg-selected); }
+
+/* Icon buttons in cells */
+.cell-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  color: var(--text-disabled);
+  transition: color 0.12s, background 0.12s;
+}
+.cell-btn:hover { color: var(--text-secondary); background: var(--bg-alt); }
+.cell-btn.on { color: var(--primary-main); }
+.cell-btn.flag-on { color: var(--warning-main); }
+
+/* Question type chips */
+.q-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.q-chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.chip-doc-req  { background: var(--chip-doc-req-bg);  color: var(--chip-doc-req-text);  border: 1px solid rgba(231,92,0,0.25); }
+.chip-clarif   { background: var(--chip-clarif-bg);   color: var(--chip-clarif-text);   border: 1px solid rgba(20,131,40,0.25); }
+.chip-general  { background: var(--chip-general-bg);  color: var(--chip-general-text);  border: 1px solid rgba(31,34,39,0.12); }
+.chip-access   { background: var(--chip-access-bg);   color: var(--chip-access-text);   border: 1px solid rgba(72,94,240,0.25); }
+
+.chip-dot-doc-req { background: var(--chip-doc-req-dot); }
+.chip-dot-clarif  { background: var(--chip-clarif-dot); }
+.chip-dot-general { background: var(--chip-general-dot); }
+.chip-dot-access  { background: var(--chip-access-dot); }
+
+.col-q-text {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+
+.text-secondary-cell { color: var(--text-secondary); }
+.text-muted { color: var(--text-disabled); }
+
+/* ── APP STATE ───────────────────────────────────────── */
+body.state-empty .panel-nav       { display: none; }
+body.state-empty .list-view       { display: none; }
+body.state-empty .confirm-view    { display: none; }
+body.state-confirm .panel-nav     { display: none; }
+body.state-confirm .list-view     { display: none; }
+body.state-confirm .empty-state-view { display: none; }
+body.state-list  .empty-state-view { display: none; }
+body.state-list  .confirm-view    { display: none; }
+body.state-setup .panel-nav       { display: none; }
+
+/* Sub-view toggles within state-list */
+.question-list-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.dashboard-content     { flex: 1; display: none; flex-direction: column; overflow: hidden; }
+body.subview-dashboard .question-list-content { display: none; }
+body.subview-dashboard .dashboard-content     { display: flex; }
+
+/* Clear Filters — only visible in dashboard sub-view */
+.btn-clear-filter {
+  display: none;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border: none;
+  background: none;
+  color: var(--primary-main);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  gap: 5px;
+}
+.btn-clear-filter:hover { opacity: 0.8; }
+body.subview-dashboard .btn-clear-filter { display: flex; }
+
+/* ── DASHBOARD TABLE ─────────────────────────────────── */
+.dash-filter-row td { padding: 5px 16px; border-bottom: 1px solid var(--border-light); background: var(--bg-surface); }
+.dash-filter-cell { display: flex; align-items: center; gap: 5px; }
+.dash-filter-input {
+  flex: 1; min-width: 0;
+  height: 26px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 0 8px;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  outline: none;
+}
+.dash-filter-input:focus { border-color: var(--primary-main); }
+.dash-filter-icon {
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; cursor: pointer; flex-shrink: 0;
+  color: var(--primary-main);
+  border-radius: var(--radius-sm);
+}
+.dash-filter-icon:hover { background: var(--bg-alt); }
+.dash-totals-row td {
+  padding: 0 16px;
+  height: 42px;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-light);
+  background: var(--bg-surface);
+}
+.dash-val-asked      { color: var(--primary-main); }
+.dash-val-unanswered { color: var(--warning-main); }
+.dash-val-progress   { color: var(--success-main); }
+.dash-val-answered   { color: var(--text-secondary); }
+th.dash-col-team  { min-width: 180px; }
+th.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
+th.dash-col-date  { width: 140px; }
+th.dash-col-asgn  { width: 130px; }
+th.dash-col-cat   { width: 120px; }
+th.dash-col-pri   { width: 90px; }
+th.dash-col-asked { width: 160px; }
+th.dash-col-stat  { width: 120px; }
+td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
+.dash-asked-cell  { display: flex; align-items: center; gap: 8px; }
+.dash-asked-bar   { width: 60px; height: 3px; background: var(--bg-alt); border-radius: 2px; flex-shrink: 0; }
+.dash-asked-fill  { height: 100%; border-radius: 2px; background: var(--primary-main); }
+
+.empty-state-view {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  padding: 40px 24px;
+  overflow: auto;
+}
+.confirm-view {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  padding: 40px 24px;
+  overflow: auto;
+}
+.list-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── CONFIRM CARD ────────────────────────────────────── */
+.confirm-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  width: 860px;
+  height: 760px;
+  box-shadow: 0 1px 4px rgba(31,34,39,0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.confirm-card-accent { height: 4px; background: var(--success-main); flex-shrink: 0; }
+.confirm-card-body   { padding: 36px 40px 32px 40px; flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+.confirm-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(20,131,40,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--success-main);
+}
+.confirm-headline {
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+.confirm-headline strong { font-weight: 600; }
+.confirm-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+.confirm-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-disabled);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.confirm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+  margin-bottom: 28px;
+}
+.confirm-grid-item-label {
+  font-size: 11px;
+  color: var(--text-disabled);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+.confirm-grid-item-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.confirm-grid-item-value:hover { color: var(--primary-main); }
+.confirm-grid-item-value:hover .confirm-edit-icon { color: var(--primary-main); }
+.confirm-edit-icon {
+  color: var(--text-disabled);
+  flex-shrink: 0;
+  transition: color 0.12s;
+}
+.confirm-next-box {
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  background: var(--bg-alt);
+  padding: 18px 20px;
+  margin-bottom: 32px;
+}
+.confirm-next-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.confirm-next-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+.confirm-next-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.confirm-next-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--grey-400);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.confirm-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.btn-confirm-primary {
+  width: 100%;
+  padding: 13px 0;
+  background: #1F2227;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.15s;
+}
+.btn-confirm-primary:hover { opacity: 0.88; }
+.btn-confirm-ghost {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.btn-confirm-ghost:hover { color: var(--text-primary); }
+
+/* ── SETUP CARD ──────────────────────────────────────── */
+.setup-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  width: 560px;
+  height: 760px;
+  box-shadow: 0 1px 4px rgba(31,34,39,0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.setup-card-accent { height: 4px; background: var(--warning-main); flex-shrink: 0; }
+.setup-card-body   { padding: 36px 40px 28px 40px; flex: 1; display: flex; flex-direction: column; }
+.setup-card-project {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.setup-card-project-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--warning-main);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.setup-card-project-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+.setup-card-headline {
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.setup-card-headline em {
+  color: var(--warning-main);
+  font-style: normal;
+}
+.setup-card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.setup-card-divider {
+  height: 1px;
+  background: var(--border-light);
+  margin-bottom: 20px;
+}
+.setup-card-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.setup-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex: 1;
+  margin-bottom: 28px;
+}
+.setup-item { display: flex; gap: 12px; align-items: flex-start; }
+.setup-item-bullet {
+  width: 10px;
+  height: 10px;
+  background: var(--warning-main);
+  flex-shrink: 0;
+  margin-top: 4px;
+  border-radius: 1px;
+}
+.setup-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+.setup-item-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.setup-card-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.btn-setup-primary {
+  width: 100%;
+  padding: 11px 0;
+  background: var(--warning-main);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-setup-primary:hover { opacity: 0.9; }
+.btn-setup-ghost {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.setup-card-footer {
+  padding: 14px 36px 20px 36px;
+  border-top: 1px solid var(--border-light);
+}
+.setup-card-footer p {
+  font-size: 12px;
+  color: var(--text-disabled);
+  line-height: 1.5;
+}
+
+/* ── QUESTION DIALOG ─────────────────────────────────── */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(31,34,39,0.45);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s;
+}
+.dialog-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.dialog {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 40px rgba(31,34,39,0.22);
+  width: min(1060px, calc(100vw - 48px));
+  height: min(720px, calc(100vh - 80px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  height: 52px;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+.dialog-nav-arrows {
+  display: flex;
+  gap: 2px;
+  margin-right: 4px;
+}
+.dialog-arrow {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.dialog-arrow:hover { background: var(--bg-alt); color: var(--text-primary); }
+.dialog-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.badge-unanswered {
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  background: #C62828;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.badge-outlined {
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  background: transparent;
+}
+.dialog-close {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 18px;
+}
+.dialog-close:hover { background: var(--bg-alt); color: var(--text-primary); }
+
+/* Body */
+.dialog-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Main column */
+.dialog-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 24px 24px 24px 24px;
+  gap: 16px;
+  background: var(--bg-base);
+}
+
+/* Question bubble */
+.q-bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.q-bubble {
+  background: #4B5BEF;
+  border-radius: 20px 20px 20px 4px;
+  padding: 14px 18px;
+  color: #fff;
+  max-width: 78%;
+  position: relative;
+}
+.q-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  width: 20px;
+  height: 20px;
+  background: #4B5BEF;
+  border-bottom-right-radius: 14px;
+}
+.q-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -14px;
+  width: 14px;
+  height: 20px;
+  background: var(--bg-base);
+  border-bottom-right-radius: 10px;
+}
+.q-bubble-text {
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
+}
+.q-bubble-meta {
+  font-size: 11px;
+  color: var(--text-disabled);
+  padding-left: 4px;
+}
+
+/* Similar questions bar */
+.similar-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+}
+.similar-bar-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  flex: 1;
+}
+.btn-skip {
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+}
+.btn-skip:hover { color: var(--text-primary); }
+.btn-review {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 14px;
+  background: #3949D6;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+}
+.btn-review:hover { background: #2d3cb8; }
+
+/* Reply box */
+.reply-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.reply-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 14px 16px;
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-primary);
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+}
+.reply-textarea::placeholder { color: var(--text-disabled); }
+.reply-divider { height: 1px; background: rgba(31,34,39,0.08); margin: 0 16px; border: none; }
+.reply-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+}
+.reply-footer-action {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+}
+.reply-footer-action:hover { color: var(--text-primary); }
+.reply-footer-spacer { flex: 1; }
+.btn-edit {
+  height: 28px;
+  padding: 0 14px;
+  border: 1px solid var(--primary-main);
+  border-radius: var(--radius-sm);
+  color: var(--primary-main);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+}
+.btn-edit:hover { background: rgba(72,94,240,0.06); }
+
+/* Upload section */
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.upload-recommend-card {
+  position: relative;
+  border: 1.5px dashed rgba(231,92,0,0.5);
+  border-radius: var(--radius-md);
+  background: rgba(231,92,0,0.03);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.upload-recommend-card:hover { background: rgba(231,92,0,0.06); }
+.upload-recommend-badge {
+  position: absolute;
+  top: -10px;
+  left: 14px;
+  background: var(--warning-main);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+.upload-recommend-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--warning-main);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+.upload-recommend-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.upload-recommend-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.upload-dropzone {
+  border: 1.5px dashed rgba(231,92,0,0.4);
+  border-radius: var(--radius-md);
+  background: rgba(231,92,0,0.03);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  display: none;
+}
+.upload-dropzone.visible { display: flex; }
+.upload-dropzone-icon { color: var(--warning-main); }
+.upload-dropzone-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.btn-browse {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 22px;
+  background: var(--warning-main);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.12s;
+}
+.btn-browse:hover { opacity: 0.88; }
+.upload-dropzone-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 400px;
+}
+
+/* Actions panel */
+.dialog-actions {
+  width: 260px;
+  min-width: 260px;
+  border-left: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 20px;
+  gap: 16px;
+  background: var(--bg-surface);
+}
+.dialog-actions-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.action-field-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.action-select {
+  width: 100%;
+  height: 36px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  padding-right: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+}
+.action-select:focus { border-bottom-color: var(--primary-main); }
+.action-btn {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.action-btn:hover { background: var(--bg-alt); }
+.action-btn-delete {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #C62828;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: #C62828;
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.action-btn-delete:hover { background: rgba(198,40,40,0.05); }
+.action-divider { height: 1px; background: var(--border-light); }
+
+/* Tab strip */
+.dialog-tabs {
+  width: 56px;
+  min-width: 56px;
+  border-left: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  gap: 4px;
+  background: var(--bg-surface);
+}
+.dialog-tab {
+  width: 44px;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-secondary);
+  position: relative;
+  border: none;
+  background: none;
+  font-family: 'Roboto', sans-serif;
+}
+.dialog-tab:hover { background: var(--bg-alt); color: var(--text-primary); }
+.dialog-tab.active { color: var(--primary-main); }
+.dialog-tab.active::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: var(--primary-main);
+  border-radius: 0 2px 2px 0;
+}
+.dialog-tab-label { font-size: 9px; text-align: center; line-height: 1.2; }
+.dialog-tab-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  background: #C62828;
+  border-radius: 50%;
+}
+
+/* ── SETUP WIZARD ────────────────────────────────────── */
+.wizard-overlay {
+  position: fixed;
+  top: 48px; left: 72px; right: 0; bottom: 0;
+  background: var(--bg-base);
+  z-index: 100;
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 40px 24px;
+}
+.wizard-overlay.open { display: flex; }
+.wizard-modal {
+  width: 860px;
+  height: 760px;
+  max-height: 100%;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  border-top: 4px solid var(--warning-main);
+  box-shadow: 0 1px 6px rgba(31,34,39,0.08);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.wizard-header {
+  height: 52px; min-height: 52px;
+  display: flex; align-items: stretch;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+.wizard-title {
+  font-size: 15px; font-weight: 600; color: var(--text-primary);
+  display: flex; align-items: center;
+  margin-right: 20px; flex-shrink: 0;
+}
+.wizard-tabs { display: flex; align-items: stretch; gap: 0; }
+.wizard-tab {
+  height: 100%; padding: 0 14px;
+  display: flex; align-items: center;
+  font-size: 13px; color: var(--text-secondary);
+  border: none; background: none; cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; white-space: nowrap;
+  transition: color 0.12s;
+}
+.wizard-tab:hover { color: var(--text-primary); }
+.wizard-tab.active { color: var(--warning-main); border-bottom-color: var(--warning-main); font-weight: 500; }
+.wizard-header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.badge-not-launched {
+  height: 26px; padding: 0 10px;
+  border-radius: var(--radius-pill); border: 1px solid var(--border);
+  color: var(--text-secondary); font-size: 12px;
+  display: flex; align-items: center; gap: 5px;
+  background: transparent; white-space: nowrap;
+}
+.wizard-close {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; border-radius: var(--radius-sm);
+  color: var(--text-secondary); cursor: pointer;
+}
+.wizard-close:hover { background: var(--bg-alt); color: var(--text-primary); }
+.wizard-body { flex: 1; overflow: hidden; }
+.wizard-step { display: none; height: 100%; }
+.wizard-step.active { display: flex; }
+.wizard-left {
+  width: 240px; min-width: 240px;
+  border-right: 1px solid var(--border-light);
+  display: flex; flex-direction: column;
+  background: var(--bg-base); overflow-y: auto;
+}
+.wizard-left-head { padding: 20px 20px 10px; }
+.wizard-left-title { font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.wizard-left-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.wizard-left-search { display: flex; align-items: center; gap: 8px; padding: 8px 16px 4px; }
+.wiz-search-input {
+  flex: 1; height: 28px;
+  border: none; border-bottom: 1px solid var(--border);
+  background: transparent; font-size: 12px; font-family: 'Roboto', sans-serif;
+  color: var(--text-primary); outline: none; padding: 0 2px;
+}
+.wiz-search-input::placeholder { color: var(--text-disabled); }
+.wiz-team-item {
+  display: flex; align-items: center;
+  padding: 0 20px; height: 36px;
+  font-size: 13px; color: var(--text-secondary);
+  cursor: pointer; transition: background 0.1s; position: relative;
+}
+.wiz-team-item:hover { background: var(--bg-selected); color: var(--text-primary); }
+.wiz-team-item.active {
+  background: var(--bg-selected); color: var(--text-primary); font-weight: 500;
+}
+.wiz-team-item.active::before {
+  content: ''; position: absolute; left: 0; top: 4px; bottom: 4px;
+  width: 3px; background: var(--warning-main); border-radius: 0 2px 2px 0;
+}
+.wizard-left-footer { margin-top: auto; padding: 12px 16px; }
+.wiz-alt-link {
+  font-size: 13px; font-weight: 400;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.wiz-alt-link:hover { color: var(--text-primary); }
+.btn-create-team {
+  display: flex; align-items: center; gap: 6px;
+  width: 100%; height: 32px; padding: 0 10px;
+  border: 1px dashed var(--border); border-radius: var(--radius-sm);
+  background: transparent; color: var(--warning-main);
+  font-size: 12px; font-family: 'Roboto', sans-serif; cursor: pointer;
+  transition: background 0.12s;
+}
+.btn-create-team:hover { background: rgba(231,92,0,0.05); }
+.wizard-main { flex: 1; overflow-y: auto; padding: 28px 32px; background: var(--bg-surface); }
+.wizard-footer {
+  height: 56px; min-height: 56px;
+  display: flex; align-items: center;
+  padding: 0 24px; gap: 12px;
+  border-top: 1px solid var(--border-light); flex-shrink: 0;
+}
+.btn-wiz-back {
+  display: flex; align-items: center; gap: 6px;
+  height: 34px; padding: 0 16px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-surface); color: var(--text-secondary);
+  font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
+  cursor: pointer; transition: background 0.12s;
+}
+.btn-wiz-back:hover { background: var(--bg-alt); color: var(--text-primary); }
+.wiz-footer-center { flex: 1; display: flex; align-items: center; justify-content: center; }
+.wiz-steps-dots { display: flex; align-items: center; gap: 6px; }
+.wiz-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: background 0.15s; }
+.wiz-dot.active { background: var(--warning-main); width: 18px; border-radius: 3px; }
+.btn-wiz-next {
+  display: flex; align-items: center; gap: 6px;
+  height: 34px; padding: 0 20px;
+  border: none; border-radius: var(--radius-sm);
+  background: var(--warning-main); color: #fff;
+  font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
+  cursor: pointer; transition: opacity 0.12s;
+}
+.btn-wiz-next:hover { opacity: 0.88; }
+/* Overview */
+.overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+.wiz-heading { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.wiz-subheading { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; }
+.checklist { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+.checklist-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-primary); }
+.check-circle {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 1.5px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: transparent; transition: all 0.12s;
+}
+.check-circle.checked { background: var(--success-main); border-color: var(--success-main); color: #fff; }
+.btn-launch-overview {
+  width: 100%; height: 40px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  border: none; border-radius: var(--radius-sm);
+  background: var(--success-main); color: #fff;
+  font-size: 14px; font-weight: 600; font-family: 'Roboto', sans-serif;
+  cursor: pointer; transition: opacity 0.12s;
+}
+.btn-launch-overview:hover { opacity: 0.88; }
+.section-cards { display: flex; flex-direction: column; gap: 10px; }
+.section-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-light); border-radius: var(--radius-md);
+  cursor: pointer; transition: border-color 0.12s, background 0.12s;
+  background: var(--bg-surface);
+}
+.section-card:hover { border-color: var(--warning-main); background: rgba(231,92,0,0.03); }
+.section-card-icon {
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--warning-main);
+  background: rgba(231,92,0,0.08);
+}
+.section-card-body { flex: 1; }
+.section-card-title { font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px; }
+.section-card-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+.section-card-arrow { color: var(--text-disabled); flex-shrink: 0; }
+/* Banners */
+.info-banner {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 16px;
+  background: rgba(72,94,240,0.05); border: 1px solid rgba(72,94,240,0.2);
+  border-radius: var(--radius-md); margin-bottom: 24px;
+  font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+}
+.info-banner a { color: var(--primary-main); text-decoration: none; font-weight: 500; }
+.info-banner a:hover { text-decoration: underline; }
+.warn-banner {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 16px;
+  background: rgba(231,92,0,0.05); border: 1px solid rgba(231,92,0,0.3);
+  border-radius: var(--radius-sm); margin-bottom: 20px;
+  font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+}
+.warn-banner-body { flex: 1; }
+.warn-banner-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+/* Teams */
+.wiz-section-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.wiz-section-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+.btn-add-members {
+  display: flex; align-items: center; gap: 6px;
+  height: 32px; padding: 0 14px;
+  border: none; border-radius: var(--radius-sm);
+  background: var(--warning-main); color: #fff;
+  font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
+  cursor: pointer; transition: opacity 0.12s;
+}
+.btn-add-members:hover { opacity: 0.88; }
+.members-empty {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 36px 20px; text-align: center;
+  color: var(--text-secondary); font-size: 13px;
+  border: 1px solid var(--border-light); border-radius: var(--radius-md);
+  margin-bottom: 20px;
+}
+.members-empty-icon { color: var(--warning-main); opacity: 0.55; }
+.import-card {
+  border: 1px solid var(--border-light); border-radius: var(--radius-md);
+  padding: 16px 20px; display: flex; align-items: flex-start; gap: 16px;
+}
+.import-card-body { flex: 1; }
+.import-card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; }
+.import-card-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+/* Toggle */
+.toggle-switch {
+  position: relative; width: 36px; height: 20px;
+  background: var(--warning-main); border-radius: 10px;
+  cursor: pointer; flex-shrink: 0;
+}
+.toggle-switch::after {
+  content: ''; position: absolute;
+  width: 16px; height: 16px; background: white; border-radius: 50%;
+  top: 2px; right: 2px;
+}
+/* Categories */
+.cat-input-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.cat-name-input {
+  flex: 1; height: 36px;
+  border: none; border-bottom: 1px solid var(--border);
+  background: transparent; font-size: 14px; font-family: 'Roboto', sans-serif;
+  color: var(--text-primary); outline: none; padding: 0 4px;
+}
+.cat-name-input:focus { border-bottom-color: var(--warning-main); }
+.cat-name-input::placeholder { color: var(--text-disabled); }
+.btn-cat-add {
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-surface); color: var(--text-secondary); cursor: pointer;
+}
+.btn-cat-add:hover { background: var(--bg-alt); color: var(--text-primary); }
+.cat-hint { font-size: 12px; color: var(--text-disabled); margin-bottom: 24px; padding-left: 4px; }
+.cat-list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.cat-list-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.btn-sort-order {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: var(--warning-main); font-weight: 500;
+  background: none; border: none; cursor: pointer; font-family: 'Roboto', sans-serif;
+}
+.cat-item {
+  display: flex; align-items: center;
+  height: 44px; border-bottom: 1px solid var(--border-light);
+  font-size: 14px; color: var(--text-primary);
+}
+.cat-item-text { flex: 1; }
+.btn-cat-del {
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+  border: none; background: none; cursor: pointer; border-radius: var(--radius-sm);
+  color: var(--text-disabled);
+}
+.btn-cat-del:hover { color: #C62828; background: rgba(198,40,40,0.06); }
+/* Workflow */
+.wiz-flow-actions { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.btn-wiz-outlined {
+  display: flex; align-items: center; gap: 6px;
+  height: 34px; padding: 0 14px;
+  border: 1px solid var(--primary-main); border-radius: var(--radius-sm);
+  background: transparent; color: var(--primary-main);
+  font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
+  cursor: pointer; transition: background 0.12s;
+}
+.btn-wiz-outlined:hover { background: rgba(72,94,240,0.06); }
+.btn-wiz-filled {
+  display: flex; align-items: center; gap: 6px;
+  height: 34px; padding: 0 14px;
+  border: none; border-radius: var(--radius-sm);
+  background: var(--primary-main); color: #fff;
+  font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
+  cursor: pointer; transition: opacity 0.12s;
+}
+.btn-wiz-filled:hover { opacity: 0.88; }
+.wiz-flow-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.4; margin-left: 4px; flex: 1; }
+.wiz-workflow-section { margin-bottom: 28px; }
+.wiz-workflow-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 600; color: var(--text-primary);
+  margin-bottom: 14px;
+}
+.cat-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.cat-chip-pill {
+  height: 26px; padding: 0 10px;
+  border: 1px solid var(--border); border-radius: var(--radius-pill);
+  font-size: 12px; color: var(--text-secondary);
+  display: flex; align-items: center; background: var(--bg-surface);
+}
+.workflow-board {
+  background: var(--bg-alt); border-radius: var(--radius-sm);
+  padding: 24px; min-height: 120px;
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 6px;
+}
+.workflow-card {
+  background: var(--bg-surface); border: 1px solid var(--border-light);
+  border-left: 3px solid var(--primary-main);
+  border-radius: var(--radius-sm); width: 160px; padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(31,34,39,0.08);
+}
+.workflow-card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.workflow-card-badge {
+  display: inline-flex; align-items: center;
+  height: 20px; padding: 0 8px;
+  border: 1px solid #C62828; border-radius: var(--radius-sm);
+  color: #C62828; font-size: 10px; font-weight: 600; letter-spacing: 0.02em;
+}
+.wiz-custom-section { margin-top: 28px; }
+.wiz-custom-header { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 14px; }
+.custom-empty {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 32px 20px; text-align: center;
+  color: var(--text-secondary); font-size: 13px;
+  border: 1px solid var(--border-light); border-radius: var(--radius-md);
+}
+.custom-empty a { color: var(--primary-main); text-decoration: none; font-weight: 500; }
+.custom-empty a:hover { text-decoration: underline; }
+
+/* ── ALT WORKFLOW STEP ───────────────────────────────── */
+.alt-wf-title { font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.alt-wf-subtitle { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px; }
+.alt-routing-table {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: var(--bg-surface);
+}
+.alt-routing-head {
+  display: grid;
+  grid-template-columns: 210px 36px 1fr 36px 1fr 72px;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-alt);
+}
+.alt-routing-head span {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-disabled);
+}
+.alt-routing-row {
+  display: grid;
+  grid-template-columns: 210px 36px 1fr 36px 1fr 72px;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-light);
+  gap: 0;
+}
+.alt-routing-row:last-of-type { border-bottom: none; }
+.workstream-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 34px; padding: 0 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500;
+  width: 100%; box-sizing: border-box;
+}
+.workstream-pill-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+.pill-finance    { background: rgba(46,125,74,0.08);  color: #2E7D4A; }
+.pill-finance    .workstream-pill-dot { background: #2E7D4A; }
+.pill-legal      { background: rgba(198,40,40,0.08);  color: #C62828; }
+.pill-legal      .workstream-pill-dot { background: #C62828; }
+.pill-hr         { background: rgba(106,27,154,0.08); color: #6A1B9A; }
+.pill-hr         .workstream-pill-dot { background: #6A1B9A; }
+.pill-technology { background: rgba(21,101,192,0.08); color: #1565C0; }
+.pill-technology .workstream-pill-dot { background: #1565C0; }
+.pill-commercial { background: rgba(231,92,0,0.08);   color: var(--warning-main); }
+.pill-commercial .workstream-pill-dot { background: var(--warning-main); }
+.routing-arrow-cell {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-disabled); font-size: 14px;
+}
+.routing-select-wrap { position: relative; display: flex; align-items: center; }
+.routing-select {
+  width: 100%; height: 34px; padding: 0 28px 0 10px;
+  border: 1px solid var(--border-light); border-radius: var(--radius-sm);
+  background: var(--bg-surface); color: var(--text-primary);
+  font-size: 13px; font-family: 'Roboto', sans-serif;
+  cursor: pointer; outline: none;
+  appearance: none; -webkit-appearance: none;
+}
+.routing-select:focus { border-color: var(--warning-main); }
+.routing-select-chevron {
+  position: absolute; right: 8px; pointer-events: none;
+  color: var(--text-disabled);
+}
+.routing-actions {
+  display: flex; align-items: center; justify-content: flex-end; gap: 4px;
+}
+.routing-icon-btn {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; cursor: pointer;
+  color: var(--text-disabled); border-radius: var(--radius-sm);
+}
+.routing-icon-btn:hover { background: var(--bg-alt); color: var(--text-secondary); }
+.alt-routing-add {
+  display: flex; align-items: center; gap: 6px;
+  padding: 12px 16px;
+  font-size: 13px; font-weight: 500; color: var(--warning-main);
+  cursor: pointer; border-top: 1px solid var(--border-light);
+  background: none; border: none; border-top: 1px solid var(--border-light);
+  width: 100%; font-family: 'Roboto', sans-serif;
+  text-align: left;
+}
+.alt-routing-add:hover { background: rgba(231,92,0,0.04); }
+.alt-ai-banner {
+  display: flex; align-items: flex-start; gap: 10px;
+  border: 1px solid rgba(231,92,0,0.25);
+  background: rgba(231,92,0,0.04);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+}
+.alt-ai-icon { color: var(--warning-main); flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+</style>
+</head>
+<body>
+
+<!-- ── GLOBAL LEFT NAV ────────────────────────────────── -->
+<nav class="global-nav">
+  <div id="nav-items" class="nav-items"></div>
+  <div class="nav-bottom">
+    <div class="avatar avatar--ds" id="nav-avatar" title="Daniel Samuels">DS</div>
+  </div>
+</nav>
+
+<!-- ── APP SHELL ──────────────────────────────────────── -->
+<div class="app-shell">
+
+  <!-- TOP APP BAR -->
+  <header class="app-bar">
+    <button class="nav-waffle" aria-label="Apps">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    </button>
+    <div class="wordmark">
+      <div class="wordmark-d">D</div>
+      <span class="wordmark-text">Diligence</span>
+    </div>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <span>Home</span><span class="sep">›</span>
+      <span>Projects</span><span class="sep">›</span>
+      <span>Project Orion</span><span class="sep">›</span>
+      <span class="crumb-active">Q&amp;A</span>
+      <div class="side-toggle" role="group" aria-label="Side toggle">
+        <button class="side-toggle-btn active" id="btn-sell" onclick="setSide('sell')">Sell Side</button>
+        <button class="side-toggle-btn" id="btn-buy" onclick="setSide('buy')">Buy Side</button>
+      </div>
+    </nav>
+    <div class="bar-spacer"></div>
+    <div class="search-wrap">
+      <input class="search-input" type="text" placeholder="Search Datasite..." aria-label="Search" />
+      <button class="search-btn" aria-label="Search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+    </div>
+    <div class="bar-right">
+      <button class="bar-action">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M5 3l.5 1.5L7 5l-1.5.5L5 7l-.5-1.5L3 5l1.5-.5z"/><path d="M19 15l.5 1.5 1.5.5-1.5.5L19 19l-.5-1.5L17 17l1.5-.5z"/></svg>
+        AI Assistant
+      </button>
+      <button class="bar-action">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Chat
+      </button>
+      <button class="bar-action">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        Help
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENT AREA -->
+  <div class="content-area">
+
+    <!-- PANEL NAV -->
+    <aside class="panel-nav">
+      <div class="panel-nav-top">
+        <button class="btn-new-faq">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New FAQ
+        </button>
+      </div>
+
+      <div class="panel-section-label">Shortcuts</div>
+
+      <div class="panel-nav-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Import
+      </div>
+      <div class="panel-nav-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </div>
+      <div class="panel-nav-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        Watched Items
+      </div>
+      <div class="panel-nav-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Q&amp;A Settings
+      </div>
+
+      <div class="panel-section-label">Q&amp;A</div>
+
+      <div class="panel-nav-item" id="nav-dashboard" onclick="setSubView('dashboard')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="panel-nav-item active" id="nav-question-list" onclick="setSubView('list')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Question List
+      </div>
+      <div class="panel-nav-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        Frequently Asked Questions
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- EMPTY STATE -->
+      <div class="empty-state-view">
+        <div class="setup-card">
+          <div class="setup-card-accent"></div>
+          <div class="setup-card-body">
+            <div class="setup-card-project">
+              <span class="setup-card-project-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              </span>
+              <span class="setup-card-project-label">Project Orion</span>
+            </div>
+            <h1 class="setup-card-headline">One-click <em>setup</em></h1>
+            <p class="setup-card-desc">We've pre-configured a safe, secure setup based on Project Orion. You can start accepting questions immediately. No configuration required.</p>
+            <div class="setup-card-divider"></div>
+            <div class="setup-card-section-label">What will be set up</div>
+            <div class="setup-items">
+              <div class="setup-item">
+                <div class="setup-item-bullet"></div>
+                <div>
+                  <div class="setup-item-title">4 bidder teams — completely isolated</div>
+                  <div class="setup-item-desc">Buyside A, B, C, D. Each team sees only their own questions and answers.</div>
+                </div>
+              </div>
+              <div class="setup-item">
+                <div class="setup-item-bullet"></div>
+                <div>
+                  <div class="setup-item-title">1 default answer group</div>
+                  <div class="setup-item-desc">All questions route to your team. Add expert workstreams later if needed.</div>
+                </div>
+              </div>
+              <div class="setup-item">
+                <div class="setup-item-bullet"></div>
+                <div>
+                  <div class="setup-item-title">Full admin visibility</div>
+                  <div class="setup-item-desc">You see every question, answer, and audit entry — across all teams.</div>
+                </div>
+              </div>
+              <div class="setup-item">
+                <div class="setup-item-bullet"></div>
+                <div>
+                  <div class="setup-item-title">AI-assisted answers: on</div>
+                  <div class="setup-item-desc">Drafts suggested from your data room. You review before publishing.</div>
+                </div>
+              </div>
+            </div>
+            <div class="setup-card-cta">
+              <button class="btn-setup-primary" onclick="activateQA()">Set up Q&amp;A</button>
+              <button class="btn-setup-ghost" onclick="openWizard()">I'll customize</button>
+            </div>
+          </div>
+          <div class="setup-card-footer">
+            <p>Bidder isolation cannot be disabled after launch. Workstreams, routing, and approvals can be added anytime.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONFIRM VIEW -->
+      <div class="confirm-view">
+        <div class="confirm-card">
+          <div class="confirm-card-accent"></div>
+          <div class="confirm-card-body">
+            <div class="confirm-icon-wrap">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h1 class="confirm-headline">Q&amp;A is live for <strong>Project Orion</strong></h1>
+            <p class="confirm-subtitle">Bidder teams can now submit questions. Your team will be notified as questions come in.</p>
+
+            <div class="confirm-section-label">What was configured</div>
+            <div class="confirm-grid">
+              <div>
+                <div class="confirm-grid-item-label">Bidder Teams</div>
+                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>4 teams (A, B, C, D)</div>
+              </div>
+              <div>
+                <div class="confirm-grid-item-label">Categories</div>
+                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>6 default categories</div>
+              </div>
+              <div>
+                <div class="confirm-grid-item-label">Workflow</div>
+                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>1 answer group</div>
+              </div>
+              <div>
+                <div class="confirm-grid-item-label">SLA Target</div>
+                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>48 hours</div>
+              </div>
+              <div>
+                <div class="confirm-grid-item-label">AI Assistance</div>
+                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Enabled (review before publish)</div>
+              </div>
+              <div>
+                <div class="confirm-grid-item-label">Bidder Isolation</div>
+                <div class="confirm-grid-item-value"><svg class="confirm-edit-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>On — permanent</div>
+              </div>
+            </div>
+
+            <div class="confirm-next-box">
+              <div class="confirm-next-title">What happens next</div>
+              <ul class="confirm-next-list">
+                <li><span class="confirm-next-bullet"></span>Bidder teams will receive an email invitation to access Q&amp;A within the next 15 minutes.</li>
+                <li><span class="confirm-next-bullet"></span>Questions submitted by bidders will appear in your Question List for review and response.</li>
+                <li><span class="confirm-next-bullet"></span>AI-assisted draft answers will be suggested — you review and approve before they're sent.</li>
+                <li><span class="confirm-next-bullet"></span>You can add workstreams, routing rules, and approvals at any time from Q&amp;A Settings.</li>
+              </ul>
+            </div>
+
+            <div class="confirm-cta">
+              <button class="btn-confirm-primary" onclick="goToDashboard()">
+                Go to Q&amp;A Dashboard
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+              <button class="btn-confirm-ghost" onclick="openWizard()">Edit setup</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIST VIEW -->
+      <div class="list-view">
+
+      <!-- CONTENT TOOLBAR -->
+      <div class="content-toolbar">
+        <button class="btn-icon" aria-label="Back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="btn-outlined">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import
+        </button>
+        <button class="btn-outlined">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <button class="btn-outlined-primary">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New FAQ
+        </button>
+        <button class="btn-clear-filter">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          Clear Filters (1)
+        </button>
+        <div class="toolbar-spacer"></div>
+      </div>
+
+      <!-- DASHBOARD SUB-VIEW -->
+      <div class="dashboard-content">
+        <div class="table-wrap">
+          <table id="dashboard-table">
+            <thead>
+              <tr>
+                <th class="dash-col-team sortable">Question Team</th>
+                <th class="dash-col-filt">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                </th>
+                <th class="dash-col-date sortable">Last activity</th>
+                <th class="dash-col-asgn sortable">Assigned to</th>
+                <th class="dash-col-cat sortable">Category</th>
+                <th class="dash-col-pri sortable">Priority</th>
+                <th class="dash-col-asked sortable">Questions Asked</th>
+                <th class="dash-col-stat sortable">Unanswered</th>
+                <th class="dash-col-stat sortable">In Progress</th>
+                <th class="dash-col-stat sortable">Answered</th>
+              </tr>
+              <tr class="dash-filter-row">
+                <td>
+                  <div class="dash-filter-cell">
+                    <input class="dash-filter-input" type="text" placeholder="Filter team…">
+                    <button class="dash-filter-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+                  </div>
+                </td>
+                <td class="dash-col-filt"></td>
+                <td>
+                  <div class="dash-filter-cell">
+                    <input class="dash-filter-input" type="date">
+                    <button class="dash-filter-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+                  </div>
+                </td>
+                <td>
+                  <div class="dash-filter-cell">
+                    <input class="dash-filter-input" type="text" placeholder="Filter…">
+                    <button class="dash-filter-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+                  </div>
+                </td>
+                <td>
+                  <div class="dash-filter-cell">
+                    <input class="dash-filter-input" type="text" placeholder="Filter…">
+                    <button class="dash-filter-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+                  </div>
+                </td>
+                <td>
+                  <div class="dash-filter-cell">
+                    <input class="dash-filter-input" type="text" placeholder="Filter…">
+                    <button class="dash-filter-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+                  </div>
+                </td>
+                <td></td><td></td><td></td><td></td>
+              </tr>
+              <tr class="dash-totals-row">
+                <td colspan="6"></td>
+                <td class="dash-val-asked">187</td>
+                <td class="dash-val-unanswered">133</td>
+                <td class="dash-val-progress">34</td>
+                <td class="dash-val-answered">20</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="cursor:pointer;" onclick="setSubView('list')">
+                <td>Engage</td>
+                <td class="dash-col-filt"></td>
+                <td class="text-secondary-cell">Apr 25, 2026</td>
+                <td class="text-muted">Unassigned</td>
+                <td class="text-secondary-cell">Financial</td>
+                <td class="text-muted">—</td>
+                <td><div class="dash-asked-cell">45 <span class="text-disabled">/ 250</span><div class="dash-asked-bar"><div class="dash-asked-fill" style="width:18%"></div></div></div></td>
+                <td class="dash-val-unanswered">32</td>
+                <td class="dash-val-progress">8</td>
+                <td class="dash-val-answered">5</td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="setSubView('list')">
+                <td>Edgehall</td>
+                <td class="dash-col-filt"></td>
+                <td class="text-secondary-cell">Apr 24, 2026</td>
+                <td class="text-secondary-cell">M. Chen</td>
+                <td class="text-secondary-cell">Legal</td>
+                <td class="text-secondary-cell">High</td>
+                <td><div class="dash-asked-cell">67 <span class="text-disabled">/ 250</span><div class="dash-asked-bar"><div class="dash-asked-fill" style="width:27%"></div></div></div></td>
+                <td class="dash-val-unanswered">48</td>
+                <td class="dash-val-progress">12</td>
+                <td class="dash-val-answered">7</td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="setSubView('list')">
+                <td>MRG</td>
+                <td class="dash-col-filt"></td>
+                <td class="text-secondary-cell">Apr 23, 2026</td>
+                <td class="text-muted">Unassigned</td>
+                <td class="text-secondary-cell">Commercial</td>
+                <td class="text-muted">—</td>
+                <td><div class="dash-asked-cell">23 <span class="text-disabled">/ 250</span><div class="dash-asked-bar"><div class="dash-asked-fill" style="width:9%"></div></div></div></td>
+                <td class="dash-val-unanswered">15</td>
+                <td class="dash-val-progress">5</td>
+                <td class="dash-val-answered">3</td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="setSubView('list')">
+                <td>Eldon</td>
+                <td class="dash-col-filt"></td>
+                <td class="text-secondary-cell">Apr 22, 2026</td>
+                <td class="text-secondary-cell">J. Pereira</td>
+                <td class="text-secondary-cell">Operations</td>
+                <td class="text-secondary-cell">Medium</td>
+                <td><div class="dash-asked-cell">52 <span class="text-disabled">/ 250</span><div class="dash-asked-bar"><div class="dash-asked-fill" style="width:21%"></div></div></div></td>
+                <td class="dash-val-unanswered">38</td>
+                <td class="dash-val-progress">9</td>
+                <td class="dash-val-answered">5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- QUESTION LIST SUB-VIEW -->
+      <div class="question-list-content">
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar">
+        <span class="filter-label">Filter by type:</span>
+        <button class="filter-chip active" data-filter="all" onclick="setFilter('all')">
+          All <span class="chip-count">16</span>
+        </button>
+        <button class="filter-chip" data-filter="doc" onclick="setFilter('doc')">
+          <span class="filter-chip-dot" style="background:var(--warning-main)"></span>
+          Document Requests <span class="chip-count">6</span>
+        </button>
+        <button class="filter-chip" data-filter="access" onclick="setFilter('access')">Access Issues</button>
+        <button class="filter-chip" data-filter="clarif" onclick="setFilter('clarif')">Clarification</button>
+        <button class="filter-chip" data-filter="general" onclick="setFilter('general')">General</button>
+        <div class="filter-spacer"></div>
+        <span class="filter-access-label">Project Admin view · global access</span>
+      </div>
+
+      <!-- DRAG GROUP BAR -->
+      <div class="drag-bar">
+        <span class="drag-handle-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="1" fill="currentColor"/><circle cx="9" cy="12" r="1" fill="currentColor"/><circle cx="9" cy="19" r="1" fill="currentColor"/><circle cx="15" cy="5" r="1" fill="currentColor"/><circle cx="15" cy="12" r="1" fill="currentColor"/><circle cx="15" cy="19" r="1" fill="currentColor"/></svg>
+        </span>
+        Drag here to set row groups
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-wrap">
+        <table id="qa-table">
+          <thead>
+            <tr>
+              <th class="col-cb">
+                <input type="checkbox" id="select-all" onchange="toggleAll(this)" style="cursor:pointer;" />
+              </th>
+              <th class="col-bm">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+              </th>
+              <th class="col-flag">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+              </th>
+              <th class="col-team sortable">Question Team</th>
+              <th class="col-num sortable">Number</th>
+              <th class="col-type">Question Type</th>
+              <th class="col-q sortable">Question</th>
+              <th class="col-cat sortable">Category</th>
+              <th class="col-asgn sortable">Assigned to</th>
+              <th class="col-ans">Answer</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+
+      </div><!-- /.question-list-content -->
+      </div><!-- /.list-view -->
+    </main>
+  </div>
+</div>
+
+<!-- ── SETUP WIZARD ───────────────────────────────────── -->
+<div class="wizard-overlay" id="wizard-overlay">
+  <div class="wizard-modal">
+
+    <!-- Header -->
+    <div class="wizard-header">
+      <span class="wizard-title">Q&amp;A Settings</span>
+      <div class="wizard-tabs">
+        <button class="wizard-tab active" id="wtab-teams" onclick="showWizardStep('teams')">Q&amp;A Teams</button>
+        <button class="wizard-tab" id="wtab-categories" onclick="showWizardStep('categories')">Categories</button>
+        <button class="wizard-tab" id="wtab-workflow" onclick="showWizardStep('workflow')">Workflow</button>
+      </div>
+      <div class="wizard-header-right">
+        <span class="badge-not-launched">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Q&amp;A Not Launched
+        </span>
+        <button class="wizard-close" onclick="closeWizard()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="wizard-body">
+
+      <!-- Step: Q&A Teams -->
+      <div class="wizard-step" id="wstep-teams">
+        <div class="wizard-left">
+          <div class="wizard-left-head">
+            <div class="wizard-left-title">Q&amp;A Teams</div>
+          </div>
+          <div class="wizard-left-search">
+            <input class="wiz-search-input" type="text" placeholder="Search team name" />
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-disabled);flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-disabled);flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="wiz-team-item active">Answer Team</div>
+          <div class="wiz-team-item">Question Team</div>
+          <div class="wizard-left-footer">
+            <button class="btn-create-team">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Create new question team…
+            </button>
+          </div>
+        </div>
+        <div class="wizard-main">
+          <div class="info-banner">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--primary-main);margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div>Users must be invited to this project before they can be added to Q&amp;A. <a href="#">Invite users here →</a><br/>
+            Invited users will not receive notifications and will be unable to interact with Q&amp;A until they have registered.</div>
+          </div>
+          <div class="wiz-section-row">
+            <div class="wiz-section-title">Answer Team</div>
+            <button class="btn-add-members">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add/remove Team Members
+            </button>
+          </div>
+          <div class="members-empty">
+            <svg class="members-empty-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            Start by <a href="#" style="color:var(--primary-main);text-decoration:none;font-weight:500">adding members</a> to your team.
+          </div>
+          <div class="import-card">
+            <div class="import-card-body">
+              <div class="import-card-title">Import Questions via Excel</div>
+              <div class="import-card-desc">Enable importing questions via Excel on behalf of question teams. This feature is available for Admins only.</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+              <div class="toggle-switch"></div>
+              <span style="font-size:13px;font-weight:500;color:var(--text-primary)">On</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step: Categories -->
+      <div class="wizard-step" id="wstep-categories">
+        <div class="wizard-left">
+          <div class="wizard-left-head">
+            <div class="wizard-left-title">Categories</div>
+            <div class="wizard-left-desc">Creating categories can help organise questions more efficiently.<br/><br/>Some categories have already been created for you. These may be edited if needed.</div>
+          </div>
+        </div>
+        <div class="wizard-main">
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Create, modify, or delete categories below.</p>
+          <div class="cat-input-row">
+            <input class="cat-name-input" type="text" placeholder="Question category name" />
+            <button class="btn-cat-add">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+          <div class="cat-hint">e.g. Legal</div>
+          <div class="cat-list-header">
+            <span class="cat-list-title">Categories (6)</span>
+            <button class="btn-sort-order">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Sort order
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+          </div>
+          <div id="cat-list">
+            <div class="cat-item"><span class="cat-item-text">Finance</span><button class="btn-cat-del" onclick="this.closest('.cat-item').remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+            <div class="cat-item"><span class="cat-item-text">General</span><button class="btn-cat-del" onclick="this.closest('.cat-item').remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+            <div class="cat-item"><span class="cat-item-text">HR</span><button class="btn-cat-del" onclick="this.closest('.cat-item').remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+            <div class="cat-item"><span class="cat-item-text">IT</span><button class="btn-cat-del" onclick="this.closest('.cat-item').remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+            <div class="cat-item"><span class="cat-item-text">Legal</span><button class="btn-cat-del" onclick="this.closest('.cat-item').remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+            <div class="cat-item"><span class="cat-item-text">Tax</span><button class="btn-cat-del" onclick="this.closest('.cat-item').remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step: Workflow -->
+      <div class="wizard-step" id="wstep-workflow">
+        <div class="wizard-left">
+          <div class="wizard-left-head">
+            <div class="wizard-left-title">Workflow</div>
+          </div>
+          <div class="wiz-team-item active">Answer Team</div>
+          <div class="wiz-team-item">Question Team</div>
+          <div class="wizard-left-footer">
+            <a href="#" class="wiz-alt-link" onclick="showWizardStep('alt-workflow'); return false;">Alternate workflow</a>
+          </div>
+        </div>
+        <div class="wizard-main">
+          <div class="wiz-flow-actions">
+            <button class="btn-wiz-outlined">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Custom Workflow
+            </button>
+            <button class="btn-wiz-filled">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Workflow Group
+            </button>
+            <span class="wiz-flow-desc">Create or edit groups to be added into workflow approval sequence.</span>
+          </div>
+
+          <div class="wiz-workflow-section">
+            <div class="wiz-workflow-label">
+              Default Workflow — Answer Team
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-disabled)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="warn-banner">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;color:var(--warning-main);margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <div class="warn-banner-body">
+                <div class="warn-banner-title">Reset Workflow Questions</div>
+                There are 0 active team members in one or more workflow groups in this workflow.
+              </div>
+            </div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;">Categories: 6</div>
+            <div class="cat-chips">
+              <span class="cat-chip-pill">Finance</span>
+              <span class="cat-chip-pill">General</span>
+              <span class="cat-chip-pill">HR</span>
+              <span class="cat-chip-pill">IT</span>
+              <span class="cat-chip-pill">Legal</span>
+              <span class="cat-chip-pill">Tax</span>
+            </div>
+            <div class="workflow-board">
+              <div class="workflow-card">
+                <div class="workflow-card-title">Answer Team</div>
+                <span class="workflow-card-badge">Level 1 · Final</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wiz-custom-section">
+            <div class="wiz-custom-header">
+              Custom Workflows (0)
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-disabled)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="custom-empty">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="color:var(--primary-main);opacity:0.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+              Create <a href="#">New Custom Workflows</a> to restrict visibility for questions and answers.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step: Alternate Workflow -->
+      <div class="wizard-step" id="wstep-alt-workflow">
+        <div class="wizard-main">
+          <div class="alt-wf-title">Route questions to the right teams</div>
+          <p class="alt-wf-subtitle">Map each workstream to an answer group. The AI will auto-classify incoming questions.</p>
+
+          <div class="alt-routing-table">
+            <!-- Header -->
+            <div class="alt-routing-head">
+              <span>Workstream</span>
+              <span></span>
+              <span>Assignee</span>
+              <span></span>
+              <span>Reviewer</span>
+              <span></span>
+            </div>
+
+            <!-- Finance -->
+            <div class="alt-routing-row">
+              <div class="workstream-pill pill-finance"><span class="workstream-pill-dot"></span>Finance</div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>A. Reyes</option><option>Legal team</option><option>HR team</option><option>T. Nakamura</option><option>S. Dowling</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>M. Kim</option><option>J. Park</option><option>CISO</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-actions">
+                <button class="routing-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </div>
+
+            <!-- Legal -->
+            <div class="alt-routing-row">
+              <div class="workstream-pill pill-legal"><span class="workstream-pill-dot"></span>Legal</div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>Legal team</option><option>A. Reyes</option><option>HR team</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>J. Park</option><option>M. Kim</option><option>CISO</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-actions">
+                <button class="routing-icon-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></button>
+                <button class="routing-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </div>
+
+            <!-- HR -->
+            <div class="alt-routing-row">
+              <div class="workstream-pill pill-hr"><span class="workstream-pill-dot"></span>HR</div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>HR team</option><option>A. Reyes</option><option>Legal team</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>J. Park</option><option>M. Kim</option><option>CISO</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-actions">
+                <button class="routing-icon-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></button>
+                <button class="routing-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </div>
+
+            <!-- Technology -->
+            <div class="alt-routing-row">
+              <div class="workstream-pill pill-technology"><span class="workstream-pill-dot"></span>Technology</div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>T. Nakamura</option><option>A. Reyes</option><option>Legal team</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>CISO</option><option>M. Kim</option><option>J. Park</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-actions">
+                <button class="routing-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </div>
+
+            <!-- Commercial -->
+            <div class="alt-routing-row">
+              <div class="workstream-pill pill-commercial"><span class="workstream-pill-dot"></span>Commercial</div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>S. Dowling</option><option>A. Reyes</option><option>Legal team</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-arrow-cell"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="routing-select-wrap">
+                <select class="routing-select"><option>M. Kim</option><option>J. Park</option><option>CISO</option></select>
+                <svg class="routing-select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="routing-actions">
+                <button class="routing-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </div>
+
+            <button class="alt-routing-add">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add routing rule
+            </button>
+          </div>
+
+          <div class="alt-ai-banner">
+            <span class="alt-ai-icon">✦</span>
+            <div><strong>Suggested routing</strong> — Based on your 32 data-room documents, we detected 5 natural workstreams. You can accept all, edit, or skip this step.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.wizard-body -->
+
+    <!-- Footer -->
+    <div class="wizard-footer">
+      <button class="btn-wiz-back" id="wiz-back" onclick="wizardNav(-1)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
+      </button>
+      <div class="wiz-footer-center">
+        <div class="wiz-steps-dots">
+          <div class="wiz-dot active" id="wdot-0"></div>
+          <div class="wiz-dot" id="wdot-1"></div>
+          <div class="wiz-dot" id="wdot-2"></div>
+          <div class="wiz-dot" id="wdot-3"></div>
+        </div>
+      </div>
+      <button class="btn-wiz-next" id="wiz-next" onclick="wizardNav(1)">
+        Next
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+  </div><!-- /.wizard-modal -->
+</div><!-- /.wizard-overlay -->
+
+<!-- ── QUESTION DIALOG ───────────────────────────────── -->
+<div class="dialog-overlay" id="dialog-overlay" onclick="handleOverlayClick(event)">
+  <div class="dialog">
+
+    <!-- Header -->
+    <div class="dialog-header">
+      <div class="dialog-nav-arrows">
+        <button class="dialog-arrow" onclick="navigateDialog(-1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+        </button>
+        <button class="dialog-arrow" onclick="navigateDialog(1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>
+      <span class="dialog-title" id="dialog-title"></span>
+      <span class="badge-unanswered">Unanswered</span>
+      <span class="badge-outlined" id="dialog-category-badge"></span>
+      <span class="badge-outlined">Workflow: 1/2</span>
+      <button class="dialog-close" onclick="closeDialog()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="dialog-body">
+
+      <!-- Main content -->
+      <div class="dialog-main">
+
+        <!-- Question bubble -->
+        <div class="q-bubble-wrap">
+          <div class="q-bubble">
+            <div class="q-bubble-text" id="dialog-question"></div>
+          </div>
+          <div class="q-bubble-meta">Asked 2019-06-06 · 08:48</div>
+        </div>
+
+        <!-- Similar questions -->
+        <div class="similar-bar">
+          <span class="similar-bar-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M5 3l.5 1.5L7 5l-1.5.5L5 7l-.5-1.5L3 5l1.5-.5z"/></svg>
+            Similar questions found
+          </span>
+          <button class="btn-skip">Skip</button>
+          <button class="btn-review">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/></svg>
+            Review
+          </button>
+        </div>
+
+        <!-- Reply box -->
+        <div class="reply-box">
+          <textarea class="reply-textarea" placeholder="Reply to this..."></textarea>
+          <hr class="reply-divider" />
+          <div class="reply-footer">
+            <button class="reply-footer-action">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+              Link Files
+            </button>
+            <button class="reply-footer-action" onclick="toggleDropzone()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+              Upload Files
+            </button>
+            <div class="reply-footer-spacer"></div>
+            <button class="btn-edit">Edit</button>
+          </div>
+        </div>
+
+        <!-- Upload encouragement (shown for document requests) -->
+        <div class="upload-section" id="upload-section">
+
+          <!-- Recommended card -->
+          <div class="upload-recommend-card" onclick="toggleDropzone()">
+            <div class="upload-recommend-badge">Recommended</div>
+            <div class="upload-recommend-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+            </div>
+            <div>
+              <div class="upload-recommend-title">Upload requested document</div>
+              <div class="upload-recommend-desc">Bidder has asked for a missing file — upload it here.</div>
+            </div>
+          </div>
+
+          <!-- Drag-and-drop zone (toggled) -->
+          <div class="upload-dropzone" id="upload-dropzone">
+            <div class="upload-dropzone-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+            </div>
+            <div class="upload-dropzone-label">Drag and drop a file, or</div>
+            <button class="btn-browse">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+              Browse files
+            </button>
+            <p class="upload-dropzone-note">Files uploaded here are added to the data room and permissioned against <strong id="dialog-team-name"></strong> by default.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Actions panel -->
+      <div class="dialog-actions">
+        <div class="dialog-actions-title">Actions</div>
+
+        <div>
+          <div class="action-field-label">Category</div>
+          <select class="action-select" id="dialog-cat-select">
+            <option>Financial</option>
+            <option>Commercial</option>
+            <option>Legal</option>
+            <option>HR</option>
+            <option>Operations</option>
+            <option>Tax</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="action-field-label">Assigned to</div>
+          <select class="action-select" id="dialog-assignee-select">
+            <option>Unassigned</option>
+            <option>M. Chen</option>
+            <option>J. Pereira</option>
+            <option>K. Novak</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="action-field-label">Priority</div>
+          <select class="action-select">
+            <option>No Priority</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="action-field-label">Open / Close Question</div>
+          <select class="action-select">
+            <option>Open</option>
+            <option>Closed</option>
+          </select>
+        </div>
+
+        <div class="action-divider"></div>
+
+        <button class="action-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy To FAQ
+        </button>
+        <button class="action-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Show History
+        </button>
+        <button class="action-btn-delete">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+          Delete Question
+        </button>
+      </div>
+
+      <!-- Tab strip -->
+      <div class="dialog-tabs">
+        <button class="dialog-tab active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span class="dialog-tab-label">Actions</span>
+        </button>
+        <button class="dialog-tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          <span class="dialog-tab-label">Workflow</span>
+        </button>
+        <button class="dialog-tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span class="dialog-tab-label">Similar</span>
+          <span class="dialog-tab-dot"></span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── DATA ───────────────────────────────────────────── */
+const ROWS = [
+  { id:1,  team:'Engage',   num:124, type:'doc',     question:'I have a question on the FY 2018 document',                                         category:'Financial',   assignee:'Unassigned', flagged:true,  bookmarked:false },
+  { id:2,  team:'Engage',   num:123, type:'doc',     question:'I have a question on the Active Clients document',                                   category:'Commercial',  assignee:'Unassigned', flagged:false, bookmarked:false },
+  { id:3,  team:'Edgehall', num:103, type:'doc',     question:'I have a question on the Active Clients document',                                   category:'Financial',   assignee:'Unassigned', flagged:true,  bookmarked:false },
+  { id:4,  team:'Edgehall', num:102, type:'clarif',  question:'I have a question on the Articles of Incorporation document',                        category:'Legal',       assignee:'M. Chen',    flagged:true,  bookmarked:false },
+  { id:5,  team:'Edgehall', num:101, type:'doc',     question:'I have a question on the Active Clients document',                                   category:'Financial',   assignee:'M. Chen',    flagged:true,  bookmarked:false },
+  { id:6,  team:'MRG',      num:96,  type:'general', question:'How much is spent in this type of marketing annually?',                              category:'Commercial',  assignee:'Unassigned', flagged:false, bookmarked:false },
+  { id:7,  team:'Eldon',    num:95,  type:'doc',     question:'List of current officers and directors',                                              category:'Legal',       assignee:'Unassigned', flagged:false, bookmarked:false },
+  { id:8,  team:'Eldon',    num:94,  type:'general', question:'Cybersecurity insurance',                                                             category:'Operations',  assignee:'J. Pereira', flagged:false, bookmarked:false },
+  { id:9,  team:'Eldon',    num:93,  type:'access',  question:'Other Department of Commerce filings if the buyer is a foreign national',            category:'Legal',       assignee:'J. Pereira', flagged:false, bookmarked:false },
+  { id:10, team:'Eldon',    num:92,  type:'general', question:'Withholding tax compliance',                                                          category:'Tax',         assignee:'J. Pereira', flagged:false, bookmarked:false },
+  { id:11, team:'Eldon',    num:91,  type:'clarif',  question:'Appropriateness of the seller\'s treatment of personnel costs',                      category:'HR',          assignee:'K. Novak',   flagged:false, bookmarked:false },
+  { id:12, team:'Eldon',    num:90,  type:'general', question:'Accrued but unpaid bonuses or commissions',                                          category:'HR',          assignee:'K. Novak',   flagged:false, bookmarked:false },
+  { id:13, team:'Eldon',    num:89,  type:'doc',     question:'Equipment leases',                                                                    category:'Operations',  assignee:'Unassigned', flagged:false, bookmarked:false },
+  { id:14, team:'Eldon',    num:88,  type:'general', question:'Employment agreements',                                                               category:'HR',          assignee:'Unassigned', flagged:false, bookmarked:false },
+  { id:15, team:'Eldon',    num:87,  type:'clarif',  question:'Treatment of accrued vacation in the proposed transaction',                          category:'HR',          assignee:'K. Novak',   flagged:false, bookmarked:false },
+  { id:16, team:'MRG',      num:85,  type:'doc',     question:'Copies of all material contracts with government entities',                          category:'Legal',       assignee:'Unassigned', flagged:false, bookmarked:false },
+];
+
+const TYPE_META = {
+  doc:     { label:'Document Request',       cls:'chip-doc-req', dotCls:'chip-dot-doc-req' },
+  clarif:  { label:'Clarification on Document', cls:'chip-clarif',  dotCls:'chip-dot-clarif'  },
+  general: { label:'General Question',       cls:'chip-general', dotCls:'chip-dot-general' },
+  access:  { label:'Access / Permission Issue', cls:'chip-access',  dotCls:'chip-dot-access'  },
+};
+
+let activeFilter = 'all';
+let selectedRows = new Set();
+
+/* ── RENDER ─────────────────────────────────────────── */
+function renderTable() {
+  const tbody = document.getElementById('table-body');
+  const filtered = activeFilter === 'all' ? ROWS : ROWS.filter(r => r.type === activeFilter);
+  tbody.innerHTML = filtered.map(row => {
+    const meta = TYPE_META[row.type];
+    const flagClass = row.flagged ? 'cell-btn flag-on' : 'cell-btn';
+    const bmClass   = row.bookmarked ? 'cell-btn on' : 'cell-btn';
+    const rowClass  = [
+      row.flagged ? 'flagged' : '',
+      selectedRows.has(row.id) ? 'row-selected' : '',
+    ].filter(Boolean).join(' ');
+
+    return `<tr class="${rowClass}" data-id="${row.id}" onclick="handleRowClick(event,${row.id})" style="cursor:pointer;">
+      <td class="col-cb"><input type="checkbox" ${selectedRows.has(row.id) ? 'checked' : ''} onchange="toggleRow(${row.id}, this)" style="cursor:pointer;" onclick="event.stopPropagation()" /></td>
+      <td class="col-bm">
+        <button class="${bmClass}" onclick="toggleBookmark(${row.id}, this)" title="Bookmark">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="${row.bookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        </button>
+      </td>
+      <td class="col-flag">
+        <button class="${flagClass}" onclick="toggleFlag(${row.id}, this)" title="Flag">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="${row.flagged ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        </button>
+      </td>
+      <td class="text-secondary-cell">${row.team}</td>
+      <td class="text-secondary-cell">${row.num}</td>
+      <td>
+        <span class="q-chip ${meta.cls}">
+          <span class="q-chip-dot ${meta.dotCls}"></span>
+          ${meta.label}
+        </span>
+      </td>
+      <td class="col-q-text" title="${row.question}">${row.question}</td>
+      <td class="text-secondary-cell">${row.category}</td>
+      <td class="text-${row.assignee === 'Unassigned' ? 'muted' : 'secondary-cell'}">${row.assignee}</td>
+      <td class="text-muted">—</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ── FILTER ─────────────────────────────────────────── */
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === f);
+  });
+  renderTable();
+}
+
+/* ── ROW SELECTION ──────────────────────────────────── */
+function toggleRow(id, cb) {
+  if (cb.checked) selectedRows.add(id);
+  else selectedRows.delete(id);
+  const tr = cb.closest('tr');
+  tr.classList.toggle('row-selected', cb.checked);
+}
+
+function toggleAll(cb) {
+  document.querySelectorAll('#table-body input[type="checkbox"]').forEach(el => {
+    const id = parseInt(el.closest('tr').dataset.id);
+    el.checked = cb.checked;
+    if (cb.checked) selectedRows.add(id);
+    else selectedRows.delete(id);
+    el.closest('tr').classList.toggle('row-selected', cb.checked);
+  });
+}
+
+/* ── FLAG / BOOKMARK ────────────────────────────────── */
+function toggleFlag(id, btn) {
+  const row = ROWS.find(r => r.id === id);
+  row.flagged = !row.flagged;
+  renderTable();
+}
+
+function toggleBookmark(id, btn) {
+  const row = ROWS.find(r => r.id === id);
+  row.bookmarked = !row.bookmarked;
+  renderTable();
+}
+
+/* ── NAV ────────────────────────────────────────────── */
+const NAV_SELL = `
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div><span class="nav-label">Dashboard</span><span class="nav-tooltip">Dashboard</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h3"/></svg></div><span class="nav-label">Documents</span><span class="nav-tooltip">Documents</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div><span class="nav-label">Search</span><span class="nav-tooltip">Search</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div><span class="nav-label">Trackers</span><span class="nav-tooltip">Trackers</span></div>
+  <div class="nav-icon-wrap active" onclick="goToEmpty()"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><span class="nav-label">Q&amp;A</span><span class="nav-tooltip">Q&amp;A</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><span class="nav-label">Users</span><span class="nav-tooltip">Users</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="nav-label">Permissions</span><span class="nav-tooltip">Permissions</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div><span class="nav-label">Redaction</span><span class="nav-tooltip">Redaction</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg></div><span class="nav-label">Archives</span><span class="nav-tooltip">Archives</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><span class="nav-label">Analytics</span><span class="nav-tooltip">Analytics</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div><span class="nav-label">Settings</span><span class="nav-tooltip">Settings</span></div>
+`;
+
+const NAV_BUY = `
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h3"/></svg></div><span class="nav-label">Documents</span><span class="nav-tooltip">Documents</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div><span class="nav-label">Search</span><span class="nav-tooltip">Search</span></div>
+  <div class="nav-icon-wrap active" onclick="goToEmpty()"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><span class="nav-label">Q&amp;A</span><span class="nav-tooltip">Q&amp;A</span></div>
+  <div class="nav-icon-wrap"><div class="nav-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><span class="nav-label">Analytics</span><span class="nav-tooltip">Analytics</span></div>
+`;
+
+document.addEventListener('DOMContentLoaded', () => {
+  setSide('sell');
+  renderTable();
+  document.body.classList.add('state-empty');
+});
+
+function goToEmpty() {
+  ['state-confirm', 'state-list'].forEach(c => document.body.classList.remove(c));
+  document.body.classList.add('state-empty');
+}
+
+function activateQA() {
+  document.body.classList.replace('state-empty', 'state-confirm');
+}
+
+function goToDashboard() {
+  document.body.classList.replace('state-confirm', 'state-list');
+  setSubView('dashboard');
+}
+
+function setSubView(view) {
+  const isDash = view === 'dashboard';
+  document.body.classList.toggle('subview-dashboard', isDash);
+  document.getElementById('nav-dashboard').classList.toggle('active', isDash);
+  document.getElementById('nav-question-list').classList.toggle('active', !isDash);
+}
+
+/* ── DIALOG ─────────────────────────────────────────── */
+let currentDialogId = null;
+
+function handleRowClick(event, id) {
+  if (event.target.closest('button, input')) return;
+  openDialog(id);
+}
+
+function openDialog(id) {
+  const row = ROWS.find(r => r.id === id);
+  if (!row) return;
+  currentDialogId = id;
+
+  document.getElementById('dialog-title').textContent = `${row.team} - ${row.num}`;
+  document.getElementById('dialog-category-badge').textContent = row.category;
+  document.getElementById('dialog-question').textContent = row.question;
+  document.getElementById('dialog-team-name').textContent = row.team;
+
+  const catSelect = document.getElementById('dialog-cat-select');
+  Array.from(catSelect.options).forEach(o => { o.selected = o.value === row.category; });
+
+  const assigneeSelect = document.getElementById('dialog-assignee-select');
+  Array.from(assigneeSelect.options).forEach(o => { o.selected = o.value === row.assignee; });
+
+  // Show upload section only for document requests
+  const uploadSection = document.getElementById('upload-section');
+  uploadSection.style.display = row.type === 'doc' ? 'flex' : 'none';
+
+  // Reset dropzone to collapsed
+  document.getElementById('upload-dropzone').classList.remove('visible');
+
+  document.getElementById('dialog-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDialog() {
+  document.getElementById('dialog-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentDialogId = null;
+}
+
+function handleOverlayClick(event) {
+  if (event.target === document.getElementById('dialog-overlay')) closeDialog();
+}
+
+function navigateDialog(dir) {
+  if (currentDialogId === null) return;
+  const ids = ROWS.map(r => r.id);
+  const idx = ids.indexOf(currentDialogId);
+  const next = ids[idx + dir];
+  if (next !== undefined) openDialog(next);
+}
+
+function toggleDropzone() {
+  document.getElementById('upload-dropzone').classList.toggle('visible');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDialog(); });
+
+function setSide(side) {
+  document.getElementById('btn-sell').classList.toggle('active', side === 'sell');
+  document.getElementById('btn-buy').classList.toggle('active', side === 'buy');
+  document.getElementById('nav-items').innerHTML = side === 'sell' ? NAV_SELL : NAV_BUY;
+  const avatar = document.getElementById('nav-avatar');
+  if (side === 'sell') {
+    avatar.className = 'avatar avatar--ds';
+    avatar.textContent = 'DS';
+    avatar.title = 'Daniel Samuels';
+  } else {
+    avatar.className = 'avatar avatar--dc';
+    avatar.textContent = 'DC';
+    avatar.title = 'Deborah Chung';
+  }
+}
+
+/* ── WIZARD ─────────────────────────────────────────── */
+const WIZARD_STEPS = ['teams', 'categories', 'workflow', 'alt-workflow'];
+let wizardStep = 'teams';
+
+function openWizard() {
+  wizardStep = 'teams';
+  _applyWizardStep();
+  document.getElementById('wizard-overlay').classList.add('open');
+  document.body.classList.add('state-setup');
+}
+
+function closeWizard() {
+  document.getElementById('wizard-overlay').classList.remove('open');
+  document.body.classList.remove('state-setup');
+}
+
+function showWizardStep(step) {
+  wizardStep = step;
+  _applyWizardStep();
+}
+
+function wizardNav(dir) {
+  const idx = WIZARD_STEPS.indexOf(wizardStep);
+  const next = WIZARD_STEPS[idx + dir];
+  if (dir === 1 && !next) {
+    closeWizard();
+    activateQA();
+    return;
+  }
+  if (next) showWizardStep(next);
+}
+
+function _applyWizardStep() {
+  const idx = WIZARD_STEPS.indexOf(wizardStep);
+  WIZARD_STEPS.forEach((s, i) => {
+    document.getElementById(`wstep-${s}`).classList.toggle('active', s === wizardStep);
+    const tab = document.getElementById(`wtab-${s}`);
+    if (tab) tab.classList.toggle('active', s === wizardStep);
+    const dot = document.getElementById(`wdot-${i}`);
+    if (dot) dot.classList.toggle('active', i === idx);
+  });
+  const backBtn = document.getElementById('wiz-back');
+  const nextBtn = document.getElementById('wiz-next');
+  backBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
+  const isLast = idx === WIZARD_STEPS.length - 1;
+  nextBtn.innerHTML = isLast
+    ? 'Launch Q&A <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+    : 'Next <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
+  nextBtn.style.background = isLast ? 'var(--success-main)' : 'var(--warning-main)';
+}
+</script>
+</body>
+</html>
