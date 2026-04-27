@@ -1228,7 +1228,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   overflow: hidden;
 }
 .setup-card-accent { height: 4px; background: var(--warning-main); flex-shrink: 0; }
-.setup-card-body   { padding: 36px 40px 20px 40px; display: flex; flex-direction: column; }
+.setup-card-body   { padding: 24px 40px 24px 40px; display: flex; flex-direction: column; }
 .setup-card-project {
   display: flex;
   align-items: center;
@@ -1253,11 +1253,11 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   text-transform: uppercase;
 }
 .setup-card-headline {
-  font-size: 28px;
-  font-weight: 400;
+  font-size: 22px;
+  font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 12px;
-  line-height: 1.2;
+  margin-bottom: 8px;
+  line-height: 1.25;
 }
 .setup-card-headline em {
   color: var(--warning-main);
@@ -1267,12 +1267,12 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 .setup-card-divider {
   height: 1px;
   background: var(--border-light);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .setup-card-section-label {
   font-size: 10px;
@@ -1280,13 +1280,13 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   letter-spacing: 0.1em;
   color: var(--text-secondary);
   text-transform: uppercase;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 .setup-items {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 .setup-item { display: flex; gap: 12px; align-items: flex-start; }
 .setup-item-bullet {
@@ -1315,12 +1315,66 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   gap: 14px;
 }
 .setup-path-hint {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--text-disabled);
   text-align: left;
   line-height: 1.5;
-  margin-top: -4px;
   width: 100%;
+}
+
+/* ── INLINE CONFIRM (inside setup card) ─────────────── */
+#setup-cta-buttons { display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; }
+.setup-inline-divider { height: 1px; background: var(--border-light); width: 100%; margin-bottom: 20px; }
+.setup-inline-body { display: flex; flex-direction: column; width: 100%; align-items: flex-start; }
+.setup-inline-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-disabled); text-transform: uppercase; margin-bottom: 8px;
+}
+.setup-inline-headline {
+  font-size: 15px; font-weight: 600; color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.setup-inline-desc {
+  font-size: 13px; color: var(--text-secondary);
+  line-height: 1.55; margin-bottom: 20px;
+}
+.setup-inline-section-divider {
+  height: 1px; background: var(--border-light); width: 100%;
+  margin: 8px 0 24px;
+}
+.setup-inline-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+  color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px;
+}
+.setup-inline-select-wrap {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 0;
+  background: var(--bg-surface);
+  width: 100%;
+}
+.setup-inline-select-label {
+  position: absolute;
+  top: -8px; left: 12px;
+  background: var(--bg-surface);
+  padding: 0 4px;
+  font-size: 11px; font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  pointer-events: none;
+}
+.setup-inline-select-wrap select {
+  width: 100%; height: 40px;
+  padding: 0 32px 0 12px;
+  border: none; border-radius: 8px;
+  background: transparent; color: var(--text-primary);
+  font-size: 13px; font-weight: 400; font-family: 'Roboto', sans-serif;
+  cursor: pointer; outline: none; appearance: none; -webkit-appearance: none;
+}
+.setup-inline-select-wrap svg {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; color: var(--text-disabled);
 }
 
 /* ── TEAM CONFIRM VIEW ───────────────────────────────── */
@@ -1360,10 +1414,10 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 }
 .team-confirm-select-wrap { position: relative; margin-bottom: 10px; }
 .team-confirm-select {
-  width: 100%; height: 42px; padding: 0 36px 0 14px;
-  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  width: 100%; height: 32px; padding: 0 32px 0 10px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
   background: var(--bg-surface); color: var(--text-primary);
-  font-size: 14px; font-weight: 500; font-family: 'Roboto', sans-serif;
+  font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
   cursor: pointer; outline: none; appearance: none; -webkit-appearance: none;
   transition: border-color 0.12s;
 }
@@ -1373,7 +1427,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   pointer-events: none; color: var(--text-disabled);
 }
 .team-confirm-hint {
-  font-size: 12px; color: var(--text-disabled);
+  font-size: 10px; color: var(--text-disabled);
   line-height: 1.5; margin-bottom: 36px;
 }
 .team-confirm-actions {
@@ -1408,6 +1462,20 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   transition: opacity 0.15s;
 }
 .btn-setup-primary:hover { opacity: 0.9; }
+.btn-setup-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-setup-outlined {
+  padding: 5px 16px;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-setup-outlined:hover { border-color: var(--text-secondary); background: var(--bg-alt); }
 .btn-setup-ghost {
   background: none;
   border: none;
@@ -1552,14 +1620,14 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .q-bubble-wrap {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 6px;
   flex: 1;
 }
 .q-bubble {
   background: #4B5BEF;
-  border-radius: 20px 20px 20px 4px;
-  padding: 14px 18px;
+  border-radius: 18px 18px 4px 18px;
+  padding: 12px 16px;
   color: #fff;
   max-width: 78%;
   position: relative;
@@ -1568,21 +1636,21 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   content: '';
   position: absolute;
   bottom: 0;
-  left: -8px;
+  right: -8px;
   width: 20px;
   height: 20px;
   background: #4B5BEF;
-  border-bottom-right-radius: 14px;
+  border-bottom-left-radius: 14px;
 }
 .q-bubble::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: -14px;
+  right: -14px;
   width: 14px;
   height: 20px;
   background: var(--bg-base);
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 .q-bubble-text {
   font-size: 15px;
@@ -1592,7 +1660,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .q-bubble-meta {
   font-size: 11px;
   color: var(--text-disabled);
-  padding-left: 4px;
+  padding-right: 4px;
+  text-align: right;
 }
 
 /* Similar questions bar */
@@ -2790,15 +2859,9 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <div class="empty-state-view">
         <div class="buy-coming-soon">View coming soon</div>
         <div class="setup-card">
-          <div class="setup-card-accent"></div>
+
           <div class="setup-card-body">
-            <div class="setup-card-project">
-              <span class="setup-card-project-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-              </span>
-              <span class="setup-card-project-label">Project Orion</span>
-            </div>
-            <h1 class="setup-card-headline">Q&amp;A Quick <em>Setup</em></h1>
+            <h1 class="setup-card-headline">Q&amp;A Quick Setup</h1>
             <p class="setup-card-desc">We've pre-configured a safe, secure setup based on Project Orion. You can start accepting questions immediately. No configuration required.</p>
             <div class="setup-card-divider"></div>
             <div class="setup-card-section-label">What will be set up</div>
@@ -2806,36 +2869,77 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <div class="setup-item">
                 <div class="setup-item-bullet"></div>
                 <div>
-                  <div class="setup-item-title">4 bidder teams. Completely isolated.</div>
-                  <div class="setup-item-desc">Buyside A, B, C, D. Each team sees only their own questions and answers.</div>
+                  <div class="setup-item-title">1 bidder team.</div>
                 </div>
               </div>
               <div class="setup-item">
                 <div class="setup-item-bullet"></div>
                 <div>
                   <div class="setup-item-title">1 default answer group</div>
-                  <div class="setup-item-desc">All questions route to your team. Add expert workstreams later if needed.</div>
+                  <div class="setup-item-desc">All questions route to your team.</div>
                 </div>
               </div>
               <div class="setup-item">
                 <div class="setup-item-bullet"></div>
                 <div>
-                  <div class="setup-item-title">Full admin visibility</div>
-                  <div class="setup-item-desc">You see every question, answer, and audit entry across all teams.</div>
+                  <div class="setup-item-title">6 default categories</div>
+                  <div class="setup-item-desc">Add, modify or delete categories after setup to fit your deal.</div>
                 </div>
               </div>
               <div class="setup-item">
                 <div class="setup-item-bullet"></div>
                 <div>
-                  <div class="setup-item-title">AI-assisted answers: on</div>
-                  <div class="setup-item-desc">Drafts suggested from your data room. You review before publishing.</div>
+                  <div class="setup-item-title">Default Workflow</div>
+                  <div class="setup-item-desc">Questions routed directly to the answer team automatically.</div>
                 </div>
               </div>
             </div>
             <div class="setup-card-cta">
-              <button class="btn-setup-primary" onclick="goToTeamConfirm()">Q&amp;A Quick Setup</button>
-              <button class="btn-setup-ghost" onclick="openWizard()">Advanced Settings <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></button>
-              <p class="setup-path-hint">Use Advanced Setup if you need custom categories, workflow routing, or per-team question limits.</p>
+              <div id="setup-cta-buttons">
+                <button class="btn-setup-primary" onclick="goToTeamConfirm()">Q&amp;A Quick Setup</button>
+                <div style="height:1px;background:var(--border-light);width:100%;"></div>
+                <div style="display:flex;flex-direction:column;gap:6px;width:100%;align-items:center;">
+                  <p class="setup-path-hint" style="margin:0;color:var(--text-secondary);font-size:12px;">Use Enhanced Settings to setup customized workflow routing, per-team question limits, updated categories and more. This can also be done after the quick setup.</p>
+                  <button class="btn-setup-outlined" onclick="openWizard()" style="padding:8px 22px;font-size:14px;color:var(--text-secondary);">Setup with Enhanced Settings</button>
+                </div>
+              </div>
+              <div id="setup-inline-confirm" style="display:none; width:100%; display:none; flex-direction:column; gap:0;">
+                <div class="setup-inline-divider"></div>
+                <div class="setup-inline-body">
+
+                  <div class="setup-inline-headline">Who will answer questions?</div>
+                  <p class="setup-inline-desc" style="margin-bottom:8px;">All questions from bidder teams will be routed to this group. You can add workstreams and routing rules after launch.</p>
+                  <div class="setup-inline-select-wrap" style="margin-top:8px;">
+                    <span class="setup-inline-select-label">Default answer team</span>
+                    <select id="answer-team-select" onchange="checkConfirmReady()">
+                      <option value="" disabled selected>Select a team…</option>
+                      <option>Legal team</option>
+                      <option>Finance team</option>
+                      <option>HR team</option>
+                    </select>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                  </div>
+                  <div class="setup-inline-headline" style="margin-top:16px;">Who will ask the questions?</div>
+                  <p class="setup-inline-desc" style="margin-bottom:8px;">Select which bidder team will have access to submit questions. If there is more than one bidder team, use the enhanced settings to add more teams now or after quick setup.</p>
+                  <div class="setup-inline-select-wrap" style="margin-top:8px;">
+                    <span class="setup-inline-select-label">Bidder teams</span>
+                    <select id="bidder-team-select" onchange="checkConfirmReady()">
+                      <option value="" disabled selected>Select a team…</option>
+                      <option>Bidder Team A</option>
+                      <option>Bidder Team B</option>
+                      <option>Bidder Team C</option>
+                    </select>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                  </div>
+                  <p class="team-confirm-hint" style="margin-bottom:24px;">Each bidder team will see only their own questions and answers.</p>
+
+                  <div style="display:flex;gap:4px;width:100%;">
+                    <button class="btn-setup-outlined" onclick="openWizard()" style="flex:1;color:var(--text-secondary);">Setup with Enhanced Settings</button>
+                    <button id="btn-confirm-launch" class="btn-setup-primary" onclick="activateQA()" style="flex:1;" disabled>Confirm &amp; Launch Q&amp;A</button>
+                  </div>
+                  <p class="team-confirm-hint" style="margin-top:4px;margin-bottom:0;">Use Enhanced Settings to setup customized workflow routing, per-team question limits, updated categories and more. This can also be done after the quick setup.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2878,13 +2982,13 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
             <h1 class="confirm-headline">Q&amp;A is live for <strong>Project Orion</strong></h1>
-            <p class="confirm-subtitle">Bidder teams can now submit questions. Your team will be notified as questions come in.</p>
+            <p class="confirm-subtitle">The Bidder Team can now submit questions. Your team will be notified as questions come in.</p>
 
             <div class="confirm-section-label">What was configured</div>
             <div class="confirm-grid">
               <div>
                 <div class="confirm-grid-item-label">Bidder Teams</div>
-                <div class="confirm-grid-item-value">4 teams (A, B, C, D)</div>
+                <div class="confirm-grid-item-value">1 team (Bidder Team A)</div>
               </div>
               <div>
                 <div class="confirm-grid-item-label">Categories</div>
@@ -2895,26 +2999,19 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                 <div class="confirm-grid-item-value">1 answer group</div>
               </div>
               <div>
-                <div class="confirm-grid-item-label">SLA Target</div>
-                <div class="confirm-grid-item-value">48 hours</div>
+                <div class="confirm-grid-item-label">Duplicate Questions</div>
+                <div class="confirm-grid-item-value">Use Similar Questions feature for faster responses</div>
               </div>
               <div>
-                <div class="confirm-grid-item-label">AI Assistance</div>
-                <div class="confirm-grid-item-value">Enabled (review before publish)</div>
-              </div>
-              <div>
-                <div class="confirm-grid-item-label">Bidder Isolation</div>
-                <div class="confirm-grid-item-value">On — permanent</div>
               </div>
             </div>
 
             <div class="confirm-next-box">
               <div class="confirm-next-title">What happens next</div>
               <ul class="confirm-next-list">
-                <li><span class="confirm-next-bullet"></span>Bidder teams will receive an email invitation to access Q&amp;A within the next 15 minutes.</li>
+                <li><span class="confirm-next-bullet"></span>Bidder teams will receive an email invitation to access Q&amp;A within the next 15 minutes. [NEED TO VERIFY]</li>
                 <li><span class="confirm-next-bullet"></span>Questions submitted by bidders will appear in your Question List for review and response.</li>
-                <li><span class="confirm-next-bullet"></span>AI-assisted draft answers will be suggested — you review and approve before they're sent.</li>
-                <li><span class="confirm-next-bullet"></span>Advanced routing and workflows remain available — switch to Advanced Setup at any time from Q&amp;A Settings.</li>
+                                <li><span class="confirm-next-bullet"></span>Advanced routing and workflows remain available — switch to Advanced Setup at any time from Q&amp;A Settings.</li>
                 <li><span class="confirm-next-bullet"></span>Q&amp;A launch and activity will be tracked for reporting and analytics.</li>
               </ul>
             </div>
@@ -2924,7 +3021,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                 Go to Q&amp;A Dashboard
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
-              <span class="btn-confirm-ghost" style="cursor:default">Edit setup</span>
             </div>
           </div>
           <div class="confirm-card-footer">
@@ -3846,10 +3942,24 @@ document.addEventListener('DOMContentLoaded', () => {
 function goToEmpty() {
   ['state-confirm', 'state-list', 'state-team-confirm'].forEach(c => document.body.classList.remove(c));
   document.body.classList.add('state-empty');
+  document.getElementById('setup-inline-confirm').style.display = 'none';
+  document.getElementById('setup-cta-buttons').style.display = 'flex';
 }
 
+function checkConfirmReady() {
+  const answerTeam = document.getElementById('answer-team-select').value;
+  const bidderTeam = document.getElementById('bidder-team-select').value;
+  document.getElementById('btn-confirm-launch').disabled = !(answerTeam && bidderTeam);
+}
 function goToTeamConfirm() {
-  document.body.classList.replace('state-empty', 'state-team-confirm');
+  document.getElementById('setup-cta-buttons').style.display = 'none';
+  const el = document.getElementById('setup-inline-confirm');
+  el.style.display = 'flex';
+}
+
+function cancelTeamConfirm() {
+  document.getElementById('setup-inline-confirm').style.display = 'none';
+  document.getElementById('setup-cta-buttons').style.display = 'flex';
 }
 
 function activateQA() {
@@ -4213,7 +4323,7 @@ function openNewQuestion() {
   currentBuyDialogId = null;
 
   document.querySelector('.dialog').classList.add('dialog--new');
-  document.getElementById('dialog-title').textContent = 'New Question';
+  document.getElementById('dialog-title').textContent = 'Ask Question';
 
   // Reset fields
   document.getElementById('dialog-cat-select').selectedIndex = 0;
@@ -4230,7 +4340,7 @@ function openNewQuestion() {
   document.getElementById('upload-dropzone').classList.remove('visible');
 
   // Wire submit button
-  document.querySelector('.btn-submit-next').textContent = 'Submit Question';
+  document.querySelector('.btn-submit-next').textContent = 'Ask Question';
   document.querySelector('.btn-submit-next').onclick = submitBuyNewQuestion;
 
   document.getElementById('dialog-overlay').classList.add('open');
@@ -4262,7 +4372,7 @@ function openBuyDialog(id) {
   currentBuyDialogId = id;
   const meta = TYPE_META[row.type];
 
-  document.getElementById('dialog-title').textContent = `#${row.num}`;
+  document.getElementById('dialog-title').textContent = `Question #${row.num}`;
   document.getElementById('dialog-category-badge').textContent = row.category;
   document.getElementById('dialog-question').textContent = row.question;
   document.getElementById('dialog-team-name').textContent = 'Answer Team';
