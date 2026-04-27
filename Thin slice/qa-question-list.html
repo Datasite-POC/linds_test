@@ -3719,8 +3719,9 @@ function openTypeMenu(e, rowId) {
     </div>`;
   }).join('');
 
-  menu.style.top  = (rect.bottom + 4) + 'px';
-  menu.style.left = rect.left + 'px';
+  const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+  menu.style.top  = (rect.bottom / zoom + 4) + 'px';
+  menu.style.left = (rect.left / zoom) + 'px';
   menu.classList.add('open');
 }
 
