@@ -820,21 +820,187 @@ td.dash-col-filt  { width: 36px; padding: 0; text-align: center; }
 }
 body.side-buy .setup-card { display: none; }
 body.side-buy .buy-coming-soon { display: block; }
+body.side-buy .dash-filter-row { display: none; }
+body.side-buy .content-toolbar { display: none; }
 
 .buy-side-cover {
   display: none;
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background: var(--bg-base);
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  letter-spacing: 0.04em;
-  z-index: 10;
+  z-index: 20;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
 }
 body.side-buy .buy-side-cover { display: flex; }
+
+/* ── FAB ─────────────────────────────────────────────── */
+.fab-goto-list {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--primary-main);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(72,94,240,0.35);
+  z-index: 500;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.fab-goto-list:hover {
+  background: #3a4fc0;
+  box-shadow: 0 6px 16px rgba(72,94,240,0.45);
+}
+body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
+
+/* ── BUY SIDE LAYOUT ─────────────────────────────────── */
+.buy-panel-nav {
+  width: 240px; min-width: 240px;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-light);
+  display: flex; flex-direction: column;
+  overflow-y: auto; flex-shrink: 0;
+}
+.buy-main {
+  flex: 1; display: flex; flex-direction: column;
+  overflow: hidden; background: var(--bg-base);
+}
+.buy-toolbar {
+  height: 48px; display: flex; align-items: center;
+  gap: var(--space-1); padding: 0 var(--space-2);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-surface); flex-shrink: 0;
+}
+.btn-buy-new-q {
+  display: flex; align-items: center; gap: 6px;
+  height: 32px; padding: 0 14px;
+  background: var(--warning-main); border: none;
+  border-radius: var(--radius-sm); color: #fff;
+  font-size: 13px; font-weight: 500;
+  font-family: 'Roboto', sans-serif; cursor: pointer;
+  transition: background 0.12s;
+}
+.btn-buy-new-q:hover { background: #c94e00; }
+.buy-table-wrap { flex: 1; overflow-y: auto; }
+.buy-table-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.buy-table-wrap thead { position: sticky; top: 0; z-index: 10; background: var(--bg-surface); }
+.buy-table-wrap th {
+  padding: 0 12px; height: 36px; text-align: left;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--text-secondary); text-transform: uppercase;
+  border-bottom: 1px solid var(--border-light); white-space: nowrap;
+}
+.buy-table-wrap td {
+  padding: 0 12px; height: 44px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary); vertical-align: middle;
+}
+.buy-table-wrap tbody tr { cursor: pointer; }
+.buy-table-wrap tbody tr:hover td { background: var(--bg-alt); }
+.buy-col-cb  { width: 36px; }
+.buy-col-bm  { width: 32px; }
+.buy-col-flag{ width: 32px; }
+.buy-col-num { width: 80px; color: var(--text-secondary); }
+.buy-col-q   { min-width: 240px; }
+.buy-col-ans { width: 220px; color: var(--text-secondary); }
+.buy-col-chat{ width: 60px; text-align: center; }
+.buy-col-status { width: 130px; }
+.buy-status-unanswered {
+  display: inline-flex; align-items: center;
+  height: 22px; padding: 0 10px;
+  border-radius: var(--radius-pill);
+  background: #C62828; color: #fff;
+  font-size: 11px; font-weight: 600;
+}
+.buy-status-in-review {
+  display: inline-flex; align-items: center;
+  height: 22px; padding: 0 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(72,94,240,0.1); color: var(--primary-main);
+  border: 1px solid rgba(72,94,240,0.3);
+  font-size: 11px; font-weight: 600;
+}
+.buy-status-answered {
+  display: inline-flex; align-items: center;
+  height: 22px; padding: 0 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(20,131,40,0.1); color: var(--success-main);
+  border: 1px solid rgba(20,131,40,0.3);
+  font-size: 11px; font-weight: 600;
+}
+
+/* ── NEW QUESTION COMPOSE MODAL ──────────────────────── */
+.compose-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45); z-index: 1000;
+  align-items: center; justify-content: center;
+}
+.compose-overlay.open { display: flex; }
+.compose-dialog {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  width: 640px; max-width: 95vw;
+  display: flex; flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+.compose-header {
+  display: flex; align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+.compose-title { font-size: 16px; font-weight: 600; color: var(--text-primary); flex: 1; }
+.compose-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.compose-field-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+.compose-type-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.compose-type-option { cursor: pointer; background: none; border: none; padding: 0; font-family: 'Roboto', sans-serif; }
+.compose-type-option .q-chip { cursor: pointer; transition: box-shadow 0.12s; }
+.compose-type-option.selected .q-chip { box-shadow: 0 0 0 2px currentColor; }
+.compose-textarea {
+  width: 100%; min-height: 120px; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-family: 'Roboto', sans-serif; font-size: 14px;
+  color: var(--text-primary); background: var(--bg-base);
+  resize: vertical; box-sizing: border-box; outline: none;
+}
+.compose-textarea:focus { border-color: var(--primary-main); }
+.compose-row-2 { display: flex; gap: 12px; }
+.compose-select {
+  width: 100%; height: 36px; padding: 0 10px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-family: 'Roboto', sans-serif; font-size: 13px;
+  color: var(--text-primary); background: var(--bg-surface);
+  appearance: none; outline: none; cursor: pointer; box-sizing: border-box;
+}
+.compose-select:focus { border-color: var(--primary-main); }
+.compose-footer {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 8px; padding: 12px 20px;
+  border-top: 1px solid var(--border-light);
+}
+.btn-compose-cancel {
+  height: 32px; padding: 0 14px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-surface); color: var(--text-secondary);
+  font-size: 13px; font-family: 'Roboto', sans-serif; cursor: pointer;
+  transition: background 0.12s;
+}
+.btn-compose-cancel:hover { background: var(--bg-alt); }
+.btn-compose-submit {
+  height: 32px; padding: 0 16px; border: none;
+  border-radius: var(--radius-sm); background: var(--warning-main);
+  color: #fff; font-size: 13px; font-weight: 500;
+  font-family: 'Roboto', sans-serif; cursor: pointer;
+  transition: background 0.12s;
+}
+.btn-compose-submit:hover { background: #c94e00; }
 .empty-state-view {
   flex: 1;
   display: flex;
@@ -2470,7 +2636,81 @@ body.side-buy .buy-side-cover { display: flex; }
 
   <!-- CONTENT AREA -->
   <div class="content-area">
-    <div class="buy-side-cover">View coming soon</div>
+    <div class="buy-side-cover">
+
+      <!-- Buy Side Panel Nav -->
+      <aside class="buy-panel-nav">
+        <div class="panel-nav-top">
+          <button class="btn-new-faq" onclick="openNewQuestion()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Question
+          </button>
+        </div>
+        <div class="panel-section-label">Shortcuts</div>
+        <div class="panel-nav-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import
+        </div>
+        <div class="panel-nav-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </div>
+        <div class="panel-nav-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          Watched Items
+        </div>
+        <div class="panel-section-label">Q&amp;A</div>
+        <div class="panel-nav-item" id="buy-nav-dashboard">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </div>
+        <div class="panel-nav-item active" id="buy-nav-question-list">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Question List
+        </div>
+        <div class="panel-nav-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          Frequently Asked Questions
+        </div>
+      </aside>
+
+      <!-- Buy Side Main -->
+      <div class="buy-main">
+        <div class="buy-toolbar">
+          <button class="btn-outlined">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Import
+          </button>
+          <button class="btn-outlined">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export
+          </button>
+          <button class="btn-outlined" onclick="openNewQuestion()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Question
+          </button>
+          <div style="flex:1"></div>
+        </div>
+        <div class="buy-table-wrap">
+          <table id="buy-qa-table">
+            <thead>
+              <tr>
+                <th class="buy-col-cb"><input type="checkbox" /></th>
+                <th class="buy-col-bm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></th>
+                <th class="buy-col-flag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></th>
+                <th class="buy-col-num">Number</th>
+                <th class="buy-col-q">Questions</th>
+                <th class="buy-col-ans">Answers</th>
+                <th class="buy-col-chat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></th>
+                <th class="buy-col-status">Status</th>
+              </tr>
+            </thead>
+            <tbody id="buy-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
 
     <!-- PANEL NAV -->
     <aside class="panel-nav">
@@ -2674,7 +2914,7 @@ body.side-buy .buy-side-cover { display: flex; }
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Export
         </button>
-        <button class="btn-outlined-primary">
+        <button class="btn-outlined">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           New FAQ
         </button>
@@ -3565,6 +3805,12 @@ function goToDashboard() {
   setSubView('dashboard');
 }
 
+function goToQuestionList() {
+  ['state-empty', 'state-team-confirm', 'state-confirm', 'state-setup'].forEach(c => document.body.classList.remove(c));
+  document.body.classList.add('state-list');
+  setSubView('list');
+}
+
 function setSubView(view) {
   const isDash = view === 'dashboard';
   document.body.classList.toggle('subview-dashboard', isDash);
@@ -3854,7 +4100,174 @@ function toggleAmMember(i, btn) {
 function saveAddMembers() {
   closeAddMembersDialog();
 }
+
+/* ── BUY SIDE ───────────────────────────────────────── */
+const BUY_ROWS = [
+  { id:1, num:1, type:'doc',     question:'Can you provide the audited financials for FY 2023?',     category:'Financial', status:'in-review',  answer:null,  comments:0 },
+  { id:2, num:2, type:'clarif',  question:'Can you clarify the earn-out structure in section 4.2?',  category:'Legal',     status:'answered',   answer:'The earn-out is tied to EBITDA targets over 24 months post-close.', comments:2 },
+  { id:3, num:3, type:'access',  question:'We are unable to access the data room folder "IP Assets".', category:'Operations',status:'unanswered', answer:null, comments:0 },
+];
+
+let buyComposeType = 'general';
+let currentBuyDialogId = null;
+
+function renderBuyTable() {
+  const tbody = document.getElementById('buy-table-body');
+  if (!tbody) return;
+  tbody.innerHTML = BUY_ROWS.map(row => {
+    const meta = TYPE_META[row.type];
+    const statusHtml = row.status === 'unanswered'
+      ? '<span class="buy-status-unanswered">Unanswered</span>'
+      : row.status === 'in-review'
+      ? '<span class="buy-status-in-review">In Review</span>'
+      : '<span class="buy-status-answered">Answered</span>';
+    const answerHtml = row.answer
+      ? `<span style="color:var(--text-primary)">${row.answer.substring(0,60)}…</span>`
+      : '<span style="color:var(--text-disabled)">--</span>';
+    const chatHtml = row.comments > 0
+      ? `<span style="display:inline-flex;align-items:center;gap:3px;color:var(--text-secondary);font-size:12px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>${row.comments}</span>`
+      : '';
+    return `<tr onclick="openBuyDialog(${row.id})">
+      <td class="buy-col-cb"><input type="checkbox" onclick="event.stopPropagation()"></td>
+      <td class="buy-col-bm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></td>
+      <td class="buy-col-flag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></td>
+      <td class="buy-col-num" style="color:var(--text-secondary)">${row.num}</td>
+      <td class="buy-col-q">${row.question}</td>
+      <td class="buy-col-ans">${answerHtml}</td>
+      <td class="buy-col-chat">${chatHtml}</td>
+      <td class="buy-col-status">${statusHtml}</td>
+    </tr>`;
+  }).join('');
+}
+
+function openNewQuestion() {
+  buyComposeType = 'general';
+  document.querySelectorAll('.compose-type-option').forEach(b => {
+    b.classList.toggle('selected', b.dataset.type === 'general');
+  });
+  document.getElementById('compose-question').value = '';
+  document.getElementById('compose-category').value = '';
+  document.getElementById('compose-priority').value = 'No Priority';
+  document.getElementById('compose-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('compose-question').focus(), 50);
+}
+
+function closeNewQuestion() {
+  document.getElementById('compose-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleComposeOverlayClick(e) {
+  if (e.target === document.getElementById('compose-overlay')) closeNewQuestion();
+}
+
+function selectComposeType(btn) {
+  buyComposeType = btn.dataset.type;
+  document.querySelectorAll('.compose-type-option').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function submitNewQuestion() {
+  const q = document.getElementById('compose-question').value.trim();
+  if (!q) { document.getElementById('compose-question').focus(); return; }
+  const cat = document.getElementById('compose-category').value || 'Uncategorized';
+  const nextNum = BUY_ROWS.length + 1;
+  BUY_ROWS.push({ id: nextNum, num: nextNum, type: buyComposeType, question: q, category: cat, status: 'unanswered', answer: null, comments: 0 });
+  renderBuyTable();
+  closeNewQuestion();
+}
+
+function openBuyDialog(id) {
+  const row = BUY_ROWS.find(r => r.id === id);
+  if (!row) return;
+  currentBuyDialogId = id;
+  const meta = TYPE_META[row.type];
+
+  document.getElementById('dialog-title').textContent = `#${row.num}`;
+  document.getElementById('dialog-category-badge').textContent = row.category;
+  document.getElementById('dialog-question').textContent = row.question;
+  document.getElementById('dialog-team-name').textContent = 'Answer Team';
+
+  const typeBadge = document.getElementById('dialog-type-badge');
+  typeBadge.className = `q-chip ${meta.cls}`;
+  typeBadge.innerHTML = `<span class="q-chip-dot ${meta.dotCls}"></span>${meta.label}`;
+
+  const catSelect = document.getElementById('dialog-cat-select');
+  Array.from(catSelect.options).forEach(o => { o.selected = o.text === row.category; });
+
+  const uploadSection = document.getElementById('upload-section');
+  uploadSection.style.display = row.type === 'doc' ? 'flex' : 'none';
+  document.getElementById('upload-dropzone').classList.remove('visible');
+
+  document.getElementById('dialog-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.addEventListener('DOMContentLoaded', renderBuyTable);
 </script>
+
+<!-- NEW QUESTION COMPOSE MODAL -->
+<div class="compose-overlay" id="compose-overlay" onclick="handleComposeOverlayClick(event)">
+  <div class="compose-dialog">
+    <div class="compose-header">
+      <span class="compose-title">New Question</span>
+      <button class="dialog-close" onclick="closeNewQuestion()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="compose-body">
+      <div>
+        <div class="compose-field-label">Question Type</div>
+        <div class="compose-type-row" id="compose-type-row">
+          <button class="compose-type-option selected" data-type="general" onclick="selectComposeType(this)">
+            <span class="q-chip chip-general"><span class="q-chip-dot chip-dot-general"></span>General Question</span>
+          </button>
+          <button class="compose-type-option" data-type="doc" onclick="selectComposeType(this)">
+            <span class="q-chip chip-doc-req"><span class="q-chip-dot chip-dot-doc-req"></span>Document Request</span>
+          </button>
+          <button class="compose-type-option" data-type="access" onclick="selectComposeType(this)">
+            <span class="q-chip chip-access"><span class="q-chip-dot chip-dot-access"></span>Access / Permission Issue</span>
+          </button>
+          <button class="compose-type-option" data-type="clarif" onclick="selectComposeType(this)">
+            <span class="q-chip chip-clarif"><span class="q-chip-dot chip-dot-clarif"></span>Clarification on Document</span>
+          </button>
+        </div>
+      </div>
+      <div>
+        <div class="compose-field-label">Question</div>
+        <textarea class="compose-textarea" id="compose-question" placeholder="Ask your question here…"></textarea>
+      </div>
+      <div class="compose-row-2">
+        <div style="flex:1">
+          <div class="compose-field-label">Category</div>
+          <select class="compose-select" id="compose-category">
+            <option value="">Select category…</option>
+            <option>Financial</option>
+            <option>Commercial</option>
+            <option>Legal</option>
+            <option>HR</option>
+            <option>Operations</option>
+            <option>Tax</option>
+          </select>
+        </div>
+        <div style="flex:1">
+          <div class="compose-field-label">Priority</div>
+          <select class="compose-select" id="compose-priority">
+            <option>No Priority</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="compose-footer">
+      <button class="btn-compose-cancel" onclick="closeNewQuestion()">Cancel</button>
+      <button class="btn-compose-submit" onclick="submitNewQuestion()">Submit Question</button>
+    </div>
+  </div>
+</div>
 
 <!-- ADD/REMOVE MEMBERS DIALOG -->
 <div class="am-overlay" id="am-overlay" onclick="if(event.target===this)closeAddMembersDialog()">
@@ -3900,6 +4313,14 @@ function saveAddMembers() {
 </div>
 
 <div id="global-tooltip"></div>
+
+<!-- FAB: Go to Question List (sell side empty state only) -->
+<button class="fab-goto-list" onclick="goToQuestionList()">
+  <span style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+    <span>Go to Question List</span>
+    <span style="font-size:11px;font-weight:400;opacity:0.75;">(for prototype purposes only)</span>
+  </span>
+</button>
 
 <!-- TYPE CHANGE MENU -->
 <div class="type-menu" id="type-menu">
