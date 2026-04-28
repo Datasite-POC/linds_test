@@ -1364,7 +1364,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   font-style: normal;
 }
 .setup-card-desc {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 12px;
@@ -1471,7 +1471,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   margin-bottom: 4px;
 }
 .setup-inline-desc {
-  font-size: 13px; color: var(--text-secondary);
+  font-size: 15px; color: var(--text-secondary);
   line-height: 1.55; margin-bottom: 20px;
 }
 .setup-inline-section-divider {
@@ -1563,7 +1563,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   pointer-events: none; color: var(--text-disabled);
 }
 .team-confirm-hint {
-  font-size: 10px; color: var(--text-disabled);
+  font-size: 12px; color: var(--text-disabled);
   line-height: 1.5; margin-bottom: 36px;
 }
 .team-confirm-actions {
@@ -1571,7 +1571,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 }
 .btn-team-confirm-primary {
   width: 100%; padding: 11px 0;
-  background: var(--warning-main); color: #fff;
+  background: var(--primary-main); color: #fff;
   border: none; border-radius: var(--radius-sm);
   font-size: 14px; font-weight: 600; font-family: 'Roboto', sans-serif;
   cursor: pointer; transition: opacity 0.15s;
@@ -1586,7 +1586,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .btn-setup-primary {
   width: 100%;
   padding: 11px 0;
-  background: var(--warning-main);
+  background: var(--primary-main);
   color: #fff;
   border: none;
   border-radius: var(--radius-sm);
@@ -2189,7 +2189,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   transition: color 0.12s;
 }
 .wizard-tab:hover { color: var(--text-primary); }
-.wizard-tab.active { color: var(--warning-main); border-bottom-color: var(--warning-main); font-weight: 500; }
+.wizard-tab.active { color: var(--primary-main); border-bottom-color: var(--primary-main); font-weight: 500; }
 .tab-optional {
   font-size: 11px; font-weight: 500;
   color: var(--text-disabled);
@@ -2291,12 +2291,12 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .wiz-footer-center { flex: 1; display: flex; align-items: center; justify-content: center; }
 .wiz-steps-dots { display: flex; align-items: center; gap: 6px; }
 .wiz-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: background 0.15s; }
-.wiz-dot.active { background: var(--warning-main); width: 18px; border-radius: 3px; }
+.wiz-dot.active { background: var(--primary-main); width: 18px; border-radius: 3px; }
 .btn-wiz-next {
   display: flex; align-items: center; gap: 6px;
   height: 34px; padding: 0 20px;
   border: none; border-radius: var(--radius-sm);
-  background: var(--warning-main); color: #fff;
+  background: var(--primary-main); color: #fff;
   font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
   cursor: pointer; transition: opacity 0.12s;
 }
@@ -2848,7 +2848,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <span>Projects</span><span class="sep">›</span>
       <span>Project Orion</span><span class="sep">›</span>
       <span class="crumb-active">Q&amp;A</span>
-      <div class="side-toggle" role="group" aria-label="Side toggle">
+      <div class="side-toggle" role="group" aria-label="Side toggle" style="display:none;">
         <button class="side-toggle-btn active" id="btn-sell" onclick="setSide('sell')">Sell Side</button>
         <button class="side-toggle-btn" id="btn-buy" onclick="setSide('buy')">Buy Side</button>
       </div>
@@ -3340,95 +3340,72 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <!-- Step: Overview (Quick Setup) -->
       <div class="wizard-step" id="wstep-overview" style="flex-direction:column;overflow-y:auto;padding:40px;align-items:center;">
         <div style="width:100%;max-width:600px;">
-          <h1 class="setup-card-headline">Q&amp;A Quick Setup</h1>
+          <h1 class="setup-card-headline">Quick Q&amp;A Setup</h1>
           <p class="setup-card-desc">We've pre-configured a safe, secure setup based on Project Orion. You can start accepting questions immediately. Minimal configuration required.</p>
-          <div class="setup-card-divider"></div>
-          <div class="setup-card-section-label">What will be set up</div>
-          <div class="setup-items">
-            <div class="setup-item">
-              <div class="setup-item-bullet"></div>
-              <div><div class="setup-item-title">One answer team. One question team.</div></div>
-            </div>
-            <div class="setup-item">
-              <div class="setup-item-bullet"></div>
-              <div>
-                <div class="setup-item-title">6 default categories<span class="info-icon-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-disabled)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg><span class="info-tooltip">Default categories: Finance, General, HR, IT, Legal, Tax</span></span></div>
-              </div>
-            </div>
-            <div class="setup-item">
-              <div class="setup-item-bullet"></div>
-              <div>
-                <div class="setup-item-title">Default workflow</div>
-                <div class="setup-item-desc">Questions route directly to the answer team. To customize your workflow use Advanced Settings.</div>
-              </div>
-            </div>
-            <div class="setup-item">
-              <div class="setup-item-bullet"></div>
-              <div><div class="setup-item-title">Set question limits</div></div>
-            </div>
-          </div>
-
-          <div class="setup-card-divider" style="margin-top:16px;"></div>
 
           <!-- Who will answer -->
-          <div class="setup-inline-headline">Who will answer questions?</div>
-          <p class="setup-inline-desc" style="margin-bottom:8px;">All questions from bidder teams will be routed to this group.</p>
-          <div class="setup-inline-select-wrap" style="margin-top:8px;">
-            <span class="setup-inline-select-label">Default answer team</span>
-            <select id="wiz-answer-team-select" onchange="checkWizReady()">
-              <option value="" disabled selected>Select from role…</option>
-              <option>Legal team</option>
-              <option>Finance team</option>
-              <option>HR team</option>
-            </select>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:16px;">
+            <div class="setup-inline-headline">1. Who will answer questions?</div>
+            <p class="setup-inline-desc" style="margin-bottom:8px;">All questions from bidder teams will be routed to this group.</p>
+            <div class="setup-inline-select-wrap" style="margin-top:16px;">
+              <span class="setup-inline-select-label">Default answer team</span>
+              <select id="wiz-answer-team-select" onchange="checkWizReady()">
+                <option value="" disabled selected>Select from role…</option>
+                <option>Legal team</option>
+                <option>Finance team</option>
+                <option>HR team</option>
+              </select>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
           </div>
 
           <!-- Who will ask -->
-          <div class="setup-inline-headline" style="margin-top:16px;">Who will ask the questions?</div>
-          <p class="setup-inline-desc" style="margin-bottom:8px;">Select the bidder team that will ask questions. To add more than one team go to Advanced Settings.</p>
-          <div class="setup-inline-select-wrap" style="margin-top:8px;">
-            <span class="setup-inline-select-label">Question team</span>
-            <select id="wiz-bidder-team-select" onchange="checkWizReady()">
-              <option value="" disabled selected>Select from role…</option>
-              <option>Bidder Team A</option>
-              <option>Bidder Team B</option>
-              <option>Bidder Team C</option>
-            </select>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:16px;">
+            <div class="setup-inline-headline">2. Who will ask questions?</div>
+            <p class="setup-inline-desc" style="margin-bottom:8px;">Select the bidder team that will ask questions.<br>• To add more than one team go to the Advanced Settings tab above.</p>
+            <div class="setup-inline-select-wrap" style="margin-top:16px;">
+              <span class="setup-inline-select-label">Question team</span>
+              <select id="wiz-bidder-team-select" onchange="checkWizReady()">
+                <option value="" disabled selected>Select from role…</option>
+                <option>Bidder Team A</option>
+                <option>Bidder Team B</option>
+                <option>Bidder Team C</option>
+              </select>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+            <p class="team-confirm-hint" style="margin-top:8px;margin-bottom:0;">Each bidder team will see only their own questions and answers.</p>
           </div>
-          <p class="team-confirm-hint" style="margin-bottom:16px;">Each bidder team will see only their own questions and answers.</p>
 
           <!-- Question limits -->
-          <div class="setup-inline-headline" style="margin-top:8px;">Set question limits</div>
-          <p class="setup-inline-desc" style="margin-bottom:12px;">Set a limit on the number of questions this team can ask and mark as priority.</p>
-          <div style="display:flex;gap:16px;width:100%;margin-bottom:6px;">
-            <div style="flex:2;">
-              <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Total questions</div>
-              <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
-                <input id="wiz-ql-total" type="number" value="100" min="1" oninput="calcWizStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:24px;">
+            <div class="setup-inline-headline">3. Set question limits</div>
+            <p class="setup-inline-desc" style="margin-bottom:12px;">Set a limit on the number of questions this team can ask and mark as priority.</p>
+            <div style="display:flex;gap:16px;width:100%;margin-bottom:6px;">
+              <div style="flex:2;">
+                <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Total Questions</div>
+                <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
+                  <input id="wiz-ql-total" type="number" value="100" min="1" oninput="calcWizStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
+                </div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">High Priority</div>
+                <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
+                  <input id="wiz-ql-priority" type="number" value="0" min="0" oninput="calcWizStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
+                </div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">No Priority</div>
+                <div style="border-bottom:1px solid var(--border);padding-bottom:4px;">
+                  <input id="wiz-ql-standard" type="number" value="100" readonly style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-secondary);font-family:'Roboto',sans-serif;background:transparent;padding:0;cursor:default;">
+                </div>
               </div>
             </div>
-            <div style="flex:1;">
-              <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Priority</div>
-              <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
-                <input id="wiz-ql-priority" type="number" value="10" min="0" oninput="calcWizStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
-              </div>
-            </div>
-            <div style="flex:1;">
-              <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Standard</div>
-              <div style="border-bottom:1px solid var(--border);padding-bottom:4px;">
-                <input id="wiz-ql-standard" type="number" value="90" readonly style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-secondary);font-family:'Roboto',sans-serif;background:transparent;padding:0;cursor:default;">
-              </div>
-            </div>
+            <p class="team-confirm-hint" style="margin-top:6px;margin-bottom:0;">The field for questions with no priority is automatically calculated.</p>
           </div>
-          <p class="team-confirm-hint" style="margin-bottom:24px;">Standard is calculated automatically</p>
 
-          <div style="display:flex;gap:16px;width:100%;">
-            <button class="btn-setup-outlined" onclick="showWizardStep('teams')" style="flex:1;color:var(--text-secondary);">Set Up with Advanced Settings</button>
-            <button id="wiz-btn-confirm-launch" class="btn-setup-primary" onclick="closeWizard(); activateQA();" style="flex:1;" disabled>Review Setup</button>
+          <div style="display:flex;justify-content:flex-end;width:100%;">
+            <button id="wiz-btn-confirm-launch" class="btn-setup-primary" onclick="closeWizard(); activateQA();" style="width:auto;padding:11px 28px;" disabled>Review Setup</button>
           </div>
-          <p class="team-confirm-hint" style="margin-top:4px;margin-bottom:0;">Use Advanced Settings to set up custom workflows, per-team question limits, update categories and more.</p>
         </div>
       </div>
 
