@@ -284,14 +284,15 @@ html, body {
   align-items: center;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  overflow: hidden;
   flex-shrink: 0;
   height: 32px;
   margin-left: var(--space-2);
+  gap: 8px;
+  padding: 0 2px;
 }
 .side-toggle-btn {
   padding: 0 12px;
-  height: 100%;
+  height: calc(100% - 4px);
   font-size: 12px;
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
@@ -301,6 +302,7 @@ html, body {
   background: transparent;
   color: var(--text-secondary);
   transition: background 0.15s, color 0.15s;
+  border-radius: calc(var(--radius-sm) - 1px);
 }
 .side-toggle-btn.active { background: var(--grey-400); color: #fff; }
 .side-toggle-btn:not(.active):hover { background: var(--bg-alt); color: var(--text-primary); }
@@ -2965,13 +2967,38 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                     </select>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                   </div>
-                  <p class="team-confirm-hint" style="margin-bottom:24px;">Each bidder team will see only their own questions and answers.</p>
+                  <p class="team-confirm-hint" style="margin-bottom:16px;">Each bidder team will see only their own questions and answers.</p>
 
-                  <div style="display:flex;gap:4px;width:100%;">
+                  <!-- Question limits section -->
+                  <div class="setup-inline-headline" style="margin-top:8px;">Set question limits</div>
+                  <p class="setup-inline-desc" style="margin-bottom:12px;">Set a limit on the number of questions this team can ask and mark as priority.</p>
+                  <div style="display:flex;gap:16px;width:100%;margin-bottom:6px;">
+                    <div style="flex:2;">
+                      <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Total questions</div>
+                      <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
+                        <input id="ql-total" type="number" value="100" min="1" oninput="calcStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
+                      </div>
+                    </div>
+                    <div style="flex:1;">
+                      <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Priority</div>
+                      <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
+                        <input id="ql-priority" type="number" value="10" min="0" oninput="calcStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
+                      </div>
+                    </div>
+                    <div style="flex:1;">
+                      <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Standard</div>
+                      <div style="border-bottom:1px solid var(--border);padding-bottom:4px;">
+                        <input id="ql-standard" type="number" value="90" readonly style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-secondary);font-family:'Roboto',sans-serif;background:transparent;padding:0;cursor:default;">
+                      </div>
+                    </div>
+                  </div>
+                  <p class="team-confirm-hint" style="margin-bottom:24px;">Standard is calculated automatically</p>
+
+                  <div style="display:flex;gap:16px;width:100%;">
                     <button class="btn-setup-outlined" onclick="openWizard()" style="flex:1;color:var(--text-secondary);">Set Up with Advanced Settings</button>
                     <button id="btn-confirm-launch" class="btn-setup-primary" onclick="activateQA()" style="flex:1;" disabled>Review Setup</button>
                   </div>
-                  <p class="team-confirm-hint" style="margin-top:4px;margin-bottom:0;">Use Enhanced Settings to setup customized workflow routing, per-team question limits, updated categories and more. This can also be done after the quick setup.</p>
+                  <p class="team-confirm-hint" style="margin-top:4px;margin-bottom:0;">Use Advanced Settings to set up custom workflows, per-team question limits, update categories and more.</p>
                 </div>
               </div>
             </div>
@@ -3984,6 +4011,11 @@ function checkConfirmReady() {
   const answerTeam = document.getElementById('answer-team-select').value;
   const bidderTeam = document.getElementById('bidder-team-select').value;
   document.getElementById('btn-confirm-launch').disabled = !(answerTeam && bidderTeam);
+}
+function calcStandard() {
+  const total = parseInt(document.getElementById('ql-total').value) || 0;
+  const priority = parseInt(document.getElementById('ql-priority').value) || 0;
+  document.getElementById('ql-standard').value = Math.max(0, total - priority);
 }
 function goToTeamConfirm() {
   document.getElementById('setup-cta-buttons').style.display = 'none';
