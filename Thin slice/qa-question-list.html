@@ -1302,7 +1302,43 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
+.info-icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.info-icon-wrap svg { display: block; }
+.info-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  z-index: 100;
+}
+.info-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--text-primary);
+}
+.info-icon-wrap:hover .info-tooltip { display: block; }
 .setup-item-desc {
   font-size: 13px;
   color: var(--text-secondary);
@@ -2875,7 +2911,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <div class="setup-item">
                 <div class="setup-item-bullet"></div>
                 <div>
-                  <div class="setup-item-title">6 default categories</div>
+                  <div class="setup-item-title">6 default categories<span class="info-icon-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-disabled)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg><span class="info-tooltip">Default categories: Finance, General, HR, IT, Legal, Tax</span></span></div>
                                   </div>
               </div>
               <div class="setup-item">
