@@ -1047,10 +1047,108 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-base);
+  background: var(--bg-surface);
   padding: 40px 24px;
   overflow: auto;
 }
+/* ── Q&A SPLASH (empty state replacement) ────────────── */
+.qs-splash {
+  padding: 56px 64px;
+  max-width: 1075px;
+  width: 100%;
+}
+.qs-splash-headline {
+  font-size: 2.125rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.235;
+  letter-spacing: 0.00735em;
+  margin-bottom: 40px;
+}
+.qs-splash-body {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+.qs-splash-video {
+  flex: 0 0 300px;
+}
+.qs-video-thumb {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #ffffff;
+  aspect-ratio: 16/10;
+  position: relative;
+}
+.qs-video-label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  background: rgba(50, 50, 50, 0.88);
+  color: #F5C842;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 14px 24px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.qs-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #D4871A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+}
+.qs-splash-features {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.qs-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.qs-feature-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--warning-main);
+  margin-top: 1px;
+}
+.qs-feature-text {
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+.btn-setup-qa {
+  margin-top: 8px;
+  padding: 10px 28px;
+  background: var(--success-main);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.btn-setup-qa:hover { background: #116b23; }
+
 .confirm-view {
   flex: 1;
   display: flex;
@@ -2064,7 +2162,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   background: var(--bg-surface);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
-  border-top: 4px solid var(--warning-main);
   box-shadow: 0 1px 6px rgba(31,34,39,0.08);
   display: flex; flex-direction: column; overflow: hidden;
 }
@@ -2084,7 +2181,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .wizard-tab {
   height: 100%; padding: 0 14px;
   display: flex; align-items: center;
-  font-size: 13px; color: var(--text-secondary);
+  font-size: 15px; color: var(--text-secondary);
   border: none; background: none; cursor: pointer;
   font-family: 'Roboto', sans-serif;
   border-bottom: 2px solid transparent;
@@ -2896,111 +2993,35 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <!-- EMPTY STATE -->
       <div class="empty-state-view">
         <div class="buy-coming-soon">View coming soon</div>
-        <div class="setup-card">
-
-          <div class="setup-card-body">
-            <h1 class="setup-card-headline">Q&amp;A Quick Setup</h1>
-            <p class="setup-card-desc">We've pre-configured a safe, secure setup based on Project Orion. You can start accepting questions immediately. Minimal configuration required.</p>
-            <div class="setup-card-divider"></div>
-            <div class="setup-card-section-label">What will be set up</div>
-            <div class="setup-items">
-              <div class="setup-item">
-                <div class="setup-item-bullet"></div>
-                <div>
-                  <div class="setup-item-title">One answer team. One question team.</div>
-                </div>
-              </div>
-              <div class="setup-item">
-                <div class="setup-item-bullet"></div>
-                <div>
-                  <div class="setup-item-title">6 default categories<span class="info-icon-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-disabled)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg><span class="info-tooltip">Default categories: Finance, General, HR, IT, Legal, Tax</span></span></div>
-                                  </div>
-              </div>
-              <div class="setup-item">
-                <div class="setup-item-bullet"></div>
-                <div>
-                  <div class="setup-item-title">Default workflow</div>
-                  <div class="setup-item-desc">Questions route directly to the answer team. To customize your workflow use Advanced Settings.</div>
-                </div>
-              </div>
-              <div class="setup-item">
-                <div class="setup-item-bullet"></div>
-                <div>
-                  <div class="setup-item-title">Set question limits</div>
+        <div class="qs-splash">
+          <h1 class="qs-splash-headline">Work smarter and communicate at scale with Q&amp;A for Datasite</h1>
+          <div class="qs-splash-body">
+            <div class="qs-splash-video">
+              <div class="qs-video-thumb">
+                <div class="qs-video-label">Q&amp;A for Datasite</div>
+                <div class="qs-video-play">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
                 </div>
               </div>
             </div>
-            <div class="setup-card-cta">
-              <div id="setup-cta-buttons">
-                <div style="display:inline-flex;flex-direction:column;gap:6px;">
-                  <button class="btn-setup-primary" onclick="goToTeamConfirm()" style="width:240px;padding:11px 22px;align-self:center;">Q&amp;A Quick Setup</button>
-                  <div style="height:1px;background:var(--border-light);width:100%;margin:2px 0;"></div>
-                  <p class="setup-path-hint" style="margin:16px 0 0;color:var(--text-secondary);font-size:12px;">Use Advanced Settings to set up custom workflows, per-team question limits, update categories and more.</p>
-                  <button class="btn-setup-outlined" onclick="openWizard()" style="padding:8px 22px;font-size:14px;color:var(--text-secondary);align-self:center;">Set Up with Advanced Settings</button>
-                </div>
+            <div class="qs-splash-features">
+              <div class="qs-feature-item">
+                <svg class="qs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span class="qs-feature-text">Track all questions and answers in one place</span>
               </div>
-              <div id="setup-inline-confirm" style="display:none; width:100%; display:none; flex-direction:column; gap:0;">
-                <div class="setup-inline-divider"></div>
-                <div class="setup-inline-body">
-
-                  <div class="setup-inline-headline">Who will answer questions?</div>
-                  <p class="setup-inline-desc" style="margin-bottom:8px;">All questions from bidder teams will be routed to this group.</p>
-                  <div class="setup-inline-select-wrap" style="margin-top:8px;">
-                    <span class="setup-inline-select-label">Default answer team</span>
-                    <select id="answer-team-select" onchange="checkConfirmReady()">
-                      <option value="" disabled selected>Select from role…</option>
-                      <option>Legal team</option>
-                      <option>Finance team</option>
-                      <option>HR team</option>
-                    </select>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                  </div>
-                  <div class="setup-inline-headline" style="margin-top:16px;">Who will ask the questions?</div>
-                  <p class="setup-inline-desc" style="margin-bottom:8px;">Select the bidder team that will ask questions. To add more than one team go to Advanced Settings.</p>
-                  <div class="setup-inline-select-wrap" style="margin-top:8px;">
-                    <span class="setup-inline-select-label">Question team</span>
-                    <select id="bidder-team-select" onchange="checkConfirmReady()">
-                      <option value="" disabled selected>Select from role…</option>
-                      <option>Bidder Team A</option>
-                      <option>Bidder Team B</option>
-                      <option>Bidder Team C</option>
-                    </select>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                  </div>
-                  <p class="team-confirm-hint" style="margin-bottom:16px;">Each bidder team will see only their own questions and answers.</p>
-
-                  <!-- Question limits section -->
-                  <div class="setup-inline-headline" style="margin-top:8px;">Set question limits</div>
-                  <p class="setup-inline-desc" style="margin-bottom:12px;">Set a limit on the number of questions this team can ask and mark as priority.</p>
-                  <div style="display:flex;gap:16px;width:100%;margin-bottom:6px;">
-                    <div style="flex:2;">
-                      <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Total questions</div>
-                      <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
-                        <input id="ql-total" type="number" value="100" min="1" oninput="calcStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
-                      </div>
-                    </div>
-                    <div style="flex:1;">
-                      <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Priority</div>
-                      <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
-                        <input id="ql-priority" type="number" value="10" min="0" oninput="calcStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
-                      </div>
-                    </div>
-                    <div style="flex:1;">
-                      <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Standard</div>
-                      <div style="border-bottom:1px solid var(--border);padding-bottom:4px;">
-                        <input id="ql-standard" type="number" value="90" readonly style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-secondary);font-family:'Roboto',sans-serif;background:transparent;padding:0;cursor:default;">
-                      </div>
-                    </div>
-                  </div>
-                  <p class="team-confirm-hint" style="margin-bottom:24px;">Standard is calculated automatically</p>
-
-                  <div style="display:flex;gap:16px;width:100%;">
-                    <button class="btn-setup-outlined" onclick="openWizard()" style="flex:1;color:var(--text-secondary);">Set Up with Advanced Settings</button>
-                    <button id="btn-confirm-launch" class="btn-setup-primary" onclick="activateQA()" style="flex:1;" disabled>Review Setup</button>
-                  </div>
-                  <p class="team-confirm-hint" style="margin-top:4px;margin-bottom:0;">Use Advanced Settings to set up custom workflows, per-team question limits, update categories and more.</p>
-                </div>
+              <div class="qs-feature-item">
+                <svg class="qs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                <span class="qs-feature-text">Import question lists quickly and easily</span>
               </div>
+              <div class="qs-feature-item">
+                <svg class="qs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                <span class="qs-feature-text">Direct questions and answers using custom workflows</span>
+              </div>
+              <div class="qs-feature-item">
+                <svg class="qs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                <span class="qs-feature-text">Restrict visibility with category-based routing</span>
+              </div>
+              <button class="btn-setup-qa" onclick="openWizard()">Set Up Q&amp;A</button>
             </div>
           </div>
         </div>
@@ -3291,42 +3312,178 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 
     <!-- Header -->
     <div class="wizard-header">
-      <span class="wizard-title">Advanced Setup</span>
       <div class="wizard-tabs">
-        <button class="wizard-tab active" id="wtab-teams" onclick="showWizardStep('teams')">Q&amp;A Teams</button>
-        <button class="wizard-tab" id="wtab-categories" onclick="showWizardStep('categories')">Categories</button>
-        <button class="wizard-tab" id="wtab-workflow" onclick="showWizardStep('workflow')">Workflows</button>
+        <button class="wizard-tab" id="wtab-overview" onclick="showWizardStep('overview')">Quick Setup</button>
+        <button class="wizard-tab" id="wtab-teams" onclick="showWizardStep('teams')">Advanced Settings</button>
       </div>
       <div class="wizard-header-right">
         <span class="badge-not-launched">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Q&amp;A Not Launched
         </span>
-        <button class="wizard-close" onclick="closeWizard()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-        </button>
+      </div>
+    </div>
+
+    <!-- Sub-header -->
+    <div class="wizard-header" id="wizard-sub-header" style="border-top:none;">
+      <div class="wizard-tabs">
+        <button class="wizard-tab" id="sub-overview" onclick="showWizardStep('teams')">Overview</button>
+        <button class="wizard-tab" id="sub-teams" onclick="showWizardStep('adv-teams')">Q&amp;A Teams</button>
+        <button class="wizard-tab" id="sub-categories" onclick="showWizardStep('categories')">Categories</button>
+        <button class="wizard-tab" id="sub-workflow" onclick="showWizardStep('workflow')">Workflow</button>
       </div>
     </div>
 
     <!-- Body -->
     <div class="wizard-body">
 
-      <!-- Step: Q&A Teams -->
-      <div class="wizard-step" id="wstep-teams">
+      <!-- Step: Overview (Quick Setup) -->
+      <div class="wizard-step" id="wstep-overview" style="flex-direction:column;overflow-y:auto;padding:40px;align-items:center;">
+        <div style="width:100%;max-width:600px;">
+          <h1 class="setup-card-headline">Q&amp;A Quick Setup</h1>
+          <p class="setup-card-desc">We've pre-configured a safe, secure setup based on Project Orion. You can start accepting questions immediately. Minimal configuration required.</p>
+          <div class="setup-card-divider"></div>
+          <div class="setup-card-section-label">What will be set up</div>
+          <div class="setup-items">
+            <div class="setup-item">
+              <div class="setup-item-bullet"></div>
+              <div><div class="setup-item-title">One answer team. One question team.</div></div>
+            </div>
+            <div class="setup-item">
+              <div class="setup-item-bullet"></div>
+              <div>
+                <div class="setup-item-title">6 default categories<span class="info-icon-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-disabled)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg><span class="info-tooltip">Default categories: Finance, General, HR, IT, Legal, Tax</span></span></div>
+              </div>
+            </div>
+            <div class="setup-item">
+              <div class="setup-item-bullet"></div>
+              <div>
+                <div class="setup-item-title">Default workflow</div>
+                <div class="setup-item-desc">Questions route directly to the answer team. To customize your workflow use Advanced Settings.</div>
+              </div>
+            </div>
+            <div class="setup-item">
+              <div class="setup-item-bullet"></div>
+              <div><div class="setup-item-title">Set question limits</div></div>
+            </div>
+          </div>
+
+          <div class="setup-card-divider" style="margin-top:16px;"></div>
+
+          <!-- Who will answer -->
+          <div class="setup-inline-headline">Who will answer questions?</div>
+          <p class="setup-inline-desc" style="margin-bottom:8px;">All questions from bidder teams will be routed to this group.</p>
+          <div class="setup-inline-select-wrap" style="margin-top:8px;">
+            <span class="setup-inline-select-label">Default answer team</span>
+            <select id="wiz-answer-team-select" onchange="checkWizReady()">
+              <option value="" disabled selected>Select from role…</option>
+              <option>Legal team</option>
+              <option>Finance team</option>
+              <option>HR team</option>
+            </select>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+
+          <!-- Who will ask -->
+          <div class="setup-inline-headline" style="margin-top:16px;">Who will ask the questions?</div>
+          <p class="setup-inline-desc" style="margin-bottom:8px;">Select the bidder team that will ask questions. To add more than one team go to Advanced Settings.</p>
+          <div class="setup-inline-select-wrap" style="margin-top:8px;">
+            <span class="setup-inline-select-label">Question team</span>
+            <select id="wiz-bidder-team-select" onchange="checkWizReady()">
+              <option value="" disabled selected>Select from role…</option>
+              <option>Bidder Team A</option>
+              <option>Bidder Team B</option>
+              <option>Bidder Team C</option>
+            </select>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <p class="team-confirm-hint" style="margin-bottom:16px;">Each bidder team will see only their own questions and answers.</p>
+
+          <!-- Question limits -->
+          <div class="setup-inline-headline" style="margin-top:8px;">Set question limits</div>
+          <p class="setup-inline-desc" style="margin-bottom:12px;">Set a limit on the number of questions this team can ask and mark as priority.</p>
+          <div style="display:flex;gap:16px;width:100%;margin-bottom:6px;">
+            <div style="flex:2;">
+              <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Total questions</div>
+              <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
+                <input id="wiz-ql-total" type="number" value="100" min="1" oninput="calcWizStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
+              </div>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Priority</div>
+              <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
+                <input id="wiz-ql-priority" type="number" value="10" min="0" oninput="calcWizStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
+              </div>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Standard</div>
+              <div style="border-bottom:1px solid var(--border);padding-bottom:4px;">
+                <input id="wiz-ql-standard" type="number" value="90" readonly style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-secondary);font-family:'Roboto',sans-serif;background:transparent;padding:0;cursor:default;">
+              </div>
+            </div>
+          </div>
+          <p class="team-confirm-hint" style="margin-bottom:24px;">Standard is calculated automatically</p>
+
+          <div style="display:flex;gap:16px;width:100%;">
+            <button class="btn-setup-outlined" onclick="showWizardStep('teams')" style="flex:1;color:var(--text-secondary);">Set Up with Advanced Settings</button>
+            <button id="wiz-btn-confirm-launch" class="btn-setup-primary" onclick="closeWizard(); activateQA();" style="flex:1;" disabled>Review Setup</button>
+          </div>
+          <p class="team-confirm-hint" style="margin-top:4px;margin-bottom:0;">Use Advanced Settings to set up custom workflows, per-team question limits, update categories and more.</p>
+        </div>
+      </div>
+
+      <!-- Step: Q&A Teams (Advanced Settings) -->
+      <div class="wizard-step" id="wstep-teams" style="flex-direction:column;overflow-y:auto;padding:32px 40px;gap:24px;">
+
+        <h1 class="setup-card-headline">Advanced Q&amp;A Settings</h1>
+
+        <!-- Top card: video + setup -->
+        <div style="display:flex;gap:0;border:1px solid var(--border-light);border-radius:var(--radius-md);overflow:hidden;background:var(--bg-surface);">
+
+          <!-- Video thumbnail -->
+          <div style="flex:3;background:#2b2d31;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;gap:16px;min-height:220px;">
+            <div style="font-size:15px;font-weight:400;color:#c8cad0;text-align:center;line-height:1.5;">How to set up the Q&amp;A tool</div>
+            <div style="font-size:32px;font-weight:700;color:#fff;text-align:center;line-height:1.2;"><span style="color:#E8A84C;">4 easy</span> steps</div>
+            <div style="width:56px;height:56px;background:#E8A84C;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-top:4px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+
+          <!-- Setup panel -->
+          <div style="flex:2;padding:28px 28px 24px;display:flex;flex-direction:column;border-left:1px solid var(--border-light);">
+            <button onclick="showWizardStep('overview')" style="height:38px;padding:0 20px;background:var(--primary-main);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:500;font-family:'Roboto',sans-serif;cursor:pointer;align-self:flex-start;margin-bottom:20px;">Start Q&amp;A Setup</button>
+            <div style="height:1px;background:var(--border-light);margin-bottom:16px;"></div>
+            <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:12px;">Complete these steps to launch Q&amp;A:</div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+              <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--primary-main);cursor:pointer;">
+                <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid var(--primary-main);flex-shrink:0;"></div>
+                Add answer team members
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--primary-main);cursor:pointer;">
+                <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid var(--primary-main);flex-shrink:0;"></div>
+                Add question team members
+              </label>
+            </div>
+            <button disabled style="height:34px;padding:0 16px;background:var(--border-light);color:var(--text-disabled);border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:500;font-family:'Roboto',sans-serif;cursor:not-allowed;align-self:flex-start;">Launch Q&amp;A</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Step: Q&A Teams (Advanced Settings sub-tab) -->
+      <div class="wizard-step" id="wstep-adv-teams">
         <div class="wizard-left">
           <div class="wizard-left-head">
             <div class="wizard-left-title">Q&amp;A Teams</div>
           </div>
-
           <div class="wiz-team-item active">Answer Team</div>
-          <div class="wiz-team-item" style="color:#4E4E4D;font-weight:400;">Question Team</div>
+          <div class="wiz-team-item" style="color:var(--text-secondary);font-weight:400;">Question Team</div>
           <div class="wiz-add-team-link">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
             Add Question Team
           </div>
         </div>
         <div class="wizard-main">
-
           <div class="wiz-section-row">
             <div class="wiz-section-title">Answer Team</div>
           </div>
@@ -3347,11 +3504,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                 <div class="members-table-cell">Project Admin</div>
                 <div class="members-table-cell">Datasite</div>
                 <div class="members-table-cell" style="color:var(--text-secondary);">daniel.samuels@datasite.com</div>
-                <div class="members-table-cell">
-                  <span class="member-status-badge">
-                    <span class="member-status-dot"></span>Active
-                  </span>
-                </div>
+                <div class="members-table-cell"><span class="member-status-badge"><span class="member-status-dot"></span>Active</span></div>
               </div>
               <div class="members-table-row">
                 <div class="members-table-cell member-name-cell">
@@ -3361,13 +3514,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                 <div class="members-table-cell">Analyst</div>
                 <div class="members-table-cell">Datasite</div>
                 <div class="members-table-cell" style="color:var(--text-secondary);">rachel.park@datasite.com</div>
-                <div class="members-table-cell">
-                  <div class="status-tooltip-wrap" data-tip="Pending registration — notifications and Q&A access are paused until this person registers.">
-                    <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);">
-                      <span class="member-status-dot" style="background:#D97706;"></span>Invited
-                    </span>
-                  </div>
-                </div>
+                <div class="members-table-cell"><span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span></div>
               </div>
             </div>
             <div class="members-add-link" onclick="openAddMembersDialog()">
@@ -4017,6 +4164,16 @@ function calcStandard() {
   const priority = parseInt(document.getElementById('ql-priority').value) || 0;
   document.getElementById('ql-standard').value = Math.max(0, total - priority);
 }
+function checkWizReady() {
+  const a = document.getElementById('wiz-answer-team-select').value;
+  const b = document.getElementById('wiz-bidder-team-select').value;
+  document.getElementById('wiz-btn-confirm-launch').disabled = !(a && b);
+}
+function calcWizStandard() {
+  const total = parseInt(document.getElementById('wiz-ql-total').value) || 0;
+  const priority = parseInt(document.getElementById('wiz-ql-priority').value) || 0;
+  document.getElementById('wiz-ql-standard').value = Math.max(0, total - priority);
+}
 function goToTeamConfirm() {
   document.getElementById('setup-cta-buttons').style.display = 'none';
   const el = document.getElementById('setup-inline-confirm');
@@ -4136,11 +4293,11 @@ function setSide(side) {
 }
 
 /* ── WIZARD ─────────────────────────────────────────── */
-const WIZARD_STEPS = ['teams', 'categories', 'workflow', 'alt-workflow'];
+const WIZARD_STEPS = ['overview', 'teams', 'adv-teams', 'categories', 'workflow', 'alt-workflow'];
 let wizardStep = 'teams';
 
 function openWizard() {
-  wizardStep = 'teams';
+  wizardStep = 'overview';
   _applyWizardStep();
   document.getElementById('wizard-overlay').classList.add('open');
   document.body.classList.remove('state-empty');
@@ -4183,22 +4340,43 @@ const idx = WIZARD_STEPS.indexOf(wizardStep);
 
 function _applyWizardStep() {
   const idx = WIZARD_STEPS.indexOf(wizardStep);
-  WIZARD_STEPS.forEach((s, i) => {
+  // Show/hide step panels
+  WIZARD_STEPS.forEach(s => {
     document.getElementById(`wstep-${s}`).classList.toggle('active', s === wizardStep);
-    const tab = document.getElementById(`wtab-${s}`);
-    if (tab) tab.classList.toggle('active', s === wizardStep);
-    const dot = document.getElementById(`wdot-${i}`);
-    if (dot) dot.classList.toggle('active', i === idx);
+    const dot = document.getElementById(`wdot-${WIZARD_STEPS.indexOf(s)}`);
+    if (dot) dot.classList.toggle('active', s === wizardStep);
   });
-  const backBtn = document.getElementById('wiz-back');
-  const nextBtn = document.getElementById('wiz-next');
-  backBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
-  const isLast = idx === WIZARD_STEPS.length - 1;
-  const showLaunchText = wizardStep === 'workflow' || isLast;
-  nextBtn.innerHTML = showLaunchText
-    ? 'Launch Q&A <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
-    : 'Next <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
-  nextBtn.style.background = isLast ? 'var(--success-main)' : 'var(--warning-main)';
+
+  // Row 1: Quick Setup vs Advanced Settings
+  const isQuickSetup = wizardStep === 'overview';
+  document.getElementById('wtab-overview').classList.toggle('active', isQuickSetup);
+  document.getElementById('wtab-teams').classList.toggle('active', !isQuickSetup);
+  document.getElementById('wizard-sub-header').style.display = isQuickSetup ? 'none' : '';
+
+  // Row 2: sub-tabs (only relevant when Advanced Settings is active)
+  const subOverview    = document.getElementById('sub-overview');
+  const subTeams       = document.getElementById('sub-teams');
+  const subCategories  = document.getElementById('sub-categories');
+  const subWorkflow    = document.getElementById('sub-workflow');
+  if (subOverview)   subOverview.classList.toggle('active',   !isQuickSetup && wizardStep === 'teams');
+  if (subTeams)      subTeams.classList.toggle('active',      wizardStep === 'adv-teams');
+  if (subCategories) subCategories.classList.toggle('active', wizardStep === 'categories');
+  if (subWorkflow)   subWorkflow.classList.toggle('active',   wizardStep === 'workflow' || wizardStep === 'alt-workflow');
+
+  // Footer
+  const footer = document.querySelector('.wizard-footer');
+  footer.style.display = (wizardStep === 'overview' || wizardStep === 'teams') ? 'none' : '';
+  if (footer.style.display !== 'none') {
+    const backBtn = document.getElementById('wiz-back');
+    const nextBtn = document.getElementById('wiz-next');
+    backBtn.style.visibility = idx <= 2 ? 'hidden' : 'visible';
+    const isLast = idx === WIZARD_STEPS.length - 1;
+    const showLaunchText = wizardStep === 'workflow' || isLast;
+    nextBtn.innerHTML = showLaunchText
+      ? 'Launch Q&A <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+      : 'Next <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
+    nextBtn.style.background = isLast ? 'var(--success-main)' : 'var(--warning-main)';
+  }
 }
 
 /* ── TYPE CHANGE MENU ────────────────────────────────── */
