@@ -1221,7 +1221,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   background: var(--bg-surface);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
-  width: 560px;
+  width: 700px;
   box-shadow: 0 1px 4px rgba(31,34,39,0.06);
   display: flex;
   flex-direction: column;
@@ -1286,7 +1286,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .setup-item { display: flex; gap: 12px; align-items: flex-start; }
 .setup-item-bullet {
@@ -2862,45 +2862,37 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 
           <div class="setup-card-body">
             <h1 class="setup-card-headline">Q&amp;A Quick Setup</h1>
-            <p class="setup-card-desc">We've pre-configured a safe, secure setup based on Project Orion. You can start accepting questions immediately. No configuration required.</p>
+            <p class="setup-card-desc">We've pre-configured a safe, secure setup based on Project Orion. You can start accepting questions immediately. Minimal configuration required.</p>
             <div class="setup-card-divider"></div>
             <div class="setup-card-section-label">What will be set up</div>
             <div class="setup-items">
               <div class="setup-item">
                 <div class="setup-item-bullet"></div>
                 <div>
-                  <div class="setup-item-title">1 bidder team.</div>
-                </div>
-              </div>
-              <div class="setup-item">
-                <div class="setup-item-bullet"></div>
-                <div>
-                  <div class="setup-item-title">1 default answer group</div>
-                  <div class="setup-item-desc">All questions route to your team.</div>
+                  <div class="setup-item-title">One answer team. One question team.</div>
                 </div>
               </div>
               <div class="setup-item">
                 <div class="setup-item-bullet"></div>
                 <div>
                   <div class="setup-item-title">6 default categories</div>
-                  <div class="setup-item-desc">Add, modify or delete categories after setup to fit your deal.</div>
-                </div>
+                                  </div>
               </div>
               <div class="setup-item">
                 <div class="setup-item-bullet"></div>
                 <div>
-                  <div class="setup-item-title">Default Workflow</div>
-                  <div class="setup-item-desc">Questions routed directly to the answer team automatically.</div>
+                  <div class="setup-item-title">Default workflow</div>
+                  <div class="setup-item-desc">Questions route directly to the answer team. To customize your workflow use Advanced Settings.</div>
                 </div>
               </div>
             </div>
             <div class="setup-card-cta">
               <div id="setup-cta-buttons">
-                <button class="btn-setup-primary" onclick="goToTeamConfirm()">Q&amp;A Quick Setup</button>
-                <div style="height:1px;background:var(--border-light);width:100%;"></div>
-                <div style="display:flex;flex-direction:column;gap:6px;width:100%;align-items:center;">
-                  <p class="setup-path-hint" style="margin:0;color:var(--text-secondary);font-size:12px;">Use Enhanced Settings to setup customized workflow routing, per-team question limits, updated categories and more. This can also be done after the quick setup.</p>
-                  <button class="btn-setup-outlined" onclick="openWizard()" style="padding:8px 22px;font-size:14px;color:var(--text-secondary);">Setup with Enhanced Settings</button>
+                <div style="display:inline-flex;flex-direction:column;gap:6px;">
+                  <button class="btn-setup-primary" onclick="goToTeamConfirm()" style="width:240px;padding:11px 22px;align-self:center;">Q&amp;A Quick Setup</button>
+                  <div style="height:1px;background:var(--border-light);width:100%;margin:2px 0;"></div>
+                  <p class="setup-path-hint" style="margin:16px 0 0;color:var(--text-secondary);font-size:12px;">Use Advanced Settings to set up custom workflows, per-team question limits, update categories and more.</p>
+                  <button class="btn-setup-outlined" onclick="openWizard()" style="padding:8px 22px;font-size:14px;color:var(--text-secondary);align-self:center;">Set Up with Advanced Settings</button>
                 </div>
               </div>
               <div id="setup-inline-confirm" style="display:none; width:100%; display:none; flex-direction:column; gap:0;">
@@ -2908,11 +2900,11 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                 <div class="setup-inline-body">
 
                   <div class="setup-inline-headline">Who will answer questions?</div>
-                  <p class="setup-inline-desc" style="margin-bottom:8px;">All questions from bidder teams will be routed to this group. You can add workstreams and routing rules after launch.</p>
+                  <p class="setup-inline-desc" style="margin-bottom:8px;">All questions from bidder teams will be routed to this group.</p>
                   <div class="setup-inline-select-wrap" style="margin-top:8px;">
                     <span class="setup-inline-select-label">Default answer team</span>
                     <select id="answer-team-select" onchange="checkConfirmReady()">
-                      <option value="" disabled selected>Select a team…</option>
+                      <option value="" disabled selected>Select from role…</option>
                       <option>Legal team</option>
                       <option>Finance team</option>
                       <option>HR team</option>
@@ -2920,11 +2912,11 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                   </div>
                   <div class="setup-inline-headline" style="margin-top:16px;">Who will ask the questions?</div>
-                  <p class="setup-inline-desc" style="margin-bottom:8px;">Select which bidder team will have access to submit questions. If there is more than one bidder team, use the enhanced settings to add more teams now or after quick setup.</p>
+                  <p class="setup-inline-desc" style="margin-bottom:8px;">Select the bidder team that will ask questions. To add more than one team go to Advanced Settings.</p>
                   <div class="setup-inline-select-wrap" style="margin-top:8px;">
-                    <span class="setup-inline-select-label">Bidder teams</span>
+                    <span class="setup-inline-select-label">Question team</span>
                     <select id="bidder-team-select" onchange="checkConfirmReady()">
-                      <option value="" disabled selected>Select a team…</option>
+                      <option value="" disabled selected>Select from role…</option>
                       <option>Bidder Team A</option>
                       <option>Bidder Team B</option>
                       <option>Bidder Team C</option>
@@ -2934,8 +2926,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                   <p class="team-confirm-hint" style="margin-bottom:24px;">Each bidder team will see only their own questions and answers.</p>
 
                   <div style="display:flex;gap:4px;width:100%;">
-                    <button class="btn-setup-outlined" onclick="openWizard()" style="flex:1;color:var(--text-secondary);">Setup with Enhanced Settings</button>
-                    <button id="btn-confirm-launch" class="btn-setup-primary" onclick="activateQA()" style="flex:1;" disabled>Confirm &amp; Launch Q&amp;A</button>
+                    <button class="btn-setup-outlined" onclick="openWizard()" style="flex:1;color:var(--text-secondary);">Set Up with Advanced Settings</button>
+                    <button id="btn-confirm-launch" class="btn-setup-primary" onclick="activateQA()" style="flex:1;" disabled>Review Setup</button>
                   </div>
                   <p class="team-confirm-hint" style="margin-top:4px;margin-bottom:0;">Use Enhanced Settings to setup customized workflow routing, per-team question limits, updated categories and more. This can also be done after the quick setup.</p>
                 </div>
