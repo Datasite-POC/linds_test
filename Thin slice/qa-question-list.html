@@ -1491,6 +1491,18 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   height: 1px; background: var(--border-light); width: 100%;
   margin: 8px 0 24px;
 }
+.info-alert {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: rgba(72, 94, 240, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.5; margin-bottom: 8px;
+}
+.info-alert-link {
+  color: var(--primary-main); text-decoration: none; font-weight: 400;
+}
+.info-alert-link:hover { text-decoration: underline; }
 .setup-inline-label {
   font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
   color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px;
@@ -3388,7 +3400,11 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <!-- Who will ask -->
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:16px;">
             <div class="setup-inline-headline">2. Who will ask questions?</div>
-            <p class="setup-inline-desc" style="margin-bottom:8px;">Select the team that will ask questions.<br>• To add more than one team go to the <a href="#" onclick="showWizardStep('teams'); return false;" style="color:var(--primary-main);text-decoration:none;font-weight:600;">Advanced Settings tab above</a>.</p>
+            <p class="setup-inline-desc" style="margin-bottom:8px;">Select the team that will ask questions.</p>
+            <div class="info-alert">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--primary-main);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>To add more than one team go to the <a href="#" onclick="showWizardStep('teams'); return false;" class="info-alert-link">Advanced Settings tab above</a>.</span>
+            </div>
             <div class="setup-inline-select-wrap" style="margin-top:16px;">
               <span class="setup-inline-select-label">Question team</span>
               <select id="wiz-bidder-team-select" onchange="checkWizReady()">
