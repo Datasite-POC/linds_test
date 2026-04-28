@@ -1280,13 +1280,26 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 }
 .confirm-cta {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 14px;
+  justify-content: flex-end;
+  gap: 10px;
 }
+.btn-confirm-back {
+  padding: 11px 24px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-confirm-back:hover { background: var(--bg-alt); color: var(--text-primary); }
 .btn-confirm-primary {
-  width: 100%;
-  padding: 13px 0;
+  padding: 11px 28px;
   background: #1F2227;
   color: #fff;
   border: none;
@@ -3099,8 +3112,9 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             </div>
 
             <div class="confirm-cta">
+              <button class="btn-confirm-back" onclick="goBackFromConfirm()">Back</button>
               <button class="btn-confirm-primary" onclick="goToDashboard()">
-                Go to Q&amp;A Dashboard
+                Launch Q&amp;A
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
             </div>
@@ -4170,6 +4184,13 @@ function activateQA() {
 function goToDashboard() {
   document.body.classList.replace('state-confirm', 'state-list');
   setSubView('dashboard');
+}
+
+function goBackFromConfirm() {
+  document.body.classList.remove('state-confirm');
+  document.body.classList.add('state-empty');
+  openWizard();
+  showWizardStep('overview');
 }
 
 function goToQuestionList() {
