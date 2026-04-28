@@ -2214,6 +2214,15 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   letter-spacing: 0.02em;
 }
 .wizard-header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.wiz-close-btn {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  transition: background 0.12s, color 0.12s;
+}
+.wiz-close-btn:hover { background: var(--bg-alt); color: var(--text-primary); }
 .badge-not-launched {
   height: 26px; padding: 0 10px;
   border-radius: var(--radius-pill); border: 1px solid var(--border);
@@ -3335,6 +3344,9 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Q&amp;A Not Launched
         </span>
+        <button class="wiz-close-btn" onclick="exitWizard()" title="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
     </div>
 
@@ -4305,6 +4317,11 @@ function openWizard() {
 function closeWizard() {
   document.getElementById('wizard-overlay').classList.remove('open');
   document.body.classList.remove('state-setup');
+}
+
+function exitWizard() {
+  closeWizard();
+  document.body.classList.add('state-empty');
 }
 
 function showWizardStep(step) {
