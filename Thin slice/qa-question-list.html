@@ -3501,7 +3501,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           </div>
 
           <div style="display:flex;justify-content:flex-end;width:100%;">
-            <button id="wiz-btn-confirm-launch" class="btn-setup-primary" onclick="closeWizard(); activateQA();" style="width:auto;padding:11px 28px;" disabled>Review Setup</button>
+            <button id="wiz-btn-confirm-launch" class="btn-setup-primary" onclick="activateQA();" style="width:auto;padding:11px 28px;" disabled>Review Setup</button>
           </div>
         </div>
       </div>
@@ -3850,6 +3850,64 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <div class="alt-ai-banner">
             <span class="alt-ai-icon">✦</span>
             <div><strong>Suggested routing</strong> — Based on your 32 data-room documents, we detected 5 natural workstreams. You can accept all, edit, or skip this step.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step: Confirm (Review Setup) -->
+      <div class="wizard-step" id="wstep-confirm" style="flex-direction:column;overflow-y:auto;padding:40px;align-items:center;">
+        <div style="width:100%;max-width:600px;">
+          <h1 class="confirm-headline">Review setup for Project Orion</h1>
+          <p class="confirm-subtitle">Confirm the details below before going live. Your question team will receive access within 15 minutes of launch.</p>
+
+          <hr class="confirm-divider">
+
+          <div class="confirm-section-label" style="margin-top:24px;">Teams</div>
+          <div class="confirm-team-cards">
+            <div class="confirm-team-card">
+              <div class="confirm-grid-item-label">Answer Team</div>
+              <div class="confirm-team-card-value" id="confirm-answer-team">—</div>
+            </div>
+            <div class="confirm-team-card">
+              <div class="confirm-grid-item-label">Question Team</div>
+              <div class="confirm-team-card-value" id="confirm-question-team">—</div>
+            </div>
+          </div>
+
+          <div class="confirm-section-label" style="margin-top:24px;">Question Summary</div>
+          <div class="confirm-stats-row">
+            <div class="confirm-stat">
+              <div class="confirm-grid-item-label">Total Questions</div>
+              <div class="confirm-stat-value" id="confirm-total-q">100</div>
+            </div>
+            <div class="confirm-stat">
+              <div class="confirm-grid-item-label">High Priority</div>
+              <div class="confirm-stat-value" id="confirm-priority-q">0</div>
+            </div>
+            <div class="confirm-stat">
+              <div class="confirm-grid-item-label">No Priority</div>
+              <div class="confirm-stat-value" id="confirm-standard-q">100</div>
+            </div>
+          </div>
+
+          <hr class="confirm-divider" style="margin-top:24px;">
+
+          <div class="confirm-next-box" style="margin-top:20px;">
+            <div class="confirm-next-title">What happens at launch</div>
+            <ul class="confirm-next-list">
+              <li><span class="confirm-next-bullet"></span>The question team will receive an email invitation to access Q&amp;A within the next 15 minutes.</li>
+              <li><span class="confirm-next-bullet"></span>Submitted questions will appear in your Question List for review and response.</li>
+              <li><span class="confirm-next-bullet"></span>Advanced routing and workflows remain available from Q&amp;A Settings at any time.</li>
+              <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics.</li>
+            </ul>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:10px;width:100%;margin-top:8px;">
+            <button class="btn-confirm-back" onclick="goBackFromConfirm()">Back</button>
+            <button class="btn-confirm-primary" onclick="goToDashboard()">
+              Launch Q&amp;A
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
           </div>
         </div>
       </div>
@@ -4267,24 +4325,27 @@ function activateQA() {
   const total    = document.getElementById('wiz-ql-total')?.value    || '100';
   const priority = document.getElementById('wiz-ql-priority')?.value || '0';
   const standard = document.getElementById('wiz-ql-standard')?.value || '100';
-  document.getElementById('confirm-answer-team').textContent  = answerVal;
-  document.getElementById('confirm-question-team').textContent = bidderVal;
-  document.getElementById('confirm-total-q').textContent      = total;
-  document.getElementById('confirm-priority-q').textContent   = priority;
-  document.getElementById('confirm-standard-q').textContent   = standard;
-  ['state-empty', 'state-team-confirm'].forEach(c => document.body.classList.remove(c));
-  document.body.classList.add('state-confirm');
+  // Populate both confirm step instances (wizard + standalone fallback)
+  ['confirm-answer-team','confirm-question-team','confirm-total-q','confirm-priority-q','confirm-standard-q'].forEach(id => {
+    document.querySelectorAll('#' + id).forEach(el => {
+      if (id === 'confirm-answer-team')   el.textContent = answerVal;
+      if (id === 'confirm-question-team') el.textContent = bidderVal;
+      if (id === 'confirm-total-q')       el.textContent = total;
+      if (id === 'confirm-priority-q')    el.textContent = priority;
+      if (id === 'confirm-standard-q')    el.textContent = standard;
+    });
+  });
+  showWizardStep('confirm');
 }
 
 function goToDashboard() {
-  document.body.classList.replace('state-confirm', 'state-list');
+  closeWizard();
+  document.body.classList.remove('state-empty', 'state-setup', 'state-confirm');
+  document.body.classList.add('state-list');
   setSubView('dashboard');
 }
 
 function goBackFromConfirm() {
-  document.body.classList.remove('state-confirm');
-  document.body.classList.add('state-empty');
-  openWizard();
   showWizardStep('overview');
 }
 
@@ -4386,7 +4447,7 @@ function setSide(side) {
 }
 
 /* ── WIZARD ─────────────────────────────────────────── */
-const WIZARD_STEPS = ['overview', 'teams', 'adv-teams', 'categories', 'workflow', 'alt-workflow'];
+const WIZARD_STEPS = ['overview', 'teams', 'adv-teams', 'categories', 'workflow', 'alt-workflow', 'confirm'];
 let wizardStep = 'teams';
 
 function openWizard() {
@@ -4446,7 +4507,7 @@ function _applyWizardStep() {
   });
 
   // Row 1: Quick Setup vs Advanced Settings
-  const isQuickSetup = wizardStep === 'overview';
+  const isQuickSetup = wizardStep === 'overview' || wizardStep === 'confirm';
   document.getElementById('wtab-overview').classList.toggle('active', isQuickSetup);
   document.getElementById('wtab-teams').classList.toggle('active', !isQuickSetup);
   document.getElementById('wizard-sub-header').style.display = isQuickSetup ? 'none' : '';
@@ -4463,7 +4524,7 @@ function _applyWizardStep() {
 
   // Footer
   const footer = document.querySelector('.wizard-footer');
-  footer.style.display = (wizardStep === 'overview' || wizardStep === 'teams') ? 'none' : '';
+  footer.style.display = (wizardStep === 'overview' || wizardStep === 'teams' || wizardStep === 'confirm') ? 'none' : '';
   if (footer.style.display !== 'none') {
     const backBtn = document.getElementById('wiz-back');
     const nextBtn = document.getElementById('wiz-next');
