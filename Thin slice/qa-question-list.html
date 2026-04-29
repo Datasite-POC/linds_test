@@ -3863,14 +3863,21 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <hr class="confirm-divider">
 
           <div class="confirm-section-label" style="margin-top:24px;">Teams</div>
-          <div class="confirm-team-cards">
-            <div class="confirm-team-card">
-              <div class="confirm-grid-item-label">Answer Team</div>
-              <div class="confirm-team-card-value" id="confirm-answer-team">—</div>
-            </div>
-            <div class="confirm-team-card">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="confirm-team-card" style="flex:1;">
               <div class="confirm-grid-item-label">Question Team</div>
               <div class="confirm-team-card-value" id="confirm-question-team">—</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+              <span style="font-size:11px;color:var(--text-secondary);">Questions</span>
+              <svg width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="8" x2="40" y2="8" stroke="var(--text-disabled)" stroke-width="1.5"/>
+                <path d="M36 3 L44 8 L36 13" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="confirm-team-card" style="flex:1;">
+              <div class="confirm-grid-item-label">Answer Team</div>
+              <div class="confirm-team-card-value" id="confirm-answer-team">—</div>
             </div>
           </div>
 
