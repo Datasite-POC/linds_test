@@ -3854,7 +3854,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       </div>
 
       <!-- Step: Confirm (Review Setup) -->
-      <div class="wizard-step" id="wstep-confirm" style="flex-direction:column;overflow-y:auto;padding:40px;align-items:center;">
+      <div class="wizard-step" id="wstep-confirm" style="flex-direction:column;overflow:hidden;">
+        <div style="flex:1;overflow-y:auto;padding:40px;display:flex;flex-direction:column;align-items:center;">
         <div style="width:100%;max-width:600px;">
           <h1 class="confirm-headline">Review setup for Project Orion</h1>
           <p class="confirm-subtitle">Confirm the details below before going live.</p>
@@ -3917,13 +3918,14 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             </ul>
           </div>
 
-          <div style="display:flex;justify-content:flex-end;gap:10px;width:100%;margin-top:8px;">
-            <button class="btn-confirm-back" onclick="goBackFromConfirm()">Back</button>
-            <button class="btn-confirm-primary" onclick="goToDashboard()">
-              Launch Q&amp;A
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+        </div>
+        </div>
+        <div style="flex-shrink:0;padding:16px 40px;border-top:1px solid var(--border-light);display:flex;justify-content:flex-end;gap:10px;">
+          <button class="btn-confirm-back" onclick="goBackFromConfirm()">Back</button>
+          <button class="btn-confirm-primary" onclick="goToDashboard()">
+            Launch Q&amp;A
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
         </div>
       </div>
 
