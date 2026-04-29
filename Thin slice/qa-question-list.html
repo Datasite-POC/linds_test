@@ -3584,10 +3584,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             <div class="team-confirm-label">Default answer team</div>
             <div class="team-confirm-select-wrap">
               <select class="team-confirm-select">
-                <option>Answer Team (default)</option>
-                <option>Legal team</option>
-                <option>Finance team</option>
-                <option>HR team</option>
+                <option>Microsoft</option>
               </select>
               <svg class="team-confirm-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -3622,31 +3619,32 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               </div>
             </div>
 
-            <div class="confirm-section-label" style="margin-top:24px;">Question Summary</div>
+            <div class="confirm-section-label" style="margin-top:24px;">Question Limits</div>
             <div class="confirm-stats-row">
               <div class="confirm-stat">
                 <div class="confirm-grid-item-label">Total Questions</div>
-                <div class="confirm-stat-value" id="confirm-total-q">100</div>
+                <div class="confirm-stat-value" id="confirm-total-q">500</div>
               </div>
               <div class="confirm-stat">
                 <div class="confirm-grid-item-label">High Priority</div>
-                <div class="confirm-stat-value" id="confirm-priority-q">0</div>
+                <div class="confirm-stat-value" id="confirm-priority-q">50</div>
               </div>
               <div class="confirm-stat">
                 <div class="confirm-grid-item-label">No Priority</div>
-                <div class="confirm-stat-value" id="confirm-standard-q">100</div>
+                <div class="confirm-stat-value" id="confirm-standard-q">450</div>
               </div>
             </div>
+            <p style="font-size:13px;color:var(--text-secondary);margin:8px 0 0;">To edit the question limit go to Advanced Settings.</p>
 
             <hr class="confirm-divider" style="margin-top:24px;">
 
             <div class="confirm-next-box" style="margin-top:20px;">
               <div class="confirm-next-title">What happens at launch</div>
               <ul class="confirm-next-list">
-                <li><span class="confirm-next-bullet"></span>The question team will receive an email invitation to access Q&amp;A within the next 15 minutes.</li>
+                <li><span class="confirm-next-bullet"></span>Your question team will receive an email invitation shortly.</li>
                 <li><span class="confirm-next-bullet"></span>Submitted questions will appear in your Question List for review and response.</li>
                 <li><span class="confirm-next-bullet"></span>Advanced routing and workflows remain available from Q&amp;A Settings at any time.</li>
-                <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics.</li>
+                <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics purposes.</li>
               </ul>
             </div>
 
@@ -3865,7 +3863,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
     <div class="wizard-header">
       <div class="wizard-tabs">
         <button class="wizard-tab" id="wtab-overview" onclick="showWizardStep('overview')">Quick Setup</button>
-        <button class="wizard-tab" id="wtab-teams" onclick="showWizardStep('teams')">Advanced Settings</button>
+        <button class="wizard-tab" id="wtab-teams" onclick="showWizardStep('adv-teams')">Advanced Settings</button>
       </div>
       <div class="wizard-header-right">
         <span class="badge-not-launched">
@@ -3880,10 +3878,10 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
     <!-- Sub-header -->
     <div class="wizard-header" id="wizard-sub-header" style="border-top:none;">
       <div class="wizard-tabs" style="padding-left:108px;">
-        <button class="wizard-tab" id="sub-overview" onclick="showWizardStep('teams')">Overview</button>
         <button class="wizard-tab" id="sub-teams" onclick="showWizardStep('adv-teams')">Q&amp;A Teams</button>
         <button class="wizard-tab" id="sub-categories" onclick="showWizardStep('categories')">Categories</button>
         <button class="wizard-tab" id="sub-workflow" onclick="showWizardStep('workflow')">Workflow</button>
+        <button class="wizard-tab" id="sub-launch" onclick="showWizardStep('launch')">Launch</button>
       </div>
     </div>
 
@@ -3905,10 +3903,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <span class="setup-inline-select-label">Default answer team</span>
               <select id="wiz-answer-team-select" onchange="checkWizReady()">
                 <option value="" disabled selected>Select from role…</option>
-                <option>Project Admin</option>
-                <option>Legal team</option>
-                <option>Finance team</option>
-                <option>HR team</option>
+                <option>Microsoft</option>
               </select>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -3935,31 +3930,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             <p class="team-confirm-hint" style="margin-top:8px;margin-bottom:0;">Each bidder team will see only their own questions and answers.</p>
           </div>
 
-          <!-- Question limits -->
-          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:24px;">
-            <div class="setup-inline-headline">3. Set question limits</div>
-            <p class="setup-inline-desc" style="margin-bottom:12px;">Set a limit on the number of questions this team can ask and mark as priority.</p>
-            <div style="display:flex;gap:16px;width:100%;margin-bottom:6px;">
-              <div style="flex:1;">
-                <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Total questions</div>
-                <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
-                  <input id="wiz-ql-total" type="number" value="100" min="1" oninput="calcWizStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
-                </div>
-              </div>
-              <div style="flex:1;">
-                <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">High priority questions</div>
-                <div style="border-bottom:1px solid var(--text-primary);padding-bottom:4px;">
-                  <input id="wiz-ql-priority" type="number" value="0" min="0" oninput="calcWizStandard()" style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;">
-                </div>
-              </div>
-              <div style="flex:1;">
-                <div style="font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:4px;letter-spacing:0.02em;">Questions with no priority</div>
-                <div style="padding-bottom:4px;">
-                  <input id="wiz-ql-standard" type="number" value="100" readonly style="width:100%;border:none;outline:none;font-size:14px;font-weight:400;color:var(--text-primary);font-family:'Roboto',sans-serif;background:transparent;padding:0;cursor:default;">
-                </div>
-              </div>
-            </div>
-          </div>
 
         </div>
         </div>
@@ -4323,61 +4293,108 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <h1 class="confirm-headline">Review setup for Project Orion</h1>
           <p class="confirm-subtitle">Confirm the details below before going live.</p>
 
-          <hr class="confirm-divider">
-
-          <div class="confirm-section-label" style="margin-top:24px;">Default Workflow</div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div class="confirm-team-card" style="flex:1;">
-              <div class="confirm-grid-item-label">Question Team</div>
-              <div class="confirm-team-card-value" id="confirm-question-team">—</div>
-            </div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-              <span style="font-size:14px;color:var(--text-secondary);">Questions</span>
-              <svg width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="0" y1="8" x2="40" y2="8" stroke="var(--text-disabled)" stroke-width="1.5"/>
-                <path d="M36 3 L44 8 L36 13" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="confirm-team-card" style="flex:1;">
-              <div class="confirm-grid-item-label">Answer Team</div>
-              <div class="confirm-team-card-value" id="confirm-answer-team">—</div>
-            </div>
-          </div>
-
-          <div class="confirm-section-label" style="margin-top:32px;">Question Summary</div>
-          <div class="confirm-stats-row">
-            <div class="confirm-stat">
-              <div class="confirm-grid-item-label">Total Questions</div>
-              <div class="confirm-stat-value" id="confirm-total-q">100</div>
-            </div>
-            <div class="confirm-stat">
-              <div class="confirm-grid-item-label">High Priority</div>
-              <div class="confirm-stat-value" id="confirm-priority-q">0</div>
-            </div>
-            <div class="confirm-stat">
-              <div class="confirm-grid-item-label">No Priority</div>
-              <div class="confirm-stat-value" id="confirm-standard-q">100</div>
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:24px;">
+            <div class="confirm-section-label" style="margin-bottom:12px;">Default Workflow</div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="confirm-team-card" style="flex:1;">
+                <div class="confirm-grid-item-label">Question Team</div>
+                <div class="confirm-team-card-value" id="confirm-question-team">—</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+                <span style="font-size:14px;color:var(--text-secondary);">Questions</span>
+                <svg width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="0" y1="8" x2="40" y2="8" stroke="var(--text-disabled)" stroke-width="1.5"/>
+                  <path d="M36 3 L44 8 L36 13" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="confirm-team-card" style="flex:1;">
+                <div class="confirm-grid-item-label">Answer Team</div>
+                <div class="confirm-team-card-value" id="confirm-answer-team">—</div>
+              </div>
             </div>
           </div>
 
-          <div class="confirm-section-label" style="margin-top:32px;">Categories</div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px;">
-            <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Finance</span>
-            <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">General</span>
-            <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">HR</span>
-            <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">IT</span>
-            <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Legal</span>
-            <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Tax</span>
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
+            <div class="confirm-section-label" style="margin-bottom:12px;">Q&amp;A Teams</div>
+
+            <div style="font-size:11px;font-weight:500;color:var(--text-secondary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">Answer Team</div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar avatar--ds" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">DS</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Samuels, Daniel</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Project Admin · Microsoft</div>
+                </div>
+                <span class="member-status-badge"><span class="member-status-dot"></span>Active</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar avatar--slate" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">PR</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Park, Rachel</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Analyst · Microsoft</div>
+                </div>
+                <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+              </div>
+            </div>
+
+            <div style="font-size:11px;font-weight:500;color:var(--text-secondary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">Question Team</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar avatar--dc" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">DC</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Chung, Deborah</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Due Diligence Manager · Bidder Team A</div>
+                </div>
+                <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0;background:#6D4C9C;">JW</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Walsh, James</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Associate · Bidder Team A</div>
+                </div>
+                <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+              </div>
+            </div>
           </div>
 
-          <hr class="confirm-divider" style="margin-top:24px;">
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
+            <div class="confirm-section-label" style="margin-bottom:4px;">Question Limits</div>
+            <p style="font-size:13px;color:var(--text-secondary);margin:0 0 12px;">To edit the question limit go to Advanced Settings.</p>
+            <div class="confirm-stats-row">
+              <div class="confirm-stat">
+                <div class="confirm-grid-item-label">Total Questions</div>
+                <div class="confirm-stat-value" id="confirm-total-q">500</div>
+              </div>
+              <div class="confirm-stat">
+                <div class="confirm-grid-item-label">High Priority</div>
+                <div class="confirm-stat-value" id="confirm-priority-q">50</div>
+              </div>
+              <div class="confirm-stat">
+                <div class="confirm-grid-item-label">No Priority</div>
+                <div class="confirm-stat-value" id="confirm-standard-q">450</div>
+              </div>
+            </div>
+          </div>
 
-          <div class="confirm-next-box" style="margin-top:20px;">
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
+            <div class="confirm-section-label" style="margin-bottom:12px;">Categories</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Finance</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">General</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">HR</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">IT</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Legal</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Tax</span>
+            </div>
+          </div>
+
+          <div class="confirm-next-box" style="margin-top:24px;">
             <div class="confirm-next-title">After you launch the project</div>
             <ul class="confirm-next-list">
-              <li><span class="confirm-next-bullet"></span>Your question team will receive an email invitation within 15 minutes.</li>
+              <li><span class="confirm-next-bullet"></span>Your question team will receive an email invitation shortly.</li>
               <li><span class="confirm-next-bullet"></span>Submitted questions will appear in your Question List for review and response.</li>
-              <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics.</li>
+              <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics purposes.</li>
             </ul>
           </div>
 
@@ -4388,6 +4405,108 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <button class="btn-confirm-primary" onclick="openLaunchConfirm()">
             Launch Q&amp;A
           </button>
+        </div>
+      </div>
+
+      <!-- Step: Launch -->
+      <div class="wizard-step" id="wstep-launch" style="flex-direction:column;overflow:hidden;">
+        <div style="flex:1;overflow-y:auto;padding:30px 40px 40px;display:flex;flex-direction:column;align-items:center;">
+        <div style="width:100%;max-width:600px;">
+          <h1 class="confirm-headline">Ready to launch Q&amp;A</h1>
+          <p class="confirm-subtitle" style="margin-bottom:16px;">Review your workflow configuration before going live.</p>
+
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;">
+            <div class="confirm-section-label" style="margin-bottom:12px;">Q&amp;A Teams</div>
+
+            <div style="font-size:11px;font-weight:500;color:var(--text-secondary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">Answer Team</div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar avatar--ds" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">DS</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Samuels, Daniel</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Project Admin · Microsoft</div>
+                </div>
+                <span class="member-status-badge"><span class="member-status-dot"></span>Active</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar avatar--slate" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">PR</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Park, Rachel</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Analyst · Microsoft</div>
+                </div>
+                <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+              </div>
+            </div>
+
+            <div style="font-size:11px;font-weight:500;color:var(--text-secondary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">Question Team</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar avatar--dc" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">DC</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Chung, Deborah</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Due Diligence Manager · Bidder Team A</div>
+                </div>
+                <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0;background:#6D4C9C;">JW</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Walsh, James</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Associate · Bidder Team A</div>
+                </div>
+                <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
+            <div class="confirm-section-label" style="margin-bottom:12px;">Categories</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Finance</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">General</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">HR</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">IT</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Legal</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Tax</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Compliance</span>
+              <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Operations</span>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
+            <div class="confirm-section-label" style="margin-bottom:12px;">Workflow</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-light);">
+                <div>
+                  <div style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:2px;">Workflow Name</div>
+                  <div style="font-size:13px;color:var(--text-secondary);">Levels: 5</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;">
+                <div>
+                  <div style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:2px;">Workflow Name</div>
+                  <div style="font-size:13px;color:var(--text-secondary);">Levels: 3</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="confirm-next-box" style="margin-top:32px;">
+            <div class="confirm-next-title">After you launch the project</div>
+            <ul class="confirm-next-list">
+              <li><span class="confirm-next-bullet"></span>Your question team will receive an email invitation shortly.</li>
+              <li><span class="confirm-next-bullet"></span>Submitted questions will appear in your Question List for review and response.</li>
+              <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics purposes.</li>
+            </ul>
+          </div>
+
+        </div>
+        </div>
+        <div style="flex-shrink:0;padding:16px 40px;border-top:1px solid var(--border-light);display:flex;justify-content:flex-end;gap:10px;">
+          <button class="btn-confirm-back" onclick="showWizardStep('workflow')">Back</button>
+          <button class="btn-confirm-primary" onclick="openLaunchConfirm()">Launch Q&amp;A</button>
         </div>
       </div>
 
@@ -4833,11 +4952,7 @@ function checkWizReady() {
   const b = document.getElementById('wiz-bidder-team-select').value;
   document.getElementById('wiz-btn-confirm-launch').disabled = !(a && b);
 }
-function calcWizStandard() {
-  const total = parseInt(document.getElementById('wiz-ql-total').value) || 0;
-  const priority = parseInt(document.getElementById('wiz-ql-priority').value) || 0;
-  document.getElementById('wiz-ql-standard').value = Math.max(0, total - priority);
-}
+
 function goToTeamConfirm() {
   document.getElementById('setup-cta-buttons').style.display = 'none';
   const el = document.getElementById('setup-inline-confirm');
@@ -4855,17 +4970,11 @@ function activateQA() {
   const bidderSel = document.getElementById('wiz-bidder-team-select');
   const answerVal = answerSel && answerSel.value ? answerSel.options[answerSel.selectedIndex].text : '—';
   const bidderVal = bidderSel && bidderSel.value ? bidderSel.options[bidderSel.selectedIndex].text : '—';
-  const total    = document.getElementById('wiz-ql-total')?.value    || '100';
-  const priority = document.getElementById('wiz-ql-priority')?.value || '0';
-  const standard = document.getElementById('wiz-ql-standard')?.value || '100';
   // Populate both confirm step instances (wizard + standalone fallback)
-  ['confirm-answer-team','confirm-question-team','confirm-total-q','confirm-priority-q','confirm-standard-q'].forEach(id => {
+  ['confirm-answer-team','confirm-question-team'].forEach(id => {
     document.querySelectorAll('#' + id).forEach(el => {
       if (id === 'confirm-answer-team')   el.textContent = answerVal;
       if (id === 'confirm-question-team') el.textContent = bidderVal;
-      if (id === 'confirm-total-q')       el.textContent = total;
-      if (id === 'confirm-priority-q')    el.textContent = priority;
-      if (id === 'confirm-standard-q')    el.textContent = standard;
     });
   });
   showWizardStep('confirm');
@@ -5165,8 +5274,8 @@ function setSide(side) {
 }
 
 /* ── WIZARD ─────────────────────────────────────────── */
-const WIZARD_STEPS = ['overview', 'teams', 'adv-teams', 'categories', 'workflow', 'alt-workflow', 'confirm'];
-let wizardStep = 'teams';
+const WIZARD_STEPS = ['overview', 'adv-teams', 'categories', 'workflow', 'alt-workflow', 'confirm', 'launch'];
+let wizardStep = 'overview';
 
 function openWizard() {
   wizardStep = 'overview';
@@ -5192,20 +5301,7 @@ function showWizardStep(step) {
 }
 
 function wizardNav(dir) {
-  if (dir === 1 && wizardStep === 'teams') {
-    showWizardStep('categories');
-    return;
-  }
-  if (dir === 1 && wizardStep === 'categories') {
-    showWizardStep('workflow');
-    return;
-  }
-  if (dir === 1 && wizardStep === 'workflow') {
-    closeWizard();
-    activateQA();
-    return;
-  }
-const idx = WIZARD_STEPS.indexOf(wizardStep);
+  const idx = WIZARD_STEPS.indexOf(wizardStep);
   const next = WIZARD_STEPS[idx + dir];
   if (dir === 1 && !next) {
     closeWizard();
@@ -5226,23 +5322,24 @@ function _applyWizardStep() {
 
   // Row 1: Quick Setup vs Advanced Settings
   const isQuickSetup = wizardStep === 'overview' || wizardStep === 'confirm';
+  const isAdvanced   = !isQuickSetup;
   document.getElementById('wtab-overview').classList.toggle('active', isQuickSetup);
-  document.getElementById('wtab-teams').classList.toggle('active', !isQuickSetup);
-  document.getElementById('wizard-sub-header').style.display = isQuickSetup ? 'none' : '';
+  document.getElementById('wtab-teams').classList.toggle('active', isAdvanced);
+  document.getElementById('wizard-sub-header').style.display = (isAdvanced || wizardStep === 'launch') ? '' : 'none';
 
   // Row 2: sub-tabs (only relevant when Advanced Settings is active)
-  const subOverview    = document.getElementById('sub-overview');
   const subTeams       = document.getElementById('sub-teams');
   const subCategories  = document.getElementById('sub-categories');
   const subWorkflow    = document.getElementById('sub-workflow');
-  if (subOverview)   subOverview.classList.toggle('active',   !isQuickSetup && wizardStep === 'teams');
   if (subTeams)      subTeams.classList.toggle('active',      wizardStep === 'adv-teams');
   if (subCategories) subCategories.classList.toggle('active', wizardStep === 'categories');
   if (subWorkflow)   subWorkflow.classList.toggle('active',   wizardStep === 'workflow' || wizardStep === 'alt-workflow');
+  const subLaunch = document.getElementById('sub-launch');
+  if (subLaunch)     subLaunch.classList.toggle('active',     wizardStep === 'launch');
 
   // Footer
   const footer = document.querySelector('.wizard-footer');
-  footer.style.display = (wizardStep === 'overview' || wizardStep === 'teams' || wizardStep === 'confirm') ? 'none' : '';
+  footer.style.display = (wizardStep === 'overview' || wizardStep === 'teams' || wizardStep === 'confirm' || wizardStep === 'launch') ? 'none' : '';
   if (footer.style.display !== 'none') {
     const backBtn = document.getElementById('wiz-back');
     const nextBtn = document.getElementById('wiz-next');
