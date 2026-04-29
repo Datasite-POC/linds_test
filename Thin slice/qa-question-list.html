@@ -3099,37 +3099,39 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
             <h1 class="confirm-headline">Q&amp;A is live for <strong>Project Orion</strong></h1>
-            <p class="confirm-subtitle">The Bidder Team can now submit questions. Your team will be notified as questions come in.</p>
+            <p class="confirm-subtitle">Your question team can now submit questions. Your answer team will be notified as questions come in.</p>
 
             <div class="confirm-section-label">What was configured</div>
             <div class="confirm-grid">
               <div>
-                <div class="confirm-grid-item-label">Bidder Teams</div>
-                <div class="confirm-grid-item-value">1 team (Bidder Team A)</div>
+                <div class="confirm-grid-item-label">Answer Team</div>
+                <div class="confirm-grid-item-value" id="confirm-answer-team">—</div>
               </div>
               <div>
-                <div class="confirm-grid-item-label">Categories</div>
-                <div class="confirm-grid-item-value">6 default categories</div>
+                <div class="confirm-grid-item-label">Question Team</div>
+                <div class="confirm-grid-item-value" id="confirm-question-team">—</div>
               </div>
               <div>
-                <div class="confirm-grid-item-label">Workflow</div>
-                <div class="confirm-grid-item-value">1 answer group</div>
+                <div class="confirm-grid-item-label">Total Questions</div>
+                <div class="confirm-grid-item-value" id="confirm-total-q">100</div>
               </div>
               <div>
-                <div class="confirm-grid-item-label">Duplicate Questions</div>
-                <div class="confirm-grid-item-value">Use Similar Questions feature for faster responses</div>
+                <div class="confirm-grid-item-label">High Priority Questions</div>
+                <div class="confirm-grid-item-value" id="confirm-priority-q">0</div>
               </div>
               <div>
+                <div class="confirm-grid-item-label">No Priority Questions</div>
+                <div class="confirm-grid-item-value" id="confirm-standard-q">100</div>
               </div>
             </div>
 
             <div class="confirm-next-box">
               <div class="confirm-next-title">What happens next</div>
               <ul class="confirm-next-list">
-                <li><span class="confirm-next-bullet"></span>Bidder teams will receive an email invitation to access Q&amp;A within the next 15 minutes. [NEED TO VERIFY]</li>
-                <li><span class="confirm-next-bullet"></span>Questions submitted by bidders will appear in your Question List for review and response.</li>
-                                <li><span class="confirm-next-bullet"></span>Advanced routing and workflows remain available — switch to Advanced Setup at any time from Q&amp;A Settings.</li>
-                <li><span class="confirm-next-bullet"></span>Q&amp;A launch and activity will be tracked for reporting and analytics.</li>
+                <li><span class="confirm-next-bullet"></span>The question team will receive an email invitation to access Q&amp;A within the next 15 minutes.</li>
+                <li><span class="confirm-next-bullet"></span>Questions submitted will appear in your Question List for review and response.</li>
+                <li><span class="confirm-next-bullet"></span>Advanced routing and workflows remain available from Q&amp;A Settings at any time.</li>
+                <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics.</li>
               </ul>
             </div>
 
@@ -3140,9 +3142,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
             </div>
-          </div>
-          <div class="confirm-card-footer">
-            <p>Advanced routing and workflows remain available. Access advanced setup at any time from Q&amp;A Settings. Q&amp;A activity is tracked for reporting.</p>
           </div>
         </div>
       </div>
@@ -4204,6 +4203,19 @@ function cancelTeamConfirm() {
 }
 
 function activateQA() {
+  // Populate confirm view from Quick Setup form values
+  const answerSel = document.getElementById('wiz-answer-team-select');
+  const bidderSel = document.getElementById('wiz-bidder-team-select');
+  const answerVal = answerSel && answerSel.value ? answerSel.options[answerSel.selectedIndex].text : '—';
+  const bidderVal = bidderSel && bidderSel.value ? bidderSel.options[bidderSel.selectedIndex].text : '—';
+  const total    = document.getElementById('wiz-ql-total')?.value    || '100';
+  const priority = document.getElementById('wiz-ql-priority')?.value || '0';
+  const standard = document.getElementById('wiz-ql-standard')?.value || '100';
+  document.getElementById('confirm-answer-team').textContent  = answerVal;
+  document.getElementById('confirm-question-team').textContent = bidderVal;
+  document.getElementById('confirm-total-q').textContent      = total;
+  document.getElementById('confirm-priority-q').textContent   = priority;
+  document.getElementById('confirm-standard-q').textContent   = standard;
   ['state-empty', 'state-team-confirm'].forEach(c => document.body.classList.remove(c));
   document.body.classList.add('state-confirm');
 }
