@@ -450,6 +450,324 @@ html, body {
   margin-top: 8px;
 }
 
+/* ── UPLOAD DIALOG ───────────────────────────────── */
+.upload-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(31,34,39,0.45);
+  z-index: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s;
+}
+.upload-dialog-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.upload-dialog-modal {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(31,34,39,0.18);
+  width: 780px;
+  height: 680px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.upload-dialog-header {
+  padding: 24px 28px 16px 28px;
+  border-bottom: 1px solid var(--border-light);
+}
+.upload-dialog-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+.upload-dialog-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+}
+.upload-dialog-footer {
+  padding: 16px 28px;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+/* Step 2 — dropzone */
+#udlg-step-2 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.udlg-dropzone {
+  border: 1.5px dashed #C8C8C8;
+  border-radius: 6px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  background: #fff;
+  padding: 32px 60px;
+}
+.udlg-dropzone-icon { margin-bottom: 4px; }
+.udlg-dropzone-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+.udlg-archive-note {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 4px 0;
+}
+.udlg-archive-note p { margin: 0; }
+.udlg-browse-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 15px;
+  font-family: inherit;
+  font-weight: 700;
+  color: var(--primary-main);
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 4px;
+}
+.udlg-browse-link:hover { text-decoration: underline; }
+/* Step 2 — folder picker */
+.udlg-folder-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+.udlg-folder-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.udlg-folder-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: background 0.12s;
+}
+.udlg-folder-row:hover { background: var(--bg-alt); }
+.udlg-folder-row.selected { background: rgba(72,94,240,0.07); }
+.udlg-folder-row input[type="radio"] { accent-color: var(--primary-main); flex-shrink: 0; }
+.udlg-folder-icon { color: var(--text-disabled); flex-shrink: 0; }
+.udlg-folder-root { font-weight: 600; }
+.udlg-folder-child { padding-left: 32px; }
+/* Upload dialog buttons */
+.udlg-btn-cancel {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  padding: 0 8px;
+}
+.udlg-btn-cancel:hover { color: var(--text-secondary); }
+.udlg-btn-prev {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary-main);
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  padding: 0 8px;
+}
+.udlg-btn-prev:hover { opacity: 0.8; }
+.udlg-btn-next {
+  background: var(--primary-main);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  padding: 0 24px;
+  height: 40px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.udlg-btn-next:disabled {
+  background: #E0E0E0;
+  color: #9E9E9E;
+  cursor: default;
+  opacity: 1;
+}
+.udlg-btn-next:hover:not(:disabled) { opacity: 0.88; }
+/* Settings step */
+.udlg-settings-intro {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+.udlg-settings-section { margin-bottom: 8px; }
+.udlg-settings-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+}
+.udlg-radio-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+.udlg-radio-row input[type="radio"] {
+  margin-top: 2px;
+  accent-color: var(--primary-main);
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.udlg-radio-label-stack { display: flex; flex-direction: column; gap: 3px; }
+.udlg-radio-sub { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.udlg-settings-divider { border: none; border-top: 1px solid var(--border-light); margin: 16px 0; }
+.udlg-settings-body { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin: 0; }
+.udlg-perm-access-warn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--warning-main);
+  margin-top: 4px;
+}
+.udlg-perm-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--warning-main);
+  flex-shrink: 0;
+}
+.udlg-perm-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: rgba(231,92,0,0.07);
+  border-left: 3px solid var(--warning-main);
+  border-radius: 0 4px 4px 0;
+  font-size: 13px;
+  color: var(--warning-main);
+  line-height: 1.5;
+}
+/* Progress step */
+.udlg-progress-total {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+}
+.udlg-progress-table-wrap {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.udlg-progress-bar-wrap {
+  display: inline-block;
+  width: 200px;
+  height: 6px;
+  background: #E8EAF6;
+  border-radius: 3px;
+  overflow: hidden;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.udlg-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--primary-main);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+.udlg-progress-file-pct {
+  font-size: 13px;
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+.udlg-btn-minimize {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'Roboto', sans-serif;
+  padding: 0 20px;
+  height: 40px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: background 0.12s;
+}
+.udlg-btn-minimize:hover { background: var(--bg-alt); }
+.udlg-recommended-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(72,94,240,0.1);
+  color: var(--primary-main);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+/* File table */
+.udlg-file-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.udlg-file-table thead tr {
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-base);
+}
+.udlg-file-table th {
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: left;
+}
+.udlg-file-table td {
+  padding: 12px 14px;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+}
+.udlg-file-table tbody tr:last-child td { border-bottom: none; }
 /* ── SNACKBAR ─────────────────────────────────────── */
 .snackbar {
   position: fixed;
@@ -619,7 +937,7 @@ html, body {
 }
 .filter-chip .chip-count {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 400;
 }
 .filter-chip-dot {
   width: 7px;
@@ -717,6 +1035,9 @@ tbody tr { background: var(--bg-surface); transition: background 0.1s; }
 tbody tr:hover { background: var(--bg-alt); }
 tbody tr.flagged { background: transparent; }
 tbody tr.flagged:hover { background: var(--bg-alt); }
+tbody tr.row-priority { background: rgba(211,47,47,0.05); }
+tbody tr.row-priority:hover { background: rgba(211,47,47,0.09); }
+.cell-btn.flag-priority { color: #D32F2F; }
 tbody tr.row-selected { background: var(--bg-selected); }
 
 /* Icon buttons in cells */
@@ -2034,6 +2355,21 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 }
 .reply-textarea::placeholder { color: var(--text-disabled); }
 .reply-divider { height: 1px; background: rgba(31,34,39,0.08); margin: 0 16px; border: none; }
+.dialog-linked-files-inner { padding: 10px 16px 8px; }
+.dialog-linked-label { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.dialog-linked-list { display: flex; flex-direction: column; gap: 6px; }
+.dialog-linked-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text-secondary);
+}
+.dialog-linked-row svg { flex-shrink: 0; }
+.dialog-linked-filename { color: var(--primary-main); font-weight: 500; }
+.dialog-linked-remove {
+  margin-left: auto; background: none; border: none;
+  cursor: pointer; color: var(--text-disabled); padding: 2px;
+  display: flex; align-items: center;
+}
+.dialog-linked-remove:hover { color: var(--text-secondary); }
 .reply-footer {
   display: flex;
   align-items: center;
@@ -2065,74 +2401,72 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   font-family: 'Roboto', sans-serif;
   cursor: pointer;
 }
-.btn-edit:hover { background: rgba(72,94,240,0.06); }
+.btn-edit:hover:not(:disabled) { background: rgba(72,94,240,0.06); }
+.btn-edit:disabled {
+  border-color: var(--border);
+  color: var(--text-disabled);
+  cursor: default;
+}
 .btn-submit-next {
   height: 28px; padding: 0 14px;
   border: none; border-radius: var(--radius-sm);
   background: var(--primary-main); color: #fff;
   font-size: 13px; font-weight: 500;
   font-family: 'Roboto', sans-serif; cursor: pointer;
+  transition: opacity 0.15s;
 }
-.btn-submit-next:hover { opacity: 0.88; }
+.btn-submit-next:hover:not(:disabled) { opacity: 0.88; }
+.btn-submit-next:disabled {
+  background: #E0E0E0;
+  color: #9E9E9E;
+  cursor: default;
+}
 
 /* Upload section */
 .upload-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
+  margin-top: -16px;
 }
-.upload-recommend-card {
-  position: relative;
-  border: 1.5px dashed rgba(231,92,0,0.5);
-  border-radius: var(--radius-md);
-  background: rgba(231,92,0,0.03);
-  padding: 16px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  cursor: pointer;
-  transition: background 0.12s;
-}
-.upload-recommend-card:hover { background: rgba(231,92,0,0.06); }
-.upload-recommend-badge {
-  position: absolute;
-  top: -10px;
-  left: 14px;
-  background: var(--warning-main);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 2px 8px;
-  border-radius: 3px;
-  text-transform: uppercase;
-}
-.upload-recommend-icon {
-  width: 36px;
-  height: 36px;
-  background: var(--warning-main);
-  border-radius: var(--radius-sm);
+.upload-recommend-card { display: none; }
+.upload-nudge {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: white;
-}
-.upload-recommend-title {
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(72,94,240,0.07);
+  border: 1px solid rgba(72,94,240,0.2);
+  border-radius: 0;
   font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-.upload-recommend-desc {
-  font-size: 12px;
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1;
 }
+.upload-nudge-icon {
+  color: var(--primary-main);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.upload-nudge-link {
+  color: var(--primary-main);
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 0;
+  margin-left: 2px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.upload-nudge-link:hover { opacity: 0.8; }
 .upload-dropzone {
-  border: 1.5px dashed rgba(231,92,0,0.4);
-  border-radius: var(--radius-md);
-  background: rgba(231,92,0,0.03);
+  position: relative;
+  border: 1.5px dashed rgba(72,94,240,0.3);
+  border-radius: 0;
+  background: rgba(72,94,240,0.04);
   padding: 28px 24px;
   display: flex;
   flex-direction: column;
@@ -2142,45 +2476,66 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   display: none;
 }
 .upload-dropzone.visible { display: flex; }
-.upload-recommend-card + .upload-dropzone.visible {
-  margin-top: -12px;
-  border-top: none;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.upload-dropzone-collapse {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  transition: color 0.12s, background 0.12s;
 }
-.upload-recommend-card:has(+ .upload-dropzone.visible) {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+.upload-dropzone-collapse:hover { color: var(--text-primary); background: rgba(0,0,0,0.06); }
+.upload-dropzone.visible ~ .upload-nudge,
+.upload-section:has(.upload-dropzone.visible) .upload-nudge { display: none; }
+.upload-dropzone-context {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--bg-alt);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
 }
-.upload-dropzone-icon { color: var(--warning-main); }
+.upload-dropzone-icon { color: var(--primary-main); }
 .upload-dropzone-label {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-primary);
 }
-.btn-browse {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  height: 38px;
-  padding: 0 22px;
-  background: var(--warning-main);
-  color: #fff;
+.upload-browse-link {
+  background: none;
   border: none;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 600;
-  font-family: 'Roboto', sans-serif;
+  padding: 0;
+  font-size: inherit;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--primary-main);
   cursor: pointer;
-  transition: opacity 0.12s;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
-.btn-browse:hover { opacity: 0.88; }
+.upload-browse-link:hover { opacity: 0.8; }
 .upload-dropzone-note {
   font-size: 12px;
   color: var(--text-secondary);
-  line-height: 1.5;
-  max-width: 400px;
+  line-height: 1.4;
+  margin: 0;
 }
+.upload-dropzone-fine-print {
+  font-size: 11px;
+  color: var(--text-disabled);
+  line-height: 1.5;
+  text-align: center;
+  margin-top: 2px;
+}
+.upload-dropzone-fine-print p { margin: 0; }
 
 /* Actions panel */
 .dialog-actions {
@@ -3173,6 +3528,14 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
         </button>
       </div>
 
+      <div class="snackbar" id="snackbar-upload" style="top:72px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><polyline points="20 6 9 17 4 12"/></svg>
+        <span class="snackbar-text">Signed Lease Agreement - Chicago.pdf was successfully uploaded and added to the data room.</span>
+        <button class="snackbar-close" onclick="document.getElementById('snackbar-upload').classList.remove('show')" title="Dismiss">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
       <!-- EMPTY STATE -->
       <div class="empty-state-view">
         <div class="buy-coming-soon">View coming soon</div>
@@ -3441,15 +3804,14 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <div class="filter-bar">
         <span class="filter-label">Filter by type:</span>
         <button class="filter-chip active" data-filter="all" onclick="setFilter('all')">
-          All <span class="chip-count">16</span>
+          All <span class="chip-count">(16)</span>
         </button>
         <button class="filter-chip" data-filter="doc" onclick="setFilter('doc')">
-          <span class="filter-chip-dot" style="background:var(--warning-main)"></span>
-          Document Requests <span class="chip-count">7</span>
+          Document Requests <span class="chip-count">(7)</span>
         </button>
-        <button class="filter-chip" data-filter="access" onclick="setFilter('access')">Access Issues</button>
-        <button class="filter-chip" data-filter="clarif" onclick="setFilter('clarif')">Clarification</button>
-        <button class="filter-chip" data-filter="general" onclick="setFilter('general')">General</button>
+        <button class="filter-chip" data-filter="access" onclick="setFilter('access')">Access Issues <span class="chip-count">(1)</span></button>
+        <button class="filter-chip" data-filter="clarif" onclick="setFilter('clarif')">Clarification <span class="chip-count">(3)</span></button>
+        <button class="filter-chip" data-filter="general" onclick="setFilter('general')">General <span class="chip-count">(5)</span></button>
         <div class="filter-spacer"></div>
         <span class="filter-access-label">Project Admin view · global access</span>
       </div>
@@ -4081,10 +4443,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
         </button>
       </div>
       <span class="dialog-title" id="dialog-title"></span>
-      <span class="badge-unanswered">Unanswered</span>
-      <span class="q-chip chip-doc-req sell-side-only" id="dialog-type-badge"><span class="q-chip-dot dot-doc-req"></span>Document Request</span>
-      <span class="badge-outlined" id="dialog-category-badge"></span>
-      <span class="badge-outlined">Workflow: 1/2</span>
       <button class="dialog-close" onclick="closeDialog()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
@@ -4104,36 +4462,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <div class="q-bubble-meta">Asked 2019-06-06 · 08:48</div>
         </div>
 
-        <!-- Upload encouragement (shown for document requests) -->
-        <div class="upload-section" id="upload-section">
-
-          <!-- Recommended card -->
-          <div class="upload-recommend-card" onclick="toggleDropzone()">
-            <div class="upload-recommend-badge">Recommended</div>
-            <div class="upload-recommend-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-            </div>
-            <div>
-              <div class="upload-recommend-title">Upload requested document</div>
-              <div class="upload-recommend-desc">Bidder has asked for a missing file. Upload it here.</div>
-            </div>
-          </div>
-
-          <!-- Drag-and-drop zone (toggled) -->
-          <div class="upload-dropzone" id="upload-dropzone">
-            <div class="upload-dropzone-icon">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-            </div>
-            <div class="upload-dropzone-label">Drag and drop a file, or</div>
-            <button class="btn-browse">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-              Browse files
-            </button>
-            <p class="upload-dropzone-note">Files uploaded here are added to the data room and permissioned against <strong id="dialog-team-name"></strong> by default.</p>
-          </div>
-
-        </div>
-
         <!-- Similar questions — sell side only -->
         <div class="similar-bar sell-side-only">
           <span class="similar-bar-label">
@@ -4144,6 +4472,36 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
             Review
           </button>
+        </div>
+        <!-- Upload encouragement (shown for document requests) -->
+        <div class="upload-section" id="upload-section">
+
+          <!-- Inline upload nudge -->
+          <div class="upload-nudge">
+            <span class="upload-nudge-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+            </span>
+            A document was requested —
+            <button class="upload-nudge-link" onclick="toggleDropzone()">Upload file</button>
+          </div>
+
+          <!-- Drag-and-drop zone (toggled) -->
+          <div class="upload-dropzone" id="upload-dropzone">
+            <button class="upload-dropzone-collapse" onclick="toggleDropzone()" title="Collapse">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <div class="upload-dropzone-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+            </div>
+            <div class="upload-dropzone-label">Drag and drop a file, or <button class="upload-browse-link">browse files</button></div>
+            <p class="upload-dropzone-note">Files uploaded here are added to the data room and permissioned against <strong id="dialog-team-name">Bidder A</strong> by default.</p>
+            <div class="upload-dropzone-fine-print">
+              <p>(Zipped items must be 50GB or less)</p>
+              <p>Please note, that any files uploaded and kept as archive files (zip/rar) will be treated as special media.</p>
+              <p>Please refer to your contract for additional information.</p>
+            </div>
+          </div>
+
         </div>
 
         <!-- New question type picker (new question mode only) -->
@@ -4167,7 +4525,17 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 
         <!-- Reply box -->
         <div class="reply-box">
-          <textarea class="reply-textarea" placeholder="Write reply here"></textarea>
+          <textarea class="reply-textarea" placeholder="Write reply here" oninput="checkDialogEdited()"></textarea>
+
+          <!-- Linked files — shown after upload -->
+          <div id="dialog-linked-files" style="display:none;">
+            <hr class="reply-divider" style="margin:0;" />
+            <div class="dialog-linked-files-inner">
+              <div class="dialog-linked-label">Linked Files <span id="dialog-linked-count">(1)</span></div>
+              <div id="dialog-linked-list" class="dialog-linked-list"></div>
+            </div>
+          </div>
+
           <hr class="reply-divider" />
           <div class="reply-footer">
             <button class="reply-footer-action">
@@ -4180,8 +4548,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <span id="dialog-qtype-label">General Question</span>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            <button class="btn-edit">Save Draft</button>
-            <button class="btn-submit-next">Submit to Answer Team</button>
+            <button class="btn-edit" id="dialog-btn-draft" disabled>Save Draft</button>
+            <button class="btn-submit-next" id="dialog-btn-submit" disabled onclick="if(document.getElementById('dialog-linked-files')&&document.getElementById('dialog-linked-files').style.display!=='none')closeDialog();">Submit to Answer Team</button>
           </div>
         </div>
       </div>
@@ -4189,6 +4557,16 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <!-- Actions panel -->
       <div class="dialog-actions">
         <div class="dialog-actions-title">Actions</div>
+
+        <div>
+          <div class="action-field-label">Question Type</div>
+          <select class="action-select" id="dialog-type-select">
+            <option>Document Requested</option>
+            <option>Clarification</option>
+            <option>Access Issue</option>
+            <option>General</option>
+          </select>
+        </div>
 
         <div>
           <div class="action-field-label">Category</div>
@@ -4270,7 +4648,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 <script>
 /* ── DATA ───────────────────────────────────────────── */
 const ROWS = [
-  { id:1,  team:'Engage',   num:124, type:'doc',     question:'I have a question on the FY 2018 document',                                         category:'Financial',   assignee:'Unassigned', flagged:true,  bookmarked:false },
+  { id:1,  team:'Engage',   num:124, type:'doc',     question:'Can you provide the signed lease agreement for the Chicago office location?',                                         category:'Financial',   assignee:'Unassigned', flagged:true,  bookmarked:false, priority:true },
   { id:2,  team:'Engage',   num:123, type:'doc',     question:'I have a question on the Active Clients document',                                   category:'Commercial',  assignee:'Unassigned', flagged:false, bookmarked:false },
   { id:3,  team:'Edgehall', num:103, type:'doc',     question:'I have a question on the Active Clients document',                                   category:'Financial',   assignee:'Unassigned', flagged:true,  bookmarked:false },
   { id:4,  team:'Edgehall', num:102, type:'clarif',  question:'I have a question on the Articles of Incorporation document',                        category:'Legal',       assignee:'M. Chen',    flagged:true,  bookmarked:false },
@@ -4324,10 +4702,10 @@ function renderTable() {
 
   tbody.innerHTML = filtered.map(row => {
     const meta = TYPE_META[row.type];
-    const flagClass = row.flagged ? 'cell-btn flag-on' : 'cell-btn';
+    const flagClass = row.priority ? 'cell-btn flag-priority' : (row.flagged ? 'cell-btn flag-on' : 'cell-btn');
     const bmClass   = row.bookmarked ? 'cell-btn on' : 'cell-btn';
     const rowClass  = [
-      row.flagged ? 'flagged' : '',
+      row.priority ? 'row-priority' : (row.flagged ? 'flagged' : ''),
       selectedRows.has(row.id) ? 'row-selected' : '',
     ].filter(Boolean).join(' ');
 
@@ -4340,7 +4718,7 @@ function renderTable() {
       </td>
       <td class="col-flag">
         <button class="${flagClass}" onclick="toggleFlag(${row.id}, this)" title="Flag">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="${row.priority ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
         </button>
       </td>
       <td class="text-secondary-cell">${row.team}</td>
@@ -4544,7 +4922,6 @@ function openDialog(id) {
   currentDialogId = id;
 
   document.getElementById('dialog-title').textContent = `${row.team} - ${row.num}`;
-  document.getElementById('dialog-category-badge').textContent = row.category;
   document.getElementById('dialog-question').textContent = row.question;
   document.getElementById('dialog-team-name').textContent = row.team;
 
@@ -4561,8 +4938,25 @@ function openDialog(id) {
   // Reset dropzone to collapsed
   document.getElementById('upload-dropzone').classList.remove('visible');
 
+  // Reset reply buttons to disabled
+  document.getElementById('dialog-btn-draft').disabled = true;
+  document.getElementById('dialog-btn-submit').disabled = true;
+  document.querySelector('.reply-textarea').value = '';
+
+  // Hide any previously linked files
+  const linkedSection = document.getElementById('dialog-linked-files');
+  if (linkedSection) linkedSection.style.display = 'none';
+
   document.getElementById('dialog-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function checkDialogEdited() {
+  const hasText = document.querySelector('.reply-textarea').value.trim().length > 0;
+  const hasFile = document.getElementById('dialog-linked-files')?.style.display !== 'none';
+  const enabled = hasText || hasFile;
+  document.getElementById('dialog-btn-draft').disabled = !enabled;
+  document.getElementById('dialog-btn-submit').disabled = !enabled;
 }
 
 function closeDialog() {
@@ -4592,7 +4986,163 @@ function navigateDialog(dir) {
 }
 
 function toggleDropzone() {
-  document.getElementById('upload-dropzone').classList.toggle('visible');
+  openUploadDialog();
+}
+
+let udlgStep = 1;
+
+function openUploadDialog() {
+  const row = ROWS.find(r => r.id === currentDialogId);
+  const teamName = row ? row.team : 'Engage';
+  const num = row ? row.num : '';
+  document.getElementById('upload-dialog-title').textContent = `Uploading Files to ${teamName} - ${num}`;
+  document.querySelectorAll('#udlg-team-name').forEach(el => el.textContent = teamName);
+  udlgStep = 1;
+  document.getElementById('udlg-step-1').style.display = '';  // folder picker — first
+  document.getElementById('udlg-step-2').style.display = 'none'; // dropzone
+  document.getElementById('udlg-step-3').style.display = 'none'; // settings
+  document.getElementById('udlg-step-4').style.display = 'none'; // progress
+  document.getElementById('udlg-footer-normal').style.display = 'flex';
+  document.getElementById('udlg-footer-progress').style.display = 'none';
+  document.getElementById('udlg-prev-btn').style.display = 'none';
+  const nextBtn = document.getElementById('udlg-next-btn');
+  nextBtn.textContent = 'Next';
+  nextBtn.disabled = false;  // folder is pre-selected so Next is always enabled on step 1
+  // Reset file table
+  document.getElementById('udlg-file-table-wrap').style.display = 'none';
+  document.getElementById('upload-dialog-overlay').classList.add('open');
+}
+
+function closeUploadDialog() {
+  document.getElementById('upload-dialog-overlay').classList.remove('open');
+}
+
+function udlgSimulateBrowse() {
+  // Show the file table and enable Next
+  document.getElementById('udlg-file-table-wrap').style.display = '';
+  const nextBtn = document.getElementById('udlg-next-btn');
+  nextBtn.disabled = false;
+}
+
+function udlgRemoveFile(btn) {
+  btn.closest('tr').remove();
+  const tbody = document.getElementById('udlg-file-tbody');
+  if (!tbody.querySelector('tr')) {
+    document.getElementById('udlg-file-table-wrap').style.display = 'none';
+    document.getElementById('udlg-next-btn').disabled = true;
+  }
+}
+
+function uploadDialogNext() {
+  const nextBtn = document.getElementById('udlg-next-btn');
+  const prevBtn = document.getElementById('udlg-prev-btn');
+
+  if (udlgStep === 1) {
+    // folder picker → dropzone
+    udlgStep = 2;
+    document.getElementById('udlg-step-1').style.display = 'none';
+    document.getElementById('udlg-step-2').style.display = '';
+    document.getElementById('udlg-step-3').style.display = 'none';
+    prevBtn.style.display = '';
+    const hasFile = document.getElementById('udlg-file-table-wrap').style.display !== 'none';
+    nextBtn.textContent = 'Next';
+    nextBtn.disabled = !hasFile;
+  } else if (udlgStep === 2) {
+    // dropzone → settings
+    udlgStep = 3;
+    document.getElementById('udlg-step-1').style.display = 'none';
+    document.getElementById('udlg-step-2').style.display = 'none';
+    document.getElementById('udlg-step-3').style.display = '';
+    prevBtn.style.display = '';
+    nextBtn.textContent = 'Upload';
+    nextBtn.disabled = false;
+  } else if (udlgStep === 3) {
+    // Settings → Upload progress
+    udlgStep = 4;
+    document.getElementById('udlg-step-3').style.display = 'none';
+    document.getElementById('udlg-step-4').style.display = '';
+    document.getElementById('udlg-footer-normal').style.display = 'none';
+    document.getElementById('udlg-footer-progress').style.display = 'flex';
+    // Simulate upload progress
+    udlgSimulateProgress();
+  } else if (udlgStep === 4) {
+    closeUploadDialog();
+  }
+}
+
+function uploadDialogPrev() {
+  const nextBtn = document.getElementById('udlg-next-btn');
+  const prevBtn = document.getElementById('udlg-prev-btn');
+
+  if (udlgStep === 3) {
+    // settings → dropzone
+    udlgStep = 2;
+    document.getElementById('udlg-step-1').style.display = 'none';
+    document.getElementById('udlg-step-2').style.display = '';
+    document.getElementById('udlg-step-3').style.display = 'none';
+    nextBtn.textContent = 'Next';
+    const hasFile = document.getElementById('udlg-file-table-wrap').style.display !== 'none';
+    nextBtn.disabled = !hasFile;
+  } else if (udlgStep === 2) {
+    // dropzone → folder picker
+    udlgStep = 1;
+    document.getElementById('udlg-step-1').style.display = '';
+    document.getElementById('udlg-step-2').style.display = 'none';
+    document.getElementById('udlg-step-3').style.display = 'none';
+    prevBtn.style.display = 'none';
+    nextBtn.textContent = 'Next';
+    nextBtn.disabled = false;
+  }
+}
+
+function udlgSimulateProgress() {
+  let pct = 0;
+  const bar = document.getElementById('udlg-progress-bar');
+  const filePct = document.getElementById('udlg-progress-file-pct');
+  const totalPct = document.getElementById('udlg-progress-pct');
+  if (bar) bar.style.width = '0%';
+  const interval = setInterval(() => {
+    pct += Math.random() * 8 + 3;
+    if (pct >= 100) {
+      pct = 100;
+      clearInterval(interval);
+      setTimeout(() => {
+        closeUploadDialog();
+        // Show linked file in the question dialog
+        const linkedSection = document.getElementById('dialog-linked-files');
+        const linkedList = document.getElementById('dialog-linked-list');
+        if (linkedSection && linkedList) {
+          linkedList.innerHTML = `
+            <div class="dialog-linked-row">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="#E53935" stroke="none"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
+              <span class="dialog-linked-filename">Signed Lease Agreement - Chicago.pdf</span>
+              <span style="color:var(--text-disabled);">· 587.4 KB</span>
+              <button class="dialog-linked-remove" onclick="this.closest('.dialog-linked-row').remove(); const l=document.getElementById('dialog-linked-list'); if(!l.children.length) document.getElementById('dialog-linked-files').style.display='none';" title="Remove">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>`;
+          linkedSection.style.display = '';
+          checkDialogEdited();
+        }
+        const sb = document.getElementById('snackbar-upload');
+        if (sb) { sb.classList.add('show'); setTimeout(() => sb.classList.remove('show'), 15000); }
+      }, 600);
+    }
+    const rounded = Math.round(pct);
+    if (bar) bar.style.width = rounded + '%';
+    if (filePct) filePct.textContent = rounded + '%';
+    if (totalPct) totalPct.textContent = rounded + '%';
+  }, 200);
+}
+
+function selectFolder(row) {
+  document.querySelectorAll('.udlg-folder-row').forEach(r => {
+    r.classList.remove('selected');
+    r.querySelector('input[type="radio"]').checked = false;
+  });
+  row.classList.add('selected');
+  row.querySelector('input[type="radio"]').checked = true;
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDialog(); });
@@ -4944,13 +5494,8 @@ function openBuyDialog(id) {
   const meta = TYPE_META[row.type];
 
   document.getElementById('dialog-title').textContent = `Question #${row.num}`;
-  document.getElementById('dialog-category-badge').textContent = row.category;
   document.getElementById('dialog-question').textContent = row.question;
   document.getElementById('dialog-team-name').textContent = 'Answer Team';
-
-  const typeBadge = document.getElementById('dialog-type-badge');
-  typeBadge.className = `q-chip ${meta.cls}`;
-  typeBadge.innerHTML = `<span class="q-chip-dot ${meta.dotCls}"></span>${meta.label}`;
 
   const catSelect = document.getElementById('dialog-cat-select');
   Array.from(catSelect.options).forEach(o => { o.selected = o.text === row.category; });
@@ -5126,6 +5671,243 @@ document.addEventListener('DOMContentLoaded', renderBuyTable);
 <div class="type-menu" id="type-menu">
   <div class="type-menu-label">QUESTION TYPE</div>
   <div class="type-menu-items"></div>
+</div>
+
+<!-- ── UPLOAD DIALOG ──────────────────────────────── -->
+<div class="upload-dialog-overlay" id="upload-dialog-overlay" onclick="if(event.target===this)closeUploadDialog()">
+  <div class="upload-dialog-modal">
+    <div class="upload-dialog-header">
+      <p class="upload-dialog-title" id="upload-dialog-title">Uploading Files to Engage - 124</p>
+    </div>
+    <div class="upload-dialog-body" id="upload-dialog-body">
+      <!-- Step 1 -->
+      <div id="udlg-step-2" style="display:none;">
+        <div class="udlg-dropzone">
+          <div class="udlg-dropzone-label">
+            Drag and drop files and folders<br>
+            <span style="font-size:13px;color:var(--text-secondary);font-weight:400;">(Zipped items must be 50GB or less)</span>
+          </div>
+          <div class="udlg-archive-note">
+            <p>Please note, that any files uploaded and kept as archive files (zip/rar) will be treated as special media.</p>
+            <p>Please refer to your contract for additional information.</p>
+          </div>
+          <button class="udlg-browse-link" onclick="udlgSimulateBrowse()">Browse</button>
+        </div>
+
+        <!-- File list table — shown after file is added -->
+        <div id="udlg-file-table-wrap" style="display:none;margin-top:0;border:1px solid var(--border-light);border-radius:var(--radius-md);overflow:hidden;">
+          <table class="udlg-file-table">
+            <thead>
+              <tr>
+                <th>File name</th>
+                <th>Size</th>
+                <th>File type</th>
+                <th>Compressed folder action</th>
+                <th style="text-align:center;">
+                  <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--primary-main);cursor:pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                    <span style="font-size:11px;font-weight:500;">Delete</span>
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="udlg-file-tbody">
+              <tr>
+                <td>
+                  <span style="display:flex;align-items:center;gap:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#E53935" stroke="none"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
+                    Signed Lease Agreement - Chicago.pdf
+                  </span>
+                </td>
+                <td>587.4 KB</td>
+                <td>pdf</td>
+                <td></td>
+                <td style="text-align:center;">
+                  <button onclick="udlgRemoveFile(this)" style="background:none;border:none;cursor:pointer;color:#E53935;padding:4px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="height:100px;"></div>
+        </div>
+
+      </div>
+      <!-- Step 2 -->
+      <div id="udlg-step-1">
+        <div class="udlg-folder-label">Choose a location where files will be uploaded</div>
+        <div class="udlg-folder-list">
+          <div class="udlg-folder-row udlg-folder-root selected" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder" checked>
+            Project Orion
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (1) 1_Corporate
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (2) 2_Financial
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (3) 3_Process_Materials
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (4) 4_Third_Party_Reports
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (5) 5_Insurance
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (6) 6_Management_Employees
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (7) 7_Technology
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (8) 8_Contracts
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (9) 9_Tax
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (10) 10_Transaction_Documents
+          </div>
+          <div class="udlg-folder-row udlg-folder-child" onclick="selectFolder(this)">
+            <svg class="udlg-folder-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <input type="radio" name="upload-folder">
+            (11) 11_Leverage_Term_Sheets
+          </div>
+        </div>
+      </div>
+      <!-- Step 3 — Settings -->
+      <div id="udlg-step-3" style="display:none;">
+        <p class="udlg-settings-intro">Ensure permissions are set correctly on uploaded documents, as these may not be visible to all members of the Question and Answer team.</p>
+
+        <div class="udlg-settings-section">
+          <div class="udlg-settings-section-title">Publish Settings</div>
+          <label class="udlg-radio-row">
+            <input type="radio" name="udlg-publish" value="now">
+            <span>Publish now</span>
+          </label>
+          <label class="udlg-radio-row">
+            <input type="radio" name="udlg-publish" value="later" checked>
+            <span>Publish later</span>
+          </label>
+        </div>
+
+        <div class="udlg-settings-divider"></div>
+
+        <div class="udlg-settings-section">
+          <div class="udlg-settings-section-title">Permission Settings</div>
+
+          <!-- Inherit (selected, shows warning) -->
+          <label class="udlg-radio-row" style="align-items:flex-start;">
+            <input type="radio" name="udlg-perms" value="inherit" checked style="margin-top:3px;accent-color:var(--primary-main);">
+            <span class="udlg-radio-label-stack">
+              <span style="font-weight:600;">Inherit destination permission settings</span>
+              <div class="udlg-perm-alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Engage does not currently have access to 2_Financial and will not be able to access this document.
+              </div>
+            </span>
+          </label>
+
+          <!-- Grant access (recommended) -->
+          <label class="udlg-radio-row" style="align-items:flex-start;margin-top:10px;">
+            <input type="radio" name="udlg-perms" value="grant" style="margin-top:3px;">
+            <span class="udlg-radio-label-stack">
+              <span style="display:flex;align-items:center;gap:8px;font-weight:600;">
+                Grant access to Engage
+                <span class="udlg-recommended-chip">Recommended</span>
+              </span>
+              <span class="udlg-radio-sub">Engage will be able to view and download this document once published.</span>
+            </span>
+          </label>
+
+          <!-- Set to hidden -->
+          <label class="udlg-radio-row" style="align-items:flex-start;margin-top:8px;">
+            <input type="radio" name="udlg-perms" value="hidden" style="margin-top:3px;">
+            <span class="udlg-radio-label-stack">
+              <span style="font-weight:600;">Set to hidden</span>
+              <span class="udlg-radio-sub">Note: files will be visible to admins and reviewers with manage rights to the folder or fileroom.</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="udlg-settings-divider"></div>
+
+        <div class="udlg-settings-section">
+          <div class="udlg-settings-section-title">Automated Redaction</div>
+          <p class="udlg-settings-body">If you have automated redaction setup, visit the redaction tab to review and confirm drafts after upload completes.</p>
+        </div>
+      </div>
+
+      <!-- Step 4 — Upload progress -->
+      <div id="udlg-step-4" style="display:none;">
+        <p class="udlg-settings-intro">Do not leave this project until upload has finished. Larger files may require additional processing time after upload.</p>
+        <p class="udlg-progress-total">Total progress: <span id="udlg-progress-pct">0%</span></p>
+        <div class="udlg-progress-table-wrap">
+          <table class="udlg-file-table">
+            <thead>
+              <tr>
+                <th style="width:50%;">File name</th>
+                <th>Size</th>
+                <th style="width:35%;">Progress</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span style="display:flex;align-items:center;gap:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#E53935" stroke="none"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
+                    Signed Lease Agreement - Chicago.pdf
+                  </span>
+                </td>
+                <td>587.4 KB</td>
+                <td>
+                  <div class="udlg-progress-bar-wrap">
+                    <div class="udlg-progress-bar" id="udlg-progress-bar"></div>
+                  </div>
+                  <span class="udlg-progress-file-pct" id="udlg-progress-file-pct">0%</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <div class="upload-dialog-footer" id="udlg-footer-normal">
+      <button class="udlg-btn-cancel" onclick="closeUploadDialog()">Cancel</button>
+      <button class="udlg-btn-prev" id="udlg-prev-btn" style="display:none;" onclick="uploadDialogPrev()">Previous</button>
+      <button class="udlg-btn-next" id="udlg-next-btn" onclick="uploadDialogNext()" disabled>Next</button>
+    </div>
+    <div class="upload-dialog-footer" id="udlg-footer-progress" style="display:none;">
+      <button class="udlg-btn-prev" style="color:var(--primary-main);" onclick="closeUploadDialog()">Cancel</button>
+      <button class="udlg-btn-minimize" onclick="closeUploadDialog()">Minimize</button>
+    </div>
+  </div>
 </div>
 
 </body>
