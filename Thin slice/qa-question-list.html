@@ -1181,9 +1181,12 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .confirm-card-accent { height: 4px; background: var(--success-main); flex-shrink: 0; }
 .confirm-card-body   { padding: 36px 40px 32px 40px; flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
 .confirm-card-footer {
-  padding: 14px 40px 18px;
+  padding: 16px 40px;
   border-top: 1px solid var(--border-light);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 .confirm-card-footer p {
   font-size: 12px;
@@ -3097,7 +3100,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             <h1 class="confirm-headline">Review setup details for Project Orion</h1>
             <p class="confirm-subtitle">Your question team can now submit questions. Your answer team will be notified as questions come in.</p>
 
-            <div class="confirm-section-label">What was configured</div>
+            <div class="confirm-section-label">What will be configured</div>
             <div class="confirm-grid">
               <div>
                 <div class="confirm-grid-item-label">Answer Team</div>
@@ -3131,6 +3134,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               </ul>
             </div>
 
+          </div>
+          <div class="confirm-card-footer">
             <div class="confirm-cta">
               <button class="btn-confirm-back" onclick="goBackFromConfirm()">Back</button>
               <button class="btn-confirm-primary" onclick="goToDashboard()">
