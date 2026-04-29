@@ -1203,19 +1203,68 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   margin-bottom: 20px;
   color: var(--success-main);
 }
+.confirm-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary-main);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
 .confirm-headline {
   font-size: 26px;
-  font-weight: 400;
+  font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 6px;
   line-height: 1.25;
 }
 .confirm-headline strong { font-weight: 600; }
 .confirm-subtitle {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
+}
+.confirm-divider {
+  border: none;
+  border-top: 1px solid var(--border-light);
+  margin: 0;
+}
+.confirm-team-cards {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.confirm-team-card {
+  flex: 1;
+  background: var(--bg-alt);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+.confirm-team-card-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+.confirm-stats-row {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 4px;
+}
+.confirm-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.confirm-stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.confirm-stat-muted {
+  color: var(--text-secondary);
 }
 .confirm-section-label {
   font-size: 10px;
@@ -1244,17 +1293,16 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   color: var(--text-primary);
 }
 .confirm-next-box {
-  border: 1.5px solid var(--border-light);
   border-radius: var(--radius-md);
-  background: var(--bg-alt);
+  background: rgba(72, 94, 240, 0.07);
   padding: 18px 20px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 .confirm-next-title {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  color: var(--primary-main);
   text-transform: uppercase;
   margin-bottom: 12px;
 }
@@ -1269,7 +1317,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 15px;
+  font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.5;
 }
@@ -1277,9 +1325,9 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--grey-400);
+  background: var(--primary-main);
   flex-shrink: 0;
-  margin-top: 6px;
+  margin-top: 5px;
 }
 .confirm-cta {
   display: flex;
@@ -1303,7 +1351,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .btn-confirm-back:hover { background: var(--bg-alt); color: var(--text-primary); }
 .btn-confirm-primary {
   padding: 11px 28px;
-  background: #1F2227;
+  background: var(--primary-main);
   color: #fff;
   border: none;
   border-radius: var(--radius-sm);
@@ -3096,38 +3144,47 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <div class="confirm-view">
         <div class="confirm-card">
           <div class="confirm-card-body">
-            <h1 class="confirm-headline">Review setup details for Project Orion</h1>
-            <p class="confirm-subtitle">Your question team can now submit questions. Your answer team will be notified as questions come in.</p>
+            <div class="confirm-eyebrow">Q&amp;A Setup · Step 3 of 3</div>
+            <h1 class="confirm-headline">Review setup for Project Orion</h1>
+            <p class="confirm-subtitle">Confirm the details below before going live. Your question team will receive access within 15 minutes of launch.</p>
 
-            <div class="confirm-section-label">What will be configured</div>
-            <div class="confirm-grid">
-              <div>
+            <hr class="confirm-divider">
+
+            <div class="confirm-section-label" style="margin-top:24px;">Teams</div>
+            <div class="confirm-team-cards">
+              <div class="confirm-team-card">
                 <div class="confirm-grid-item-label">Answer Team</div>
-                <div class="confirm-grid-item-value" id="confirm-answer-team">—</div>
+                <div class="confirm-team-card-value" id="confirm-answer-team">—</div>
               </div>
-              <div>
+              <div class="confirm-team-card">
                 <div class="confirm-grid-item-label">Question Team</div>
-                <div class="confirm-grid-item-value" id="confirm-question-team">—</div>
-              </div>
-              <div>
-                <div class="confirm-grid-item-label">Total Questions</div>
-                <div class="confirm-grid-item-value" id="confirm-total-q">100</div>
-              </div>
-              <div>
-                <div class="confirm-grid-item-label">High Priority Questions</div>
-                <div class="confirm-grid-item-value" id="confirm-priority-q">0</div>
-              </div>
-              <div>
-                <div class="confirm-grid-item-label">No Priority Questions</div>
-                <div class="confirm-grid-item-value" id="confirm-standard-q">100</div>
+                <div class="confirm-team-card-value" id="confirm-question-team">—</div>
               </div>
             </div>
 
-            <div class="confirm-next-box">
-              <div class="confirm-next-title">What will happen at launch</div>
+            <div class="confirm-section-label" style="margin-top:24px;">Question Summary</div>
+            <div class="confirm-stats-row">
+              <div class="confirm-stat">
+                <div class="confirm-grid-item-label">Total Questions</div>
+                <div class="confirm-stat-value" id="confirm-total-q">100</div>
+              </div>
+              <div class="confirm-stat">
+                <div class="confirm-grid-item-label">High Priority</div>
+                <div class="confirm-stat-value confirm-stat-muted" id="confirm-priority-q">0</div>
+              </div>
+              <div class="confirm-stat">
+                <div class="confirm-grid-item-label">No Priority</div>
+                <div class="confirm-stat-value" id="confirm-standard-q">100</div>
+              </div>
+            </div>
+
+            <hr class="confirm-divider" style="margin-top:24px;">
+
+            <div class="confirm-next-box" style="margin-top:20px;">
+              <div class="confirm-next-title">What happens at launch</div>
               <ul class="confirm-next-list">
                 <li><span class="confirm-next-bullet"></span>The question team will receive an email invitation to access Q&amp;A within the next 15 minutes.</li>
-                <li><span class="confirm-next-bullet"></span>Questions submitted will appear in your Question List for review and response.</li>
+                <li><span class="confirm-next-bullet"></span>Submitted questions will appear in your Question List for review and response.</li>
                 <li><span class="confirm-next-bullet"></span>Advanced routing and workflows remain available from Q&amp;A Settings at any time.</li>
                 <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics.</li>
               </ul>
