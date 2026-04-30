@@ -6577,13 +6577,8 @@ function handleDialogSubmit() {
         document.getElementById('na-btn-' + i).classList.toggle('active', i === 4);
       });
     } else {
-      // Doc is permissioned — go straight to submit gate (resolved)
-      updateSubmitGate();
-      openSubmitGateModal();
-      noAccessState = 5;
-      [1,2,3,4,5].forEach(i => {
-        document.getElementById('na-btn-' + i).classList.toggle('active', i === 5);
-      });
+      // Doc is permissioned — just close and submit
+      closeDialog();
     }
   } else if (document.getElementById('dialog-linked-files')?.style.display !== 'none') {
     closeDialog();
