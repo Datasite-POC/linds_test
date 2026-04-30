@@ -3383,6 +3383,227 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 }
 .am-btn-save:hover:not(:disabled) { background: #3a4cc0; }
 .am-btn-save:disabled { background: var(--border-light); color: var(--text-disabled); cursor: not-allowed; }
+
+/* Shared small buttons for modals */
+.btn-outline-sm {
+  height: 34px; padding: 0 16px;
+  background: none; border: none; color: var(--text-secondary);
+  font-size: 13px; cursor: pointer; font-family: 'Roboto', sans-serif;
+  border-radius: var(--radius-sm);
+}
+.btn-outline-sm:hover { background: var(--bg-alt); }
+.btn-primary-sm {
+  height: 34px; padding: 0 20px;
+  background: var(--primary-main); color: white; border: none;
+  border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+  cursor: pointer; font-family: 'Roboto', sans-serif;
+}
+.btn-primary-sm:hover { background: #3a4fd8; }
+.btn-primary-sm:disabled { opacity: 0.38; cursor: not-allowed; }
+
+/* ── No-file-access flow (Engage-123) ── */
+.dialog-perm-banner {
+  display: none;
+  align-items: center; gap: 10px;
+  padding: 9px 20px;
+  background: rgba(202,48,48,0.07);
+  border-bottom: 1px solid rgba(202,48,48,0.15);
+  font-size: 13px; color: var(--error-main);
+  flex-shrink: 0;
+}
+.dialog-perm-banner svg { flex-shrink: 0; }
+.dialog-perm-banner.visible { display: flex; }
+
+.perm-file-tag {
+  display: none;
+  align-items: center; gap: 6px;
+  padding: 6px 10px; margin-top: 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px; border: 1px solid;
+  cursor: default;
+}
+.perm-file-tag.unpublished {
+  display: inline-flex;
+  background: rgba(202,48,48,0.06);
+  border-color: rgba(202,48,48,0.20);
+  color: var(--error-main);
+}
+.perm-file-tag.resolved {
+  display: inline-flex;
+  background: rgba(20,131,40,0.06);
+  border-color: rgba(20,131,40,0.20);
+  color: var(--success-main);
+}
+.perm-fix-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 12px; font-weight: 500; color: var(--primary-main);
+  padding: 0 6px; border-left: 1px solid rgba(202,48,48,0.20);
+  margin-left: 2px; font-family: 'Roboto', sans-serif;
+  text-decoration: underline;
+}
+.perm-fix-btn:hover { color: #3a4fd8; }
+
+/* Fix access mini modal */
+.perm-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(31,34,39,0.48);
+  align-items: center; justify-content: center;
+  z-index: 2000;
+}
+.perm-overlay.open { display: flex; }
+.perm-modal {
+  width: 420px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 48px rgba(31,34,39,0.22);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.perm-modal-hdr {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.perm-modal-title { font-size: 15px; font-weight: 500; }
+.perm-modal-close {
+  width: 28px; height: 28px; background: none; border: none;
+  cursor: pointer; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary);
+}
+.perm-modal-close:hover { background: var(--bg-alt); }
+.perm-modal-body { padding: 16px 20px; }
+.perm-doc-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-alt); border-radius: var(--radius-sm);
+  margin-bottom: 14px; font-size: 13px;
+}
+.perm-pdf-icon {
+  font-size: 10px; font-weight: 700; color: var(--error-main);
+  background: rgba(202,48,48,0.10); padding: 2px 5px; border-radius: 3px;
+}
+.perm-recipient {
+  font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;
+}
+.perm-recipient strong { color: var(--text-primary); }
+.perm-radio-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 12px; cursor: pointer;
+}
+.perm-radio-ctrl {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--border); flex-shrink: 0; margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+}
+.perm-radio-ctrl.checked { border-color: var(--primary-main); }
+.perm-radio-ctrl.checked::after { content:''; width:8px; height:8px; border-radius:50%; background:var(--primary-main); }
+.perm-radio-label { font-size: 13px; font-weight: 500; }
+.perm-radio-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.perm-hidden-warn {
+  display: none; margin-top: 6px; padding: 6px 10px;
+  background: rgba(202,48,48,0.08);
+  border-left: 3px solid var(--error-main);
+  border-radius: 0 4px 4px 0;
+  font-size: 12px; color: var(--error-main); line-height: 1.5;
+}
+.perm-modal-ftr {
+  padding: 10px 20px 16px;
+  display: flex; justify-content: flex-end; gap: 8px;
+}
+
+/* Submit gate modal */
+.submit-gate-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(31,34,39,0.48);
+  align-items: center; justify-content: center;
+  z-index: 2000;
+}
+.submit-gate-overlay.open { display: flex; }
+.submit-gate-modal {
+  width: 520px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 48px rgba(31,34,39,0.22);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.submit-gate-hdr { padding: 14px 20px; border-bottom: 1px solid var(--border-light); }
+.submit-gate-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+.submit-gate-subtitle { font-size: 13px; color: var(--text-secondary); }
+.submit-gate-body { padding: 16px 20px; }
+.perm-gate-block {
+  border: 1px solid rgba(202,48,48,0.22);
+  border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 16px;
+}
+.perm-gate-block.resolved { border-color: rgba(20,131,40,0.22); }
+.perm-gate-hdr-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px;
+  background: rgba(202,48,48,0.06);
+  border-bottom: 1px solid rgba(202,48,48,0.15);
+  font-size: 12px; font-weight: 500; color: var(--error-main);
+}
+.perm-gate-block.resolved .perm-gate-hdr-row {
+  background: rgba(20,131,40,0.06);
+  border-color: rgba(20,131,40,0.15);
+  color: var(--success-main);
+}
+.perm-gate-file-row {
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.perm-gate-file-name { font-size: 13px; font-weight: 500; color: var(--text-primary); flex: 1; }
+.perm-gate-file-status { font-size: 12px; color: var(--error-main); }
+.perm-gate-file-status.ok { color: var(--success-main); }
+.perm-gate-fix-btn {
+  height: 28px; padding: 0 12px;
+  border: 1px solid var(--primary-main); background: none;
+  color: var(--primary-main); font-size: 12px; font-weight: 500;
+  border-radius: var(--radius-sm); cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+}
+.perm-gate-fix-btn:hover { background: rgba(72,94,240,0.08); }
+.gate-field-group { margin-bottom: 14px; }
+.gate-field-group label { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 4px; }
+.gate-field-input {
+  width: 100%; height: 36px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 0 12px; font-size: 13px; font-family: 'Roboto', sans-serif;
+  color: var(--text-primary); background: var(--bg-surface); outline: none;
+}
+.gate-field-input:focus { border-color: var(--primary-main); }
+.gate-comment-input {
+  width: 100%; min-height: 72px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 12px; font-size: 13px; font-family: 'Roboto', sans-serif;
+  color: var(--text-primary); background: var(--bg-surface); resize: none; outline: none;
+}
+.gate-comment-input:focus { border-color: var(--primary-main); }
+.gate-field-note { font-size: 11px; color: var(--text-disabled); margin-top: 4px; }
+.submit-gate-ftr {
+  padding: 10px 20px 16px;
+  display: flex; justify-content: flex-end; gap: 8px;
+}
+
+/* State navigator for no-access flow */
+.no-access-state-nav {
+  display: none;
+  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+  gap: 6px;
+  background: var(--bg-surface); border: 1px solid var(--border-light);
+  border-radius: 999px; padding: 6px 10px;
+  box-shadow: 0 2px 8px rgba(31,34,39,0.12); z-index: 3000;
+  align-items: center;
+}
+.no-access-state-nav.visible { display: flex; }
+.no-access-nav-label { font-size: 11px; color: var(--text-disabled); padding: 0 6px; line-height: 28px; white-space: nowrap; }
+.no-access-nav-btn {
+  height: 28px; padding: 0 12px;
+  background: none; border: none; border-radius: 999px;
+  font-size: 12px; cursor: pointer; font-family: 'Roboto', sans-serif;
+  color: var(--text-secondary); white-space: nowrap;
+}
+.no-access-nav-btn:hover { background: var(--bg-alt); color: var(--text-primary); }
+.no-access-nav-btn.active { background: var(--primary-main); color: #fff; font-weight: 500; }
 </style>
 </head>
 <body>
@@ -4576,6 +4797,12 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       </button>
     </div>
 
+    <!-- No-file-access warning banner (Engage-123 only) -->
+    <div class="dialog-perm-banner" id="dialog-perm-banner">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      This question references a file the bidder does not have access to.
+    </div>
+
     <!-- Body -->
     <div class="dialog-body">
 
@@ -4655,6 +4882,28 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
         <div class="reply-box">
           <textarea class="reply-textarea" placeholder="Write reply here" oninput="checkDialogEdited()"></textarea>
 
+          <!-- No-access file tag (Engage-123 only) -->
+          <div id="dialog-no-access-files" style="display:none;padding:0 0 4px;">
+            <hr class="reply-divider" style="margin-bottom:8px;" />
+            <div style="font-size:12px;font-weight:500;color:var(--text-primary);margin-bottom:6px;padding-left:16px;">Linked Files (1)</div>
+            <div style="padding-left:16px;">
+            <!-- Unpublished state -->
+            <div id="perm-tag-unpublished" class="perm-file-tag unpublished">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span style="color:var(--error-main);font-size:11px;">Unpublished ·</span>
+              <span style="font-weight:500;">Active Clients.xlsx</span>
+              <span style="color:var(--text-disabled);font-size:11px;">/ Project Orion / 3_Commercial</span>
+              <button class="perm-fix-btn" onclick="openFixAccessModal()">Fix access</button>
+            </div>
+            <!-- Resolved state -->
+            <div id="perm-tag-resolved" class="perm-file-tag resolved" style="display:none;">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span style="font-weight:500;">Active Clients.xlsx</span>
+              <span style="color:var(--text-disabled);font-size:11px;">/ Project Orion / 3_Commercial · Visible to Engage</span>
+            </div>
+            </div><!-- /padding wrapper -->
+          </div>
+
           <!-- Linked files — shown after upload -->
           <div id="dialog-linked-files" style="display:none;">
             <hr class="reply-divider" style="margin:0;" />
@@ -4677,7 +4926,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <button class="btn-edit" id="dialog-btn-draft" disabled>Save Draft</button>
-            <button class="btn-submit-next" id="dialog-btn-submit" disabled onclick="if(document.getElementById('dialog-linked-files')&&document.getElementById('dialog-linked-files').style.display!=='none')closeDialog();">Submit to Answer Team</button>
+            <button class="btn-submit-next" id="dialog-btn-submit" disabled onclick="handleDialogSubmit()">Submit to Answer Team</button>
           </div>
         </div>
       </div>
@@ -4777,7 +5026,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 /* ── DATA ───────────────────────────────────────────── */
 const ROWS = [
   { id:1,  team:'Engage',   num:124, type:'doc',     question:'Can you provide the signed lease agreement for the Chicago office location?',                                         category:'Financial',   assignee:'Unassigned', flagged:true,  bookmarked:false, priority:true },
-  { id:2,  team:'Engage',   num:123, type:'doc',     question:'I have a question on the Active Clients document',                                   category:'Commercial',  assignee:'Unassigned', flagged:false, bookmarked:false },
+  { id:2,  team:'Engage',   num:123, type:'doc',     question:'I have a question on the Active Clients document',                                   category:'Commercial',  assignee:'Unassigned', flagged:false, bookmarked:false, priority:true },
   { id:3,  team:'Edgehall', num:103, type:'doc',     question:'I have a question on the Active Clients document',                                   category:'Financial',   assignee:'Unassigned', flagged:true,  bookmarked:false },
   { id:4,  team:'Edgehall', num:102, type:'clarif',  question:'I have a question on the Articles of Incorporation document',                        category:'Legal',       assignee:'M. Chen',    flagged:true,  bookmarked:false },
   { id:5,  team:'Edgehall', num:101, type:'doc',     question:'I have a question on the Active Clients document',                                   category:'Financial',   assignee:'M. Chen',    flagged:true,  bookmarked:false },
@@ -5074,7 +5323,10 @@ function openDialog(id) {
   if (!row) return;
   currentDialogId = id;
 
-  document.getElementById('dialog-title').textContent = `${row.team} - ${row.num}`;
+  const isNoAccess = id === NO_ACCESS_ID;
+  document.getElementById('dialog-title').textContent = isNoAccess
+    ? `${row.team} - ${row.num} / No file access example`
+    : `${row.team} - ${row.num}`;
   document.getElementById('dialog-question').textContent = row.question;
   document.getElementById('dialog-team-name').textContent = row.team;
 
@@ -5100,6 +5352,13 @@ function openDialog(id) {
   const linkedSection = document.getElementById('dialog-linked-files');
   if (linkedSection) linkedSection.style.display = 'none';
 
+  // No-file-access flow (Engage-123)
+  if (isNoAccess) {
+    initNoAccessDialog();
+  } else {
+    teardownNoAccessDialog();
+  }
+
   document.getElementById('dialog-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -5122,6 +5381,7 @@ function closeDialog() {
     document.querySelector('.btn-submit-next').onclick = null;
     isBuyNewQuestion = false;
   }
+  teardownNoAccessDialog();
   currentDialogId = null;
   currentBuyDialogId = null;
 }
@@ -6050,6 +6310,286 @@ document.addEventListener('DOMContentLoaded', renderBuyTable);
     </div>
   </div>
 </div>
+
+<!-- ── Fix access modal (Engage-123 no-access flow) ── -->
+<div class="perm-overlay" id="perm-fix-overlay">
+  <div class="perm-modal">
+    <div class="perm-modal-hdr">
+      <div class="perm-modal-title">Grant Document Access</div>
+      <button class="perm-modal-close" onclick="closeFixAccessModal()">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- Default: grant form -->
+    <div id="perm-modal-form">
+      <div class="perm-modal-body">
+        <div class="perm-doc-row">
+          <div class="perm-pdf-icon">XLS</div>
+          <span style="font-size:13px;font-weight:500;">Active Clients.xlsx</span>
+          <span style="font-size:12px;color:var(--text-disabled);margin-left:4px;">142.8 KB</span>
+        </div>
+        <div class="perm-recipient" style="margin-bottom:14px;">
+          This document is attached to your answer for <strong>Engage · Due Diligence Team</strong>.
+        </div>
+        <div class="perm-radio-opt" onclick="selectNoAccessPerm('grant')" id="perm-opt-grant">
+          <div class="perm-radio-ctrl checked" id="perm-radio-grant"></div>
+          <div>
+            <div class="perm-radio-label">
+              Grant access to Engage
+              <span style="font-size:10px;font-weight:600;color:var(--primary-main);background:rgba(72,94,240,0.10);padding:2px 6px;border-radius:999px;margin-left:4px;">Recommended</span>
+            </div>
+            <div class="perm-radio-desc">Engage will be able to view this document once it's published.</div>
+          </div>
+        </div>
+        <div class="perm-radio-opt" onclick="selectNoAccessPerm('hidden')" id="perm-opt-hidden">
+          <div class="perm-radio-ctrl" id="perm-radio-hidden"></div>
+          <div>
+            <div class="perm-radio-label">Keep hidden</div>
+            <div class="perm-radio-desc">Visible only to admins and reviewers with manage rights.</div>
+            <div class="perm-hidden-warn" id="perm-hidden-warn">Engage will not be able to access this document.</div>
+          </div>
+        </div>
+      </div>
+      <div class="perm-modal-ftr">
+        <button class="btn-outline-sm" onclick="closeFixAccessModal()">Cancel</button>
+        <button class="btn-primary-sm" onclick="saveNoAccessPerm()">Save</button>
+      </div>
+    </div>
+
+    <!-- Success state -->
+    <div id="perm-modal-success" style="display:none;">
+      <div class="perm-modal-body">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(20,131,40,0.06);border:1px solid rgba(20,131,40,0.22);border-radius:var(--radius-sm);margin-bottom:16px;">
+          <svg width="16" height="16" fill="none" stroke="var(--success-main)" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:13px;font-weight:500;color:var(--success-main);">Access granted to Engage</span>
+        </div>
+        <div class="perm-doc-row" style="margin-bottom:0;">
+          <div class="perm-pdf-icon" style="color:var(--success-main);background:rgba(20,131,40,0.10);">XLS</div>
+          <div>
+            <div style="font-size:13px;font-weight:500;">Active Clients.xlsx</div>
+            <div style="font-size:12px;color:var(--success-main);margin-top:2px;">Engage has access · Visible on publish</div>
+          </div>
+        </div>
+      </div>
+      <div class="perm-modal-ftr">
+        <button class="btn-outline-sm" onclick="closeFixAccessModal()">Close</button>
+        <button class="btn-primary-sm" onclick="closeFixAccessModal(); openSubmitGateModal(); noAccessState=5; [1,2,3,4,5].forEach(i=>document.getElementById('na-btn-'+i).classList.toggle('active',i===5));">Submit to Next Level</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Submit gate modal (Engage-123 no-access flow) ── -->
+<div class="submit-gate-overlay" id="submit-gate-overlay">
+  <div class="submit-gate-modal">
+    <div class="submit-gate-hdr">
+      <div class="submit-gate-title">Submit to Next Level</div>
+      <div class="submit-gate-subtitle">Choose an assignee to forward this question to.</div>
+    </div>
+    <div class="submit-gate-body">
+      <div class="perm-gate-block" id="perm-gate-block">
+        <div class="perm-gate-hdr-row" id="perm-gate-hdr-row">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span id="perm-gate-hdr-text">1 document needs attention before submitting</span>
+        </div>
+        <div class="perm-gate-file-row">
+          <div class="perm-pdf-icon" style="font-size:10px;font-weight:700;color:var(--error-main);background:rgba(202,48,48,0.10);padding:2px 5px;border-radius:3px;flex-shrink:0;">XLS</div>
+          <div style="flex:1;min-width:0;">
+            <div class="perm-gate-file-name">Active Clients.xlsx</div>
+            <div class="perm-gate-file-status" id="perm-gate-file-status">Engage does not have access · Unpublished</div>
+          </div>
+          <button class="perm-gate-fix-btn" id="perm-gate-fix-btn" onclick="resolveFromGate()">Grant access</button>
+        </div>
+      </div>
+    </div>
+    <div class="submit-gate-ftr">
+      <button class="btn-outline-sm" onclick="closeSubmitGateModal()">Cancel</button>
+      <button class="btn-primary-sm" id="gate-submit-btn" disabled onclick="closeSubmitGateModal(); closeDialog();">Submit To Next Level</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── State navigator for Engage-123 no-access flow ── -->
+<div class="no-access-state-nav" id="no-access-state-nav">
+  <span class="no-access-nav-label">No file access flow:</span>
+  <button class="no-access-nav-btn" id="na-btn-1" onclick="setNoAccessState(1)">1 · Composer</button>
+  <button class="no-access-nav-btn" id="na-btn-2" onclick="setNoAccessState(2)">2 · Fix access dialog</button>
+  <button class="no-access-nav-btn" id="na-btn-3" onclick="setNoAccessState(3)">3 · After fix</button>
+  <button class="no-access-nav-btn" id="na-btn-4" onclick="setNoAccessState(4)">4 · Submit → Grant access</button>
+  <button class="no-access-nav-btn" id="na-btn-5" onclick="setNoAccessState(5)">5 · Submit (resolved)</button>
+</div>
+
+<script>
+// ── No-file-access flow (Engage-123) ──
+let noAccessState = 1;
+let noAccessResolved = false;
+let noAccessPerm = 'grant';
+var NO_ACCESS_ID = 2; // Engage-123
+var noAccessFromSubmit = false;
+
+function isNoAccessDialog() {
+  return currentDialogId === NO_ACCESS_ID;
+}
+
+function initNoAccessDialog() {
+  noAccessState = 1;
+  noAccessResolved = false;
+  renderNoAccessState();
+  document.getElementById('no-access-state-nav').classList.add('visible');
+  // Enable submit button for this question (compose state)
+  document.getElementById('dialog-btn-submit').disabled = false;
+}
+
+function teardownNoAccessDialog() {
+  document.getElementById('no-access-state-nav').classList.remove('visible');
+  document.getElementById('dialog-perm-banner').classList.remove('visible');
+  document.getElementById('dialog-no-access-files').style.display = 'none';
+  document.getElementById('perm-fix-overlay').classList.remove('open');
+  document.getElementById('submit-gate-overlay').classList.remove('open');
+}
+
+function setNoAccessState(n) {
+  noAccessState = n;
+  noAccessResolved = n >= 3;
+  closeFixAccessModal(true);
+  closeSubmitGateModal(true);
+  renderNoAccessState();
+  if (n === 2) openFixAccessModal();
+  if (n === 4) { noAccessResolved = false; renderNoAccessState(); openFixAccessModal(); }
+  if (n === 5) { noAccessResolved = true; renderNoAccessState(); updateSubmitGate(); openSubmitGateModal(); }
+  // Highlight active nav btn
+  [1,2,3,4,5].forEach(i => {
+    document.getElementById('na-btn-' + i).classList.toggle('active', i === n);
+  });
+}
+
+function renderNoAccessState() {
+  const banner = document.getElementById('dialog-perm-banner');
+  const filesSection = document.getElementById('dialog-no-access-files');
+  const tagUnpublished = document.getElementById('perm-tag-unpublished');
+  const tagResolved = document.getElementById('perm-tag-resolved');
+
+  banner.classList.toggle('visible', !noAccessResolved);
+  filesSection.style.display = 'block';
+  tagUnpublished.style.display = noAccessResolved ? 'none' : 'inline-flex';
+  tagResolved.style.display = noAccessResolved ? 'inline-flex' : 'none';
+  // Active nav btn
+  [1,2,3,4,5].forEach(i => {
+    document.getElementById('na-btn-' + i).classList.toggle('active', i === noAccessState);
+  });
+}
+
+function openFixAccessModal() {
+  noAccessPerm = 'grant';
+  renderFixModal();
+  document.getElementById('perm-modal-form').style.display = 'block';
+  document.getElementById('perm-modal-success').style.display = 'none';
+  document.getElementById('perm-fix-overlay').classList.add('open');
+}
+
+function closeFixAccessModal(silent) {
+  document.getElementById('perm-fix-overlay').classList.remove('open');
+}
+
+function selectNoAccessPerm(perm) {
+  noAccessPerm = perm;
+  renderFixModal();
+}
+
+function renderFixModal() {
+  document.getElementById('perm-radio-grant').className = 'perm-radio-ctrl' + (noAccessPerm === 'grant' ? ' checked' : '');
+  document.getElementById('perm-radio-hidden').className = 'perm-radio-ctrl' + (noAccessPerm === 'hidden' ? ' checked' : '');
+  document.getElementById('perm-hidden-warn').style.display = noAccessPerm === 'hidden' ? 'block' : 'none';
+}
+
+function saveNoAccessPerm() {
+  if (noAccessPerm === 'grant') {
+    noAccessResolved = true;
+    const fromSubmit = noAccessFromSubmit;
+    noAccessFromSubmit = false;
+    noAccessState = fromSubmit ? 5 : 3;
+    closeFixAccessModal();
+    renderNoAccessState();
+    [1,2,3,4,5].forEach(i => {
+      document.getElementById('na-btn-' + i).classList.toggle('active', i === noAccessState);
+    });
+    if (fromSubmit) {
+      updateSubmitGate();
+      openSubmitGateModal();
+    }
+  } else {
+    noAccessFromSubmit = false;
+    closeFixAccessModal();
+  }
+}
+
+function openSubmitGateModal() {
+  updateSubmitGate();
+  document.getElementById('submit-gate-overlay').classList.add('open');
+}
+
+function closeSubmitGateModal(silent) {
+  document.getElementById('submit-gate-overlay').classList.remove('open');
+}
+
+function updateSubmitGate() {
+  const block = document.getElementById('perm-gate-block');
+  const hdrText = document.getElementById('perm-gate-hdr-text');
+  const fileStatus = document.getElementById('perm-gate-file-status');
+  const fixBtn = document.getElementById('perm-gate-fix-btn');
+  const submitBtn = document.getElementById('gate-submit-btn');
+
+  if (noAccessResolved) {
+    block.classList.add('resolved');
+    hdrText.textContent = 'All documents are accessible to Engage';
+    fileStatus.textContent = 'Engage has access · Visible on publish';
+    fileStatus.className = 'perm-gate-file-status ok';
+    fixBtn.style.display = 'none';
+    submitBtn.disabled = false;
+  } else {
+    block.classList.remove('resolved');
+    hdrText.textContent = '1 document needs attention before submitting';
+    fileStatus.textContent = 'Engage does not have access · Unpublished';
+    fileStatus.className = 'perm-gate-file-status';
+    fixBtn.style.display = 'inline-flex';
+    submitBtn.disabled = true;
+  }
+}
+
+function resolveFromGate() {
+  noAccessResolved = true;
+  renderNoAccessState();
+  updateSubmitGate();
+  noAccessState = 5;
+  [1,2,3,4,5].forEach(i => {
+    document.getElementById('na-btn-' + i).classList.toggle('active', i === 5);
+  });
+}
+
+function handleDialogSubmit() {
+  if (isNoAccessDialog()) {
+    if (!noAccessResolved) {
+      // Doc not yet permissioned — show Grant Document Access
+      noAccessFromSubmit = true;
+      openFixAccessModal();
+      noAccessState = 4;
+      [1,2,3,4,5].forEach(i => {
+        document.getElementById('na-btn-' + i).classList.toggle('active', i === 4);
+      });
+    } else {
+      // Doc is permissioned — go straight to submit gate (resolved)
+      updateSubmitGate();
+      openSubmitGateModal();
+      noAccessState = 5;
+      [1,2,3,4,5].forEach(i => {
+        document.getElementById('na-btn-' + i).classList.toggle('active', i === 5);
+      });
+    }
+  } else if (document.getElementById('dialog-linked-files')?.style.display !== 'none') {
+    closeDialog();
+  }
+}
+</script>
 
 </body>
 </html>
