@@ -2031,6 +2031,39 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 }
 .cust-select-option:hover { background: var(--bg-alt); }
 .cust-select-option.selected { font-weight: 500; }
+/* Multi-select chips */
+.ms-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--bg-alt); border-radius: 999px;
+  padding: 3px 8px 3px 10px;
+  font-size: 13px; color: var(--text-primary);
+  white-space: nowrap; flex-shrink: 0;
+}
+.ms-chip-remove {
+  display: flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: rgba(31,34,39,0.15); border: none; cursor: pointer;
+  color: var(--text-primary); font-size: 11px; line-height: 1;
+  padding: 0; font-family: inherit;
+}
+.ms-chip-remove:hover { background: rgba(31,34,39,0.28); }
+.cust-select-option--check { display: flex; align-items: center; gap: 10px; }
+.cust-check-box {
+  width: 16px; height: 16px; flex-shrink: 0;
+  border: 2px solid var(--border); border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.1s, border-color 0.1s;
+}
+.cust-select-option--check.selected .cust-check-box {
+  background: var(--primary-main); border-color: var(--primary-main);
+}
+.cust-select-option--check.selected .cust-check-box::after {
+  content: '';
+  width: 9px; height: 5px;
+  border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+  transform: rotate(-45deg) translate(1px, -1px);
+  display: block;
+}
 
 /* ── TEAM CONFIRM VIEW ───────────────────────────────── */
 .team-confirm-view {
@@ -4187,21 +4220,24 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             <div style="margin-top:16px;">
               <div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;">Question team</div>
               <div class="cust-select" id="bidder-cust-select">
-                <div class="cust-select-trigger" onclick="toggleCustSelect('bidder-cust-select')">
-                  <span class="cust-select-trigger-text placeholder" id="bidder-cust-select-text">Select from role…</span>
-                  <svg class="cust-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                <div class="cust-select-trigger cust-select-trigger--multi" onclick="toggleCustSelect('bidder-cust-select')" style="height:auto;min-height:44px;flex-wrap:wrap;gap:6px;padding:6px 14px;align-items:center;">
+                  <div id="bidder-chips" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;">
+                    <span class="cust-select-trigger-text placeholder" id="bidder-cust-select-text">Select from role…</span>
+                  </div>
+                  <svg class="cust-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;align-self:center;"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="cust-select-dropdown">
-                  <div class="cust-select-option" onclick="pickCustOption('bidder-cust-select','wiz-bidder-team-select','Bidder Team A')">Bidder Team A</div>
-                  <div class="cust-select-option" onclick="pickCustOption('bidder-cust-select','wiz-bidder-team-select','Bidder Team B')">Bidder Team B</div>
-                  <div class="cust-select-option" onclick="pickCustOption('bidder-cust-select','wiz-bidder-team-select','Bidder Team C')">Bidder Team C</div>
+                  <div class="cust-select-option cust-select-option--check" onclick="toggleBidderOption(this, 'Bidder Team A')">
+                    <span class="cust-check-box"></span>Bidder Team A
+                  </div>
+                  <div class="cust-select-option cust-select-option--check" onclick="toggleBidderOption(this, 'Bidder Team B')">
+                    <span class="cust-check-box"></span>Bidder Team B
+                  </div>
+                  <div class="cust-select-option cust-select-option--check" onclick="toggleBidderOption(this, 'Bidder Team C')">
+                    <span class="cust-check-box"></span>Bidder Team C
+                  </div>
                 </div>
-                <select id="wiz-bidder-team-select" style="display:none" onchange="checkWizReady()">
-                  <option value="" disabled selected>Select from role…</option>
-                  <option>Bidder Team A</option>
-                  <option>Bidder Team B</option>
-                  <option>Bidder Team C</option>
-                </select>
+                <input type="hidden" id="wiz-bidder-team-select" value="">
               </div>
             </div>
             <p class="team-confirm-hint" style="margin-top:8px;margin-bottom:0;">Each bidder team will see only their own questions and answers.</p>
@@ -5211,6 +5247,45 @@ function checkWizReady() {
   document.getElementById('wiz-btn-confirm-launch').disabled = !(a && b);
 }
 
+// Multi-select for bidder teams
+const bidderSelections = new Set();
+
+function toggleBidderOption(el, value) {
+  if (bidderSelections.has(value)) {
+    bidderSelections.delete(value);
+    el.classList.remove('selected');
+  } else {
+    bidderSelections.add(value);
+    el.classList.add('selected');
+  }
+  renderBidderChips();
+  document.getElementById('wiz-bidder-team-select').value = bidderSelections.size > 0 ? Array.from(bidderSelections).join(', ') : '';
+  checkWizReady();
+}
+
+function removeBidderChip(value, event) {
+  event.stopPropagation();
+  bidderSelections.delete(value);
+  // Uncheck the option
+  document.querySelectorAll('#bidder-cust-select .cust-select-option--check').forEach(opt => {
+    if (opt.textContent.trim() === value) opt.classList.remove('selected');
+  });
+  renderBidderChips();
+  document.getElementById('wiz-bidder-team-select').value = bidderSelections.size > 0 ? Array.from(bidderSelections).join(', ') : '';
+  checkWizReady();
+}
+
+function renderBidderChips() {
+  const container = document.getElementById('bidder-chips');
+  if (bidderSelections.size === 0) {
+    container.innerHTML = '<span class="cust-select-trigger-text placeholder" id="bidder-cust-select-text">Select from role…</span>';
+  } else {
+    container.innerHTML = Array.from(bidderSelections).map(v =>
+      `<span class="ms-chip">${v}<button class="ms-chip-remove" onclick="removeBidderChip('${v}', event)">✕</button></span>`
+    ).join('');
+  }
+}
+
 function toggleCustSelect(id) {
   const el = document.getElementById(id);
   const isOpen = el.classList.contains('open');
@@ -5240,7 +5315,9 @@ function pickCustOption(selectId, nativeId, value) {
 }
 
 // Close custom dropdowns when clicking outside
+// Multi-select dropdowns stay open when clicking their own options
 document.addEventListener('click', function(e) {
+  if (e.target.closest('.cust-select-option--check')) return; // keep multi-select open
   if (!e.target.closest('.cust-select')) {
     document.querySelectorAll('.cust-select.open').forEach(s => s.classList.remove('open'));
   }
@@ -5261,8 +5338,8 @@ function activateQA() {
   // Populate confirm view from Quick Setup form values
   const answerSel = document.getElementById('wiz-answer-team-select');
   const bidderSel = document.getElementById('wiz-bidder-team-select');
-  const answerVal = answerSel && answerSel.value ? answerSel.options[answerSel.selectedIndex].text : '—';
-  const bidderVal = bidderSel && bidderSel.value ? bidderSel.options[bidderSel.selectedIndex].text : '—';
+  const answerVal = answerSel && answerSel.value ? (answerSel.options ? answerSel.options[answerSel.selectedIndex].text : answerSel.value) : '—';
+  const bidderVal = bidderSel && bidderSel.value ? bidderSel.value : '—';
   // Populate both confirm step instances (wizard + standalone fallback)
   ['confirm-answer-team','confirm-question-team'].forEach(id => {
     document.querySelectorAll('#' + id).forEach(el => {
