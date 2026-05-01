@@ -2118,6 +2118,10 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   font-size: 12px; color: var(--text-disabled);
   line-height: 1.5; margin-bottom: 36px;
 }
+.confirm-hint-link {
+  color: inherit; text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; font: inherit;
+}
+.confirm-hint-link:hover { text-decoration: underline; }
 .team-confirm-actions {
   display: flex; flex-direction: column; align-items: center; gap: 14px;
 }
@@ -4213,10 +4217,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:16px;">
             <div class="setup-inline-headline">2. Who will ask questions?</div>
             <p class="setup-inline-desc" style="margin-bottom:8px;">Select the team that will ask questions.</p>
-            <div class="info-alert">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--primary-main);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <span>To add more than one team go to <a href="#" onclick="showWizardStep('teams'); return false;" class="info-alert-link">Advanced Settings</a>.</span>
-            </div>
             <div style="margin-top:16px;">
               <div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;">Question team</div>
               <div class="cust-select" id="bidder-cust-select">
@@ -4604,7 +4604,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
         <div style="flex:1;overflow-y:auto;padding:40px;display:flex;flex-direction:column;align-items:center;">
         <div style="width:100%;max-width:600px;">
           <h1 class="confirm-headline">Review setup for Project Orion</h1>
-          <p class="confirm-subtitle">Confirm the details below before going live.</p>
+          <p class="confirm-subtitle">Confirm the details below before going live. Q&amp;A activity will be tracked for reporting and analytics purposes.</p>
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:24px;">
             <div class="confirm-section-label" style="margin-bottom:12px;">Default Workflow</div>
@@ -4628,7 +4628,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                 </div>
               </div>
             </div>
-            <p class="team-confirm-hint" style="margin-top:10px;margin-bottom:0;">Each bidder team will see only their own questions and answers.</p>
+            <p class="team-confirm-hint" id="confirm-bidder-hint" style="margin-top:10px;margin-bottom:0;display:none;">Each bidder team will see only their own questions and answers.</p>
           </div>
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
@@ -4636,17 +4636,18 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             <div class="confirm-stats-row">
               <div class="confirm-stat">
                 <div class="confirm-grid-item-label">Total Questions</div>
-                <div class="confirm-stat-value">100</div>
+                <div class="confirm-stat-value">500</div>
               </div>
               <div class="confirm-stat">
                 <div class="confirm-grid-item-label">High Priority</div>
-                <div class="confirm-stat-value">0</div>
+                <div class="confirm-stat-value">50</div>
               </div>
               <div class="confirm-stat">
                 <div class="confirm-grid-item-label">No Priority</div>
-                <div class="confirm-stat-value">100</div>
+                <div class="confirm-stat-value">450</div>
               </div>
             </div>
+            <p class="team-confirm-hint" style="margin-top:8px;margin-bottom:0;">To edit the question limit go to <button class="confirm-hint-link" onclick="showWizardStep('adv-teams')">Advanced Settings</button>. This can also be edited after launch.</p>
           </div>
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
@@ -5288,9 +5289,24 @@ function renderBidderChips() {
 function toggleCustSelect(id) {
   const el = document.getElementById(id);
   const isOpen = el.classList.contains('open');
-  // Close all open custom selects
-  document.querySelectorAll('.cust-select.open').forEach(s => s.classList.remove('open'));
-  if (!isOpen) el.classList.add('open');
+  // Close all open selects and reset any fixed positioning
+  document.querySelectorAll('.cust-select.open').forEach(s => {
+    s.classList.remove('open');
+    const dd = s.querySelector('.cust-select-dropdown');
+    if (dd) { dd.style.position = ''; dd.style.top = ''; dd.style.left = ''; dd.style.width = ''; dd.style.right = ''; }
+  });
+  if (!isOpen) {
+    el.classList.add('open');
+    // Use fixed positioning so dropdown escapes overflow:hidden parent containers
+    const trigger = el.querySelector('.cust-select-trigger');
+    const dropdown = el.querySelector('.cust-select-dropdown');
+    const rect = trigger.getBoundingClientRect();
+    dropdown.style.position = 'fixed';
+    dropdown.style.top = (rect.bottom + 4) + 'px';
+    dropdown.style.left = rect.left + 'px';
+    dropdown.style.width = rect.width + 'px';
+    dropdown.style.right = 'auto';
+  }
 }
 
 function pickCustOption(selectId, nativeId, value) {
@@ -5318,7 +5334,11 @@ function pickCustOption(selectId, nativeId, value) {
 document.addEventListener('click', function(e) {
   if (e.target.closest('.cust-select-option--check')) return; // keep multi-select open
   if (!e.target.closest('.cust-select')) {
-    document.querySelectorAll('.cust-select.open').forEach(s => s.classList.remove('open'));
+    document.querySelectorAll('.cust-select.open').forEach(s => {
+      s.classList.remove('open');
+      const dd = s.querySelector('.cust-select-dropdown');
+      if (dd) { dd.style.position = ''; dd.style.top = ''; dd.style.left = ''; dd.style.width = ''; dd.style.right = ''; }
+    });
   }
 });
 
@@ -5364,36 +5384,51 @@ function activateQA() {
             <div class="confirm-team-card-value" id="confirm-answer-team">${answerVal}</div>
           </div>
         </div>`;
+      // Hide hint for single team
+      const hint = document.getElementById('confirm-bidder-hint');
+      if (hint) hint.style.display = 'none';
     } else {
-      // Multiple teams: fan-in to single answer card
-      const totalH = teams.length * cardH + (teams.length - 1) * cardGap;
+      // Multiple teams: fan-in to single answer card, label above cards
+      const shortCardH = 50; // card without internal label: 14px pad + 22px value + 14px pad
+      const labelH = 24;     // label line-height ~16px + 8px gap
+      const answerCardH = 76; // card with internal label: 14+16+2+8+22+14
+      const totalH = teams.length * shortCardH + (teams.length - 1) * cardGap;
       const midY = totalH / 2;
-      const cardCenters = teams.map((_, i) => i * (cardH + cardGap) + cardH / 2);
+      const cardCenters = teams.map((_, i) => i * (shortCardH + cardGap) + shortCardH / 2);
 
-      // Fluid cubic bezier curves: each card center fans in smoothly to midY
+      // Fluid cubic bezier curves
       const curves = cardCenters.map(y =>
         `<path d="M 0 ${y} C 28 ${y} 28 ${midY} 46 ${midY}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round"/>`
       ).join('');
-      // Small filled solid triangle arrowhead
       const arrowHead = `<path d="M46 ${midY - 3} L52 ${midY} L46 ${midY + 3} Z" fill="var(--text-disabled)" stroke="none"/>`;
-
       const connectorSvg = `<svg width="54" height="${totalH}" viewBox="0 0 54 ${totalH}" fill="none" xmlns="http://www.w3.org/2000/svg">${curves}${arrowHead}</svg>`;
 
+      // Offset connector and answer card down by label height so they align with the cards
+      const answerTop = Math.max(0, labelH + midY - answerCardH / 2);
+
       workflowRows.innerHTML = `
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="display:flex;flex-direction:column;gap:${cardGap}px;flex:1;">
-            ${teams.map(team => `
-              <div class="confirm-team-card">
-                <div class="confirm-grid-item-label">Question Team</div>
-                <div class="confirm-team-card-value">${team}</div>
-              </div>`).join('')}
+        <div style="display:flex;align-items:flex-start;gap:12px;">
+          <div style="flex:1;display:flex;flex-direction:column;">
+            <div class="confirm-grid-item-label" style="margin-bottom:8px;text-align:center;">Question Teams</div>
+            <div style="display:flex;flex-direction:column;gap:${cardGap}px;">
+              ${teams.map(team => `
+                <div class="confirm-team-card" style="padding:14px 16px;">
+                  <div class="confirm-team-card-value" style="margin-top:0;">${team}</div>
+                </div>`).join('')}
+            </div>
           </div>
-          <div style="flex-shrink:0;">${connectorSvg}</div>
-          <div class="confirm-team-card" style="flex:1;align-self:center;">
-            <div class="confirm-grid-item-label">Answer Team</div>
-            <div class="confirm-team-card-value" id="confirm-answer-team">${answerVal}</div>
+          <div style="flex-shrink:0;margin-top:${labelH}px;">${connectorSvg}</div>
+          <div style="flex:1;margin-top:${answerTop}px;">
+            <div class="confirm-team-card">
+              <div class="confirm-grid-item-label">Answer Team</div>
+              <div class="confirm-team-card-value" id="confirm-answer-team">${answerVal}</div>
+            </div>
           </div>
         </div>`;
+
+      // Show hint only for multiple teams
+      const hint = document.getElementById('confirm-bidder-hint');
+      if (hint) hint.style.display = '';
     }
   }
 
