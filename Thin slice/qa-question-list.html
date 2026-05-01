@@ -5344,28 +5344,67 @@ function activateQA() {
   const answerVal = answerSel && answerSel.value ? (answerSel.options ? answerSel.options[answerSel.selectedIndex].text : answerSel.value) : '—';
   const bidderVal = bidderSel && bidderSel.value ? bidderSel.value : '—';
 
-  // Render one workflow row per bidder team in the wizard confirm view
   const workflowRows = document.getElementById('confirm-workflow-rows');
   if (workflowRows) {
     const teams = bidderVal.split(', ').filter(Boolean);
-    const arrowSvg = `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-      <span style="font-size:14px;color:var(--text-secondary);">Questions</span>
-      <svg width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="0" y1="8" x2="40" y2="8" stroke="var(--text-disabled)" stroke-width="1.5"/>
-        <path d="M36 3 L44 8 L36 13" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></div>`;
-    workflowRows.innerHTML = teams.map((team, i) => `
-      <div style="display:flex;align-items:center;gap:12px;${i > 0 ? 'margin-top:10px;' : ''}">
-        <div class="confirm-team-card" style="flex:1;">
-          <div class="confirm-grid-item-label">Question Team</div>
-          <div class="confirm-team-card-value">${team}</div>
-        </div>
-        ${arrowSvg}
-        <div class="confirm-team-card" style="flex:1;">
-          <div class="confirm-grid-item-label">Answer Team</div>
-          <div class="confirm-team-card-value" ${i === 0 ? 'id="confirm-answer-team"' : ''}>${answerVal}</div>
-        </div>
-      </div>`).join('');
+    const cardH = 74; // approximate card height: 14px pad + 16px label + 8px gap + 22px value + 14px pad
+    const cardGap = 10;
+
+    if (teams.length <= 1) {
+      // Single team: simple horizontal row
+      workflowRows.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="confirm-team-card" style="flex:1;">
+            <div class="confirm-grid-item-label">Question Team</div>
+            <div class="confirm-team-card-value">${teams[0] || '—'}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+            <span style="font-size:14px;color:var(--text-secondary);">Questions</span>
+            <svg width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="8" x2="40" y2="8" stroke="var(--text-disabled)" stroke-width="1.5"/>
+              <path d="M36 3 L44 8 L36 13" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="confirm-team-card" style="flex:1;">
+            <div class="confirm-grid-item-label">Answer Team</div>
+            <div class="confirm-team-card-value" id="confirm-answer-team">${answerVal}</div>
+          </div>
+        </div>`;
+    } else {
+      // Multiple teams: fan-in to single answer card
+      const totalH = teams.length * cardH + (teams.length - 1) * cardGap;
+      const midY = totalH / 2;
+      const cardCenters = teams.map((_, i) => i * (cardH + cardGap) + cardH / 2);
+      const topY = cardCenters[0];
+      const botY = cardCenters[cardCenters.length - 1];
+
+      // Bracket lines: horizontal from each card center to vertical bar, then single arrow out
+      const hLines = cardCenters.map(y =>
+        `<line x1="0" y1="${y}" x2="26" y2="${y}" stroke="var(--text-disabled)" stroke-width="1.5"/>`
+      ).join('');
+      const vLine = `<line x1="26" y1="${topY}" x2="26" y2="${botY}" stroke="var(--text-disabled)" stroke-width="1.5"/>`;
+      const arrowLine = `<line x1="26" y1="${midY}" x2="54" y2="${midY}" stroke="var(--text-disabled)" stroke-width="1.5"/>`;
+      const arrowHead = `<path d="M50 ${midY - 5} L58 ${midY} L50 ${midY + 5}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      const label = `<text x="40" y="${midY - 9}" text-anchor="middle" font-size="12" font-family="Roboto,sans-serif" fill="#9EA3AB">Questions</text>`;
+
+      const connectorSvg = `<svg width="60" height="${totalH}" viewBox="0 0 60 ${totalH}" fill="none" xmlns="http://www.w3.org/2000/svg">${hLines}${vLine}${arrowLine}${arrowHead}${label}</svg>`;
+
+      workflowRows.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:${cardGap}px;flex:1;">
+            ${teams.map(team => `
+              <div class="confirm-team-card">
+                <div class="confirm-grid-item-label">Question Team</div>
+                <div class="confirm-team-card-value">${team}</div>
+              </div>`).join('')}
+          </div>
+          <div style="flex-shrink:0;">${connectorSvg}</div>
+          <div class="confirm-team-card" style="flex:1;align-self:center;">
+            <div class="confirm-grid-item-label">Answer Team</div>
+            <div class="confirm-team-card-value" id="confirm-answer-team">${answerVal}</div>
+          </div>
+        </div>`;
+    }
   }
 
   showWizardStep('confirm');
