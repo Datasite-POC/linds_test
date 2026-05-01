@@ -5358,8 +5358,7 @@ function activateQA() {
             <div class="confirm-grid-item-label">Question Team</div>
             <div class="confirm-team-card-value">${teams[0] || '—'}</div>
           </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-            <span style="font-size:14px;color:var(--text-secondary);">Questions</span>
+          <div style="flex-shrink:0;">
             <svg width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <line x1="0" y1="8" x2="40" y2="8" stroke="var(--text-disabled)" stroke-width="1.5"/>
               <path d="M36 3 L44 8 L36 13" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -5405,7 +5404,6 @@ function activateQA() {
               </div>`).join('')}
           </div>
           <div style="position:relative;flex-shrink:0;width:60px;height:${totalH}px;">
-            <span style="position:absolute;top:${labelTop}px;left:50%;transform:translateX(-50%);font-size:13px;color:var(--text-secondary);white-space:nowrap;">Questions</span>
             <div style="position:absolute;top:0;left:0;">${connectorSvg}</div>
           </div>
           <div class="confirm-team-card" style="flex:1;align-self:center;">
