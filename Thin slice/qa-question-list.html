@@ -5374,25 +5374,14 @@ function activateQA() {
       const totalH = teams.length * cardH + (teams.length - 1) * cardGap;
       const midY = totalH / 2;
       const cardCenters = teams.map((_, i) => i * (cardH + cardGap) + cardH / 2);
-      const topY = cardCenters[0];
-      const botY = cardCenters[cardCenters.length - 1];
-      const r = 4; // corner radius
 
-      // Bracket: outer arms use a rounded path; intermediate arms are straight lines
-      const bracketPath = `M 0 ${topY} H ${26 - r} a ${r} ${r} 0 0 1 ${r} ${r} V ${botY - r} a ${r} ${r} 0 0 1 ${-r} ${r} H 0`;
-      const intermArms = cardCenters.slice(1, -1).map(y =>
-        `<line x1="0" y1="${y}" x2="26" y2="${y}" stroke="var(--text-disabled)" stroke-width="1.5" stroke-linecap="round"/>`
+      // Fluid cubic bezier curves: each card center fans in smoothly to midY
+      const curves = cardCenters.map(y =>
+        `<path d="M 0 ${y} C 28 ${y} 28 ${midY} 50 ${midY}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round"/>`
       ).join('');
-      const arrowLine = `<line x1="26" y1="${midY}" x2="54" y2="${midY}" stroke="var(--text-disabled)" stroke-width="1.5"/>`;
-      const arrowHead = `<path d="M50 ${midY - 5} L58 ${midY} L50 ${midY + 5}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      const arrowHead = `<path d="M46 ${midY - 5} L54 ${midY} L46 ${midY + 5}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
 
-      const connectorSvg = `<svg width="60" height="${totalH}" viewBox="0 0 60 ${totalH}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="${bracketPath}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none"/>
-        ${intermArms}${arrowLine}${arrowHead}
-      </svg>`;
-
-      // Label positioned above the top bracket arm
-      const labelTop = Math.max(0, topY - 22);
+      const connectorSvg = `<svg width="56" height="${totalH}" viewBox="0 0 56 ${totalH}" fill="none" xmlns="http://www.w3.org/2000/svg">${curves}${arrowHead}</svg>`;
 
       workflowRows.innerHTML = `
         <div style="display:flex;align-items:center;gap:12px;">
@@ -5403,9 +5392,7 @@ function activateQA() {
                 <div class="confirm-team-card-value">${team}</div>
               </div>`).join('')}
           </div>
-          <div style="position:relative;flex-shrink:0;width:60px;height:${totalH}px;">
-            <div style="position:absolute;top:0;left:0;">${connectorSvg}</div>
-          </div>
+          <div style="flex-shrink:0;">${connectorSvg}</div>
           <div class="confirm-team-card" style="flex:1;align-self:center;">
             <div class="confirm-grid-item-label">Answer Team</div>
             <div class="confirm-team-card-value" id="confirm-answer-team">${answerVal}</div>
