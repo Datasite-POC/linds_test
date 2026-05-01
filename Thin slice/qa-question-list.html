@@ -5377,17 +5377,23 @@ function activateQA() {
       const cardCenters = teams.map((_, i) => i * (cardH + cardGap) + cardH / 2);
       const topY = cardCenters[0];
       const botY = cardCenters[cardCenters.length - 1];
+      const r = 4; // corner radius
 
-      // Bracket lines: horizontal from each card center to vertical bar, then single arrow out
-      const hLines = cardCenters.map(y =>
-        `<line x1="0" y1="${y}" x2="26" y2="${y}" stroke="var(--text-disabled)" stroke-width="1.5"/>`
+      // Bracket: outer arms use a rounded path; intermediate arms are straight lines
+      const bracketPath = `M 0 ${topY} H ${26 - r} a ${r} ${r} 0 0 1 ${r} ${r} V ${botY - r} a ${r} ${r} 0 0 1 ${-r} ${r} H 0`;
+      const intermArms = cardCenters.slice(1, -1).map(y =>
+        `<line x1="0" y1="${y}" x2="26" y2="${y}" stroke="var(--text-disabled)" stroke-width="1.5" stroke-linecap="round"/>`
       ).join('');
-      const vLine = `<line x1="26" y1="${topY}" x2="26" y2="${botY}" stroke="var(--text-disabled)" stroke-width="1.5"/>`;
       const arrowLine = `<line x1="26" y1="${midY}" x2="54" y2="${midY}" stroke="var(--text-disabled)" stroke-width="1.5"/>`;
       const arrowHead = `<path d="M50 ${midY - 5} L58 ${midY} L50 ${midY + 5}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
-      const label = `<text x="40" y="${midY - 9}" text-anchor="middle" font-size="12" font-family="Roboto,sans-serif" fill="#9EA3AB">Questions</text>`;
 
-      const connectorSvg = `<svg width="60" height="${totalH}" viewBox="0 0 60 ${totalH}" fill="none" xmlns="http://www.w3.org/2000/svg">${hLines}${vLine}${arrowLine}${arrowHead}${label}</svg>`;
+      const connectorSvg = `<svg width="60" height="${totalH}" viewBox="0 0 60 ${totalH}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="${bracketPath}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none"/>
+        ${intermArms}${arrowLine}${arrowHead}
+      </svg>`;
+
+      // Label positioned above the top bracket arm
+      const labelTop = Math.max(0, topY - 22);
 
       workflowRows.innerHTML = `
         <div style="display:flex;align-items:center;gap:12px;">
@@ -5398,7 +5404,10 @@ function activateQA() {
                 <div class="confirm-team-card-value">${team}</div>
               </div>`).join('')}
           </div>
-          <div style="flex-shrink:0;">${connectorSvg}</div>
+          <div style="position:relative;flex-shrink:0;width:60px;height:${totalH}px;">
+            <span style="position:absolute;top:${labelTop}px;left:50%;transform:translateX(-50%);font-size:13px;color:var(--text-secondary);white-space:nowrap;">Questions</span>
+            <div style="position:absolute;top:0;left:0;">${connectorSvg}</div>
+          </div>
           <div class="confirm-team-card" style="flex:1;align-self:center;">
             <div class="confirm-grid-item-label">Answer Team</div>
             <div class="confirm-team-card-value" id="confirm-answer-team">${answerVal}</div>
