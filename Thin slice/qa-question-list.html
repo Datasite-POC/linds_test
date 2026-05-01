@@ -4617,23 +4617,27 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:24px;">
             <div class="confirm-section-label" style="margin-bottom:12px;">Default Workflow</div>
-            <div style="display:flex;align-items:center;gap:12px;">
-              <div class="confirm-team-card" style="flex:1;">
-                <div class="confirm-grid-item-label">Question Team</div>
-                <div class="confirm-team-card-value" id="confirm-question-team">Bidder Team B</div>
-              </div>
-              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-                <span style="font-size:14px;color:var(--text-secondary);">Questions</span>
-                <svg width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <line x1="0" y1="8" x2="40" y2="8" stroke="var(--text-disabled)" stroke-width="1.5"/>
-                  <path d="M36 3 L44 8 L36 13" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div class="confirm-team-card" style="flex:1;">
-                <div class="confirm-grid-item-label">Answer Team</div>
-                <div class="confirm-team-card-value" id="confirm-answer-team">Microsoft</div>
+            <div id="confirm-workflow-rows">
+              <!-- Populated by activateQA() -->
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="confirm-team-card" style="flex:1;">
+                  <div class="confirm-grid-item-label">Question Team</div>
+                  <div class="confirm-team-card-value" id="confirm-question-team">Bidder Team B</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+                  <span style="font-size:14px;color:var(--text-secondary);">Questions</span>
+                  <svg width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="0" y1="8" x2="40" y2="8" stroke="var(--text-disabled)" stroke-width="1.5"/>
+                    <path d="M36 3 L44 8 L36 13" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="confirm-team-card" style="flex:1;">
+                  <div class="confirm-grid-item-label">Answer Team</div>
+                  <div class="confirm-team-card-value" id="confirm-answer-team">Microsoft</div>
+                </div>
               </div>
             </div>
+            <p class="team-confirm-hint" style="margin-top:10px;margin-bottom:0;">Each bidder team will see only their own questions and answers.</p>
           </div>
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
@@ -5335,18 +5339,35 @@ function cancelTeamConfirm() {
 }
 
 function activateQA() {
-  // Populate confirm view from Quick Setup form values
   const answerSel = document.getElementById('wiz-answer-team-select');
   const bidderSel = document.getElementById('wiz-bidder-team-select');
   const answerVal = answerSel && answerSel.value ? (answerSel.options ? answerSel.options[answerSel.selectedIndex].text : answerSel.value) : '—';
   const bidderVal = bidderSel && bidderSel.value ? bidderSel.value : '—';
-  // Populate both confirm step instances (wizard + standalone fallback)
-  ['confirm-answer-team','confirm-question-team'].forEach(id => {
-    document.querySelectorAll('#' + id).forEach(el => {
-      if (id === 'confirm-answer-team')   el.textContent = answerVal;
-      if (id === 'confirm-question-team') el.textContent = bidderVal;
-    });
-  });
+
+  // Render one workflow row per bidder team in the wizard confirm view
+  const workflowRows = document.getElementById('confirm-workflow-rows');
+  if (workflowRows) {
+    const teams = bidderVal.split(', ').filter(Boolean);
+    const arrowSvg = `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+      <span style="font-size:14px;color:var(--text-secondary);">Questions</span>
+      <svg width="48" height="16" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="8" x2="40" y2="8" stroke="var(--text-disabled)" stroke-width="1.5"/>
+        <path d="M36 3 L44 8 L36 13" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></div>`;
+    workflowRows.innerHTML = teams.map((team, i) => `
+      <div style="display:flex;align-items:center;gap:12px;${i > 0 ? 'margin-top:10px;' : ''}">
+        <div class="confirm-team-card" style="flex:1;">
+          <div class="confirm-grid-item-label">Question Team</div>
+          <div class="confirm-team-card-value">${team}</div>
+        </div>
+        ${arrowSvg}
+        <div class="confirm-team-card" style="flex:1;">
+          <div class="confirm-grid-item-label">Answer Team</div>
+          <div class="confirm-team-card-value" ${i === 0 ? 'id="confirm-answer-team"' : ''}>${answerVal}</div>
+        </div>
+      </div>`).join('');
+  }
+
   showWizardStep('confirm');
 }
 
