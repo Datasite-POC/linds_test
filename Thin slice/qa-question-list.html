@@ -5377,11 +5377,12 @@ function activateQA() {
 
       // Fluid cubic bezier curves: each card center fans in smoothly to midY
       const curves = cardCenters.map(y =>
-        `<path d="M 0 ${y} C 28 ${y} 28 ${midY} 50 ${midY}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round"/>`
+        `<path d="M 0 ${y} C 28 ${y} 28 ${midY} 46 ${midY}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round"/>`
       ).join('');
-      const arrowHead = `<path d="M46 ${midY - 5} L54 ${midY} L46 ${midY + 5}" stroke="var(--text-disabled)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      // Small filled solid triangle arrowhead
+      const arrowHead = `<path d="M46 ${midY - 3} L52 ${midY} L46 ${midY + 3} Z" fill="var(--text-disabled)" stroke="none"/>`;
 
-      const connectorSvg = `<svg width="56" height="${totalH}" viewBox="0 0 56 ${totalH}" fill="none" xmlns="http://www.w3.org/2000/svg">${curves}${arrowHead}</svg>`;
+      const connectorSvg = `<svg width="54" height="${totalH}" viewBox="0 0 54 ${totalH}" fill="none" xmlns="http://www.w3.org/2000/svg">${curves}${arrowHead}</svg>`;
 
       workflowRows.innerHTML = `
         <div style="display:flex;align-items:center;gap:12px;">
