@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Q&A Phase 1 — Why, How, What</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(31,34,39,0.87);
+  background: #fff;
+  padding: 32px 0 48px;
+  min-width: 700px;
+}
+
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: rgba(31,34,39,0.45);
+  margin-bottom: 8px;
+}
+
+/* PRD links */
+.prd-section-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(31,34,39,0.87);
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+.prd-links {
+  padding: 0 0 4px;
+  margin-bottom: 32px;
+}
+
+.prd-links-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(31,34,39,0.4);
+  margin-bottom: 10px;
+}
+
+.prd-links a {
+  display: block;
+  font-size: 13px;
+  color: #485EF0;
+  text-decoration: none;
+  padding: 3px 0;
+  padding-left: 16px;
+}
+.prd-links a:hover { text-decoration: underline; }
+
+/* Sections */
+.section { margin-bottom: 32px; }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(31,34,39,0.4);
+  margin-bottom: 4px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.section hr {
+  border: none;
+  border-top: 1px solid rgba(31,34,39,0.10);
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 14px;
+  color: rgba(31,34,39,0.65);
+  margin-bottom: 12px;
+}
+
+/* Problem list */
+ul.problem-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+ul.problem-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(31,34,39,0.65);
+}
+
+ul.problem-list li::before {
+  content: '•';
+  flex-shrink: 0;
+  color: rgba(31,34,39,0.35);
+}
+
+/* Flow */
+.flow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 16px;
+}
+
+.flow-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.flow-step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -10px;
+  top: 10px;
+  font-size: 14px;
+  color: rgba(31,34,39,0.2);
+}
+
+.flow-num {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(31,34,39,0.3);
+  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+}
+
+.flow-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(31,34,39,0.87);
+  margin-bottom: 4px;
+}
+
+.flow-desc {
+  font-size: 11px;
+  color: rgba(31,34,39,0.45);
+  line-height: 1.4;
+  padding: 0 4px;
+}
+
+/* Initiatives grid */
+.initiatives {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(31,34,39,0.10);
+  border: 1px solid rgba(31,34,39,0.10);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.initiative {
+  background: #fff;
+  padding: 16px;
+}
+
+.initiative-num {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(31,34,39,0.3);
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+}
+
+.initiative-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(31,34,39,0.87);
+  margin-bottom: 6px;
+}
+
+.initiative-desc {
+  font-size: 13px;
+  color: rgba(31,34,39,0.55);
+  line-height: 1.55;
+}
+
+/* Outcomes */
+.outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(31,34,39,0.10);
+  border: 1px solid rgba(31,34,39,0.10);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.outcome {
+  background: #fff;
+  padding: 12px 16px;
+}
+
+.outcome-dir {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.outcome-dir.up { color: #148328; }
+.outcome-dir.down { color: #485EF0; }
+
+.outcome-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(31,34,39,0.87);
+  margin-bottom: 2px;
+}
+
+.outcome-desc {
+  font-size: 12px;
+  color: rgba(31,34,39,0.45);
+  line-height: 1.45;
+}
+
+.back-btn {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 32px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(31,34,39,0.65);
+  background: #fff;
+  border: 1px solid rgba(31,34,39,0.18);
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: background 0.15s, color 0.15s;
+}
+.back-btn:hover {
+  background: rgba(31,34,39,0.04);
+  color: rgba(31,34,39,0.87);
+}
+.back-btn svg {
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+<a class="back-btn" href="qa-question-list.html">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.5 3L5 7l3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Back to prototype
+</a>
+<div class="page">
+
+  <h1>Q&A Quick Wins</h1>
+
+
+  <div class="prd-section-label">Product Requirement Documents</div>
+  <div class="prd-links">
+    <a href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6518702110" target="_blank">Q&A Quick Launch (Simplify Q&A Settings)</a>
+    <a href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6519324680" target="_blank">Question Categorisation (Document Requests)</a>
+    <a href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6519062571" target="_blank">Upload Document Answer Action</a>
+    <a href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6519095374" target="_blank">Q&A Document Permissions</a>
+  </div>
+
+  <div class="section">
+    <div class="section-label">01 / Why</div>
+    <div class="section-title">The Problem</div>
+    <ul class="problem-list">
+      <li>Setup is too complex for medium and smaller deals. Admins must configure teams, categories, workflows, limits, and routing before a single question can be asked. Many skip it and default to email or Excel.</li>
+      <li>Document requests get lost in the question queue. There's no way to distinguish a question that needs an uploaded file from one that needs a text reply.</li>
+      <li>Upload isn't a natural answer path. Answer teams often respond with text or upload outside Q&A — missing the chance to create a tracked, Q&A-driven upload.</li>
+      <li>Bidders can't always access documents shared in answers. The resulting support escalation erodes trust in the workflow.</li>
+    </ul>
+    <p><strong style="color:rgba(31,34,39,0.87);">Phase 1 goal:</strong> Increase Active Q&A adoption (projects that reach 10 or more questions asked) by reducing the setup, classification, answer, and permissions barriers that prevent projects from reaching that threshold.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-label">02 / How</div>
+    <div class="section-title">The Approach</div>
+    <hr>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-name">Launch Setup</div>
+        <div class="flow-desc">Quick Launch reduces friction before Q&A opens</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-name">Question Asked</div>
+        <div class="flow-desc">Categorisation flags document requests at submission</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-name">Answer Given</div>
+        <div class="flow-desc">Upload action makes document delivery the default path</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-name">Document Accessed</div>
+        <div class="flow-desc">Permissions confirm bidder can view the file before answer is sent</div>
+      </div>
+    </div>
+    <p>Each initiative is scoped to one moment in the Q&A lifecycle and designed to ship independently. They reinforce each other: categorisation makes the upload action more targeted, and the upload action is safer because permissions are confirmed.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-label">03 / What</div>
+    <div class="section-title">The Four Initiatives</div>
+    <div class="initiatives">
+      <div class="initiative">
+        <div class="initiative-num">01</div>
+        <div class="initiative-name">Q&A Quick Launch</div>
+        <div class="initiative-desc">A simplified setup path using safe defaults so admins can launch Q&A without configuring custom workflows. Advanced setup remains available for complex deals.</div>
+      </div>
+      <div class="initiative">
+        <div class="initiative-num">02</div>
+        <div class="initiative-name">Question Categorisation</div>
+        <div class="initiative-desc">A lightweight question type field that lets teams flag Document Requests. Answer teams can filter, prioritise, and reclassify.</div>
+      </div>
+      <div class="initiative">
+        <div class="initiative-num">03</div>
+        <div class="initiative-name">Upload Document Answer Action</div>
+        <div class="initiative-desc">Upload becomes a first-class action in the Q&A answer flow, especially for Document Request questions. Answer teams no longer need to leave Q&A to attach a file.</div>
+      </div>
+      <div class="initiative">
+        <div class="initiative-num">04</div>
+        <div class="initiative-name">Q&A Document Permissions</div>
+        <div class="initiative-desc">Before submitting an answer, users can confirm or set visibility for the intended bidder. A warning appears when access isn't yet granted.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">04 / Outcomes</div>
+    <div class="section-title">What Success Looks Like</div>
+    <div class="outcomes">
+      <div class="outcome">
+        <div class="outcome-dir up">↑</div>
+        <div class="outcome-name">Active Q&A rate</div>
+        <div class="outcome-desc">More projects reach 10+ questions after launch</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-dir up">↑</div>
+        <div class="outcome-name">Pages uploaded through Q&A</div>
+        <div class="outcome-desc">Document requests resolved with uploads, not text replies</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-dir down">↓</div>
+        <div class="outcome-name">Setup time to launch</div>
+        <div class="outcome-desc">Time from project creation to Q&A open decreases</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-dir down">↓</div>
+        <div class="outcome-name">Bidder access issues</div>
+        <div class="outcome-desc">Fewer support escalations from documents not visible after answer</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-dir down">↓</div>
+        <div class="outcome-name">Setup support tickets</div>
+        <div class="outcome-desc">Fewer CS escalations around Q&A configuration complexity</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-dir up">↑</div>
+        <div class="outcome-name">Document Request conversion</div>
+        <div class="outcome-desc">Higher rate of document questions resolved with an actual upload</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

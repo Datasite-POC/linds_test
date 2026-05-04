@@ -425,7 +425,7 @@ html, body {
   background: var(--bg-surface);
   border-radius: var(--radius-md);
   box-shadow: 0 8px 32px rgba(31,34,39,0.18);
-  width: 420px;
+  width: 630px;
   padding: 28px 28px 20px 28px;
   display: flex;
   flex-direction: column;
@@ -1312,6 +1312,41 @@ body.side-buy .sell-side-only { display: none; }
   box-shadow: 0 6px 16px rgba(72,94,240,0.45);
 }
 body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
+body:not(.state-empty) .fab-split { display: none; }
+.fab-split {
+  position: fixed;
+  bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex;
+  align-items: stretch;
+  background: transparent;
+  color: var(--primary-main);
+  border: 1.5px solid var(--primary-main);
+  border-radius: var(--radius-pill);
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 4px 12px rgba(72,94,240,0.18);
+  z-index: 500;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.fab-split-section {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary-main);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  transition: background 0.15s;
+}
+.fab-split-section:hover { background: rgba(72,94,240,0.08); }
+.fab-split-divider {
+  width: 1px;
+  background: var(--primary-main);
+  opacity: 0.3;
+  margin: 8px 0;
+  flex-shrink: 0;
+}
 
 /* ── BUY SIDE LAYOUT ─────────────────────────────────── */
 .buy-panel-nav {
@@ -1632,7 +1667,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .confirm-headline strong { font-weight: 600; }
 .confirm-subtitle {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   line-height: 1.6;
   margin-bottom: 0;
 }
@@ -1914,6 +1949,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   border-top-color: var(--text-primary);
 }
 .info-icon-wrap:hover .info-tooltip { display: block; }
+.info-icon-wrap.tooltip-wide .info-tooltip { white-space: normal; width: 260px; text-align: left; text-transform: none; letter-spacing: normal; }
 .setup-item-desc {
   font-size: 13px;
   color: var(--text-secondary);
@@ -2357,6 +2393,11 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 }
 
 /* Similar questions bar */
+@keyframes similar-bar-emerge {
+  0%   { transform: translateY(100%); opacity: 0; clip-path: inset(0 0 0 0); }
+  60%  { opacity: 1; }
+  100% { transform: translateY(0);   opacity: 1; }
+}
 .similar-bar {
   display: flex;
   align-items: center;
@@ -2367,6 +2408,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   border-radius: var(--radius-md) var(--radius-md) 0 0;
   border-bottom: none;
   margin-bottom: 0;
+  animation: similar-bar-emerge 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
 }
 .similar-bar-label {
   display: flex;
@@ -2409,6 +2451,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   border-radius: 0 0 var(--radius-md) var(--radius-md);
   overflow: hidden;
   margin-top: -16px;
+  position: relative;
+  z-index: 1;
 }
 .reply-textarea {
   width: 100%;
@@ -2793,6 +2837,20 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   letter-spacing: 0.02em;
 }
 .wizard-header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.wiz-adv-link {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  align-self: center;
+}
+.wiz-adv-link:hover { text-decoration: underline; }
 .wiz-close-btn {
   width: 32px; height: 32px;
   display: flex; align-items: center; justify-content: center;
@@ -2806,6 +2864,13 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
   height: 26px; padding: 0 10px;
   border-radius: var(--radius-pill); border: 1px solid var(--border);
   color: var(--text-secondary); font-size: 12px;
+  display: flex; align-items: center; gap: 5px;
+  background: transparent; white-space: nowrap;
+}
+.badge-launched {
+  height: 26px; padding: 0 10px;
+  border-radius: var(--radius-pill); border: 1px solid var(--success-main);
+  color: var(--success-main); font-size: 12px;
   display: flex; align-items: center; gap: 5px;
   background: transparent; white-space: nowrap;
 }
@@ -2827,7 +2892,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 }
 .wizard-left-head { padding: 20px 20px 10px; }
 .wizard-left-title { font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-.wizard-left-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.wizard-left-desc { font-size: 14px; color: var(--text-primary); line-height: 1.6; }
 .wizard-left-search { display: flex; align-items: center; gap: 8px; padding: 8px 16px 4px; }
 .wiz-search-input {
   flex: 1; height: 28px;
@@ -2877,16 +2942,16 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .wizard-footer {
   height: 56px; min-height: 56px;
   display: flex; align-items: center;
-  padding: 0 24px; gap: 12px;
+  padding: 0 16px; gap: 12px;
   border-top: 1px solid var(--border-light); flex-shrink: 0;
 }
 .btn-wiz-back {
-  display: flex; align-items: center; gap: 6px;
-  height: 34px; padding: 0 16px;
+  padding: 11px 24px;
+  background: transparent;
+  color: var(--text-secondary);
   border: 1px solid var(--border); border-radius: var(--radius-sm);
-  background: var(--bg-surface); color: var(--text-secondary);
-  font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
-  cursor: pointer; transition: background 0.12s;
+  font-size: 14px; font-weight: 500; font-family: 'Roboto', sans-serif;
+  cursor: pointer; transition: background 0.15s, color 0.15s;
 }
 .btn-wiz-back:hover { background: var(--bg-alt); color: var(--text-primary); }
 .wiz-footer-center { flex: 1; display: flex; align-items: center; justify-content: center; }
@@ -2894,12 +2959,13 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 .wiz-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: background 0.15s; }
 .wiz-dot.active { background: var(--primary-main); width: 18px; border-radius: 3px; }
 .btn-wiz-next {
-  display: flex; align-items: center; gap: 6px;
-  height: 34px; padding: 0 20px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 28px;
   border: none; border-radius: var(--radius-sm);
   background: var(--primary-main); color: #fff;
-  font-size: 13px; font-weight: 500; font-family: 'Roboto', sans-serif;
-  cursor: pointer; transition: opacity 0.12s;
+  font-size: 14px; font-weight: 600; font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.01em;
+  cursor: pointer; transition: opacity 0.15s;
 }
 .btn-wiz-next:hover { opacity: 0.88; }
 /* Overview */
@@ -2965,6 +3031,10 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 /* Teams */
 .wiz-section-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .wiz-section-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+.wiz-sub-header-title { font-size: 18px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; white-space: nowrap; margin-right: 24px; }
+.wiz-sub-header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.wiz-back-qs-link { font-size: 13px; font-weight: 400; color: var(--text-secondary); background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.wiz-back-qs-link:hover { text-decoration: underline; }
 .btn-add-members {
   display: flex; align-items: center; gap: 6px;
   height: 32px; padding: 0 14px;
@@ -3424,11 +3494,11 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 /* Shared small buttons for modals */
 .btn-outline-sm {
   height: 34px; padding: 0 16px;
-  background: none; border: none; color: var(--text-secondary);
+  background: none; border: 1px solid var(--border); color: var(--text-secondary);
   font-size: 13px; cursor: pointer; font-family: 'Roboto', sans-serif;
   border-radius: var(--radius-sm);
 }
-.btn-outline-sm:hover { background: var(--bg-alt); }
+.btn-outline-sm:hover { background: var(--bg-alt); color: var(--text-primary); }
 .btn-primary-sm {
   height: 34px; padding: 0 20px;
   background: var(--primary-main); color: white; border: none;
@@ -3437,6 +3507,13 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 }
 .btn-primary-sm:hover { background: #3a4fd8; }
 .btn-primary-sm:disabled { opacity: 0.38; cursor: not-allowed; }
+.btn-text-sm {
+  height: 34px; padding: 0 12px;
+  background: none; border: none; color: var(--text-secondary);
+  font-size: 13px; cursor: pointer; font-family: 'Roboto', sans-serif;
+  border-radius: var(--radius-sm);
+}
+.btn-text-sm:hover { color: var(--text-primary); background: var(--bg-alt); }
 
 /* ── No-file-access flow (Engage-123) ── */
 .dialog-perm-banner {
@@ -3788,7 +3865,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
         Watched Items
       </div>
-      <div class="panel-nav-item">
+      <div class="panel-nav-item" onclick="openWizardLaunched()">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
         Q&amp;A Settings
       </div>
@@ -3859,7 +3936,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                 <svg class="qs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                 <span class="qs-feature-text">Restrict visibility with category-based routing</span>
               </div>
-              <button class="btn-setup-qa" onclick="openWizard()">Set Up Q&amp;A</button>
+              <button class="btn-setup-qa" onclick="openWizard()">Get Started with Q&amp;A</button>
             </div>
           </div>
         </div>
@@ -3894,19 +3971,19 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <div class="confirm-view">
         <div class="confirm-card">
           <div class="confirm-card-body">
-            <h1 class="confirm-headline">Review setup for Project Orion</h1>
-            <p class="confirm-subtitle">Confirm the details below before going live.</p>
+            <h1 class="confirm-headline">Ready to Launch Q&amp;A</h1>
+            <p class="confirm-subtitle">Confirm the details below before launching.</p>
 
             <hr class="confirm-divider">
 
             <div class="confirm-section-label" style="margin-top:24px;">Teams</div>
             <div class="confirm-team-cards">
               <div class="confirm-team-card">
-                <div class="confirm-grid-item-label">Answer Team</div>
+                <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">Answer Team</div>
                 <div class="confirm-team-card-value" id="confirm-answer-team">—</div>
               </div>
               <div class="confirm-team-card">
-                <div class="confirm-grid-item-label">Question Team</div>
+                <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">Question Team</div>
                 <div class="confirm-team-card-value" id="confirm-question-team">—</div>
               </div>
             </div>
@@ -3914,15 +3991,15 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             <div class="confirm-section-label" style="margin-top:24px;">Question Limits</div>
             <div class="confirm-stats-row">
               <div class="confirm-stat">
-                <div class="confirm-grid-item-label">Total Questions</div>
+                <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">Total</div>
                 <div class="confirm-stat-value" id="confirm-total-q">500</div>
               </div>
               <div class="confirm-stat">
-                <div class="confirm-grid-item-label">High Priority</div>
+                <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">High Priority</div>
                 <div class="confirm-stat-value" id="confirm-priority-q">50</div>
               </div>
               <div class="confirm-stat">
-                <div class="confirm-grid-item-label">No Priority</div>
+                <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">No Priority</div>
                 <div class="confirm-stat-value" id="confirm-standard-q">450</div>
               </div>
             </div>
@@ -4151,16 +4228,12 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 <div class="wizard-overlay" id="wizard-overlay">
   <div class="wizard-modal">
 
-    <!-- Header -->
-    <div class="wizard-header">
-      <div class="wizard-tabs">
-        <button class="wizard-tab" id="wtab-overview" onclick="showWizardStep('confirm')">Quick Setup</button>
-        <button class="wizard-tab" id="wtab-teams" onclick="showWizardStep('adv-teams')">Advanced Settings</button>
-      </div>
+    <!-- Main header (Quick Start) -->
+    <div class="wizard-header" id="wizard-main-header">
+      <span class="wiz-sub-header-title" style="flex:1;">Quick Start</span>
       <div class="wizard-header-right">
-        <span class="badge-not-launched">
-          Q&amp;A Not Launched
-        </span>
+        <button class="wiz-adv-link" onclick="showWizardStep('adv-teams')">Go to Advanced Settings</button>
+        <span class="badge-not-launched">Q&amp;A Not Launched</span>
         <button class="wiz-close-btn" onclick="exitWizard()" title="Close">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
@@ -4169,11 +4242,19 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 
     <!-- Sub-header -->
     <div class="wizard-header" id="wizard-sub-header" style="border-top:none;">
-      <div class="wizard-tabs" style="padding-left:108px;">
+      <span class="wiz-sub-header-title">Advanced Settings</span>
+      <div class="wizard-tabs">
         <button class="wizard-tab" id="sub-teams" onclick="showWizardStep('adv-teams')">Q&amp;A Teams</button>
         <button class="wizard-tab" id="sub-categories" onclick="showWizardStep('categories')">Categories</button>
         <button class="wizard-tab" id="sub-workflow" onclick="showWizardStep('workflow')">Workflow</button>
-        <button class="wizard-tab" id="sub-launch" onclick="showWizardStep('launch')">Launch</button>
+        <button class="wizard-tab" id="sub-launch" onclick="showWizardStep('launch')">Review</button>
+      </div>
+      <div class="wiz-sub-header-right">
+        <button class="wiz-back-qs-link" onclick="showWizardStep(lastQuickStartStep)">Back to Quick Start</button>
+        <span class="badge-not-launched">Q&amp;A Not Launched</span>
+        <button class="wiz-close-btn" onclick="exitWizard()" title="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
     </div>
 
@@ -4184,8 +4265,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <div class="wizard-step" id="wstep-overview" style="flex-direction:column;overflow:hidden;">
         <div style="flex:1;overflow-y:auto;padding:40px;display:flex;flex-direction:column;align-items:center;">
         <div style="width:100%;max-width:600px;">
-          <h1 class="setup-card-headline">Q&amp;A Quick Setup</h1>
-          <p class="setup-card-desc">We've pre-configured a safe, secure setup based on Project Orion. Start accepting questions with minimal configuration.</p>
+          <h1 class="setup-card-headline">Q&amp;A Quick Start</h1>
+          <p class="setup-card-desc">Get started with Q&amp;A right away. Minimal setup required.</p>
 
           <!-- Who will answer -->
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:16px;">
@@ -4216,9 +4297,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <!-- Who will ask -->
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:16px;">
             <div class="setup-inline-headline">2. Who will ask questions?</div>
-            <p class="setup-inline-desc" style="margin-bottom:8px;">Select the team that will ask questions.</p>
             <div style="margin-top:16px;">
-              <div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;">Question team</div>
+              <div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;">Question team(s)</div>
               <div class="cust-select" id="bidder-cust-select">
                 <div class="cust-select-trigger cust-select-trigger--multi" onclick="toggleCustSelect('bidder-cust-select')" style="height:auto;min-height:44px;flex-wrap:wrap;gap:6px;padding:6px 14px;align-items:center;">
                   <div id="bidder-chips" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;">
@@ -4247,7 +4327,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
         </div>
         </div>
         <div style="flex-shrink:0;padding:16px 40px;border-top:1px solid var(--border-light);display:flex;justify-content:flex-end;">
-          <button id="wiz-btn-confirm-launch" class="btn-setup-primary" onclick="activateQA();" style="width:max-content;padding:11px 28px;" disabled>Review Setup</button>
+          <button id="wiz-btn-confirm-launch" class="btn-setup-primary" onclick="activateQA();" style="width:max-content;padding:11px 28px;" disabled>Review</button>
         </div>
       </div>
 
@@ -4295,72 +4375,172 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <div class="wizard-left-head">
             <div class="wizard-left-title">Q&amp;A Teams</div>
           </div>
-          <div class="wiz-team-item active">Answer Team</div>
-          <div class="wiz-team-item" style="color:var(--text-secondary);font-weight:400;">Question Team</div>
+          <div class="wiz-team-item active" id="nav-answer-team" onclick="showTeamView('answer')">Answer Team</div>
+          <div class="wiz-team-item" id="nav-question-team" onclick="showTeamView('question')" style="font-weight:400;">Question Team</div>
           <div class="wiz-add-team-link">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
             Add Question Team
           </div>
         </div>
         <div class="wizard-main">
-          <div class="wiz-section-row">
-            <div class="wiz-section-title">Answer Team</div>
-          </div>
-          <div class="members-table">
-            <div class="members-table-head">
-              <div class="members-table-head-cell">Name</div>
-              <div class="members-table-head-cell">Role</div>
-              <div class="members-table-head-cell">Company</div>
-              <div class="members-table-head-cell">Email</div>
-              <div class="members-table-head-cell">Status</div>
+
+          <!-- Answer Team view -->
+          <div id="team-view-answer">
+            <div class="wiz-section-row">
+              <div class="wiz-section-title">Answer Team</div>
             </div>
-            <div class="members-table-rows">
-              <div class="members-table-row">
-                <div class="members-table-cell member-name-cell">
-                  <div class="avatar avatar--ds" style="width:32px;height:32px;font-size:11px;">DS</div>
-                  <span class="member-name-text">Samuels, Daniel</span>
-                </div>
-                <div class="members-table-cell">Project Admin</div>
-                <div class="members-table-cell">Datasite</div>
-                <div class="members-table-cell" style="color:var(--text-secondary);">daniel.samuels@datasite.com</div>
-                <div class="members-table-cell"><span class="member-status-badge"><span class="member-status-dot"></span>Active</span></div>
+            <div class="members-table">
+              <div class="members-table-head">
+                <div class="members-table-head-cell">Name</div>
+                <div class="members-table-head-cell">Role</div>
+                <div class="members-table-head-cell">Company</div>
+                <div class="members-table-head-cell">Email</div>
+                <div class="members-table-head-cell">Status</div>
               </div>
-              <div class="members-table-row">
-                <div class="members-table-cell member-name-cell">
-                  <div class="avatar avatar--slate" style="width:32px;height:32px;font-size:11px;">PR</div>
-                  <span class="member-name-text">Park, Rachel</span>
+              <div class="members-table-rows">
+                <div class="members-table-row">
+                  <div class="members-table-cell member-name-cell">
+                    <div class="avatar avatar--ds" style="width:32px;height:32px;font-size:11px;">DS</div>
+                    <span class="member-name-text">Samuels, Daniel</span>
+                  </div>
+                  <div class="members-table-cell">Project Admin</div>
+                  <div class="members-table-cell">Datasite</div>
+                  <div class="members-table-cell" style="color:var(--text-secondary);">daniel.samuels@datasite.com</div>
+                  <div class="members-table-cell"><span class="member-status-badge"><span class="member-status-dot"></span>Active</span></div>
                 </div>
-                <div class="members-table-cell">Analyst</div>
-                <div class="members-table-cell">Datasite</div>
-                <div class="members-table-cell" style="color:var(--text-secondary);">rachel.park@datasite.com</div>
-                <div class="members-table-cell"><span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span></div>
+                <div class="members-table-row">
+                  <div class="members-table-cell member-name-cell">
+                    <div class="avatar avatar--slate" style="width:32px;height:32px;font-size:11px;">PR</div>
+                    <span class="member-name-text">Park, Rachel</span>
+                  </div>
+                  <div class="members-table-cell">Analyst</div>
+                  <div class="members-table-cell">Datasite</div>
+                  <div class="members-table-cell" style="color:var(--text-secondary);">rachel.park@datasite.com</div>
+                  <div class="members-table-cell"><span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span></div>
+                </div>
+              </div>
+              <div class="members-add-link" onclick="openAddMembersDialog()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                Add/remove answer team members
               </div>
             </div>
-            <div class="members-add-link" onclick="openAddMembersDialog()">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              Add/remove answer team members
+            <div class="import-card">
+              <div class="import-card-body">
+                <div class="import-card-title">Import Questions via Excel</div>
+                <div class="import-card-desc">Enable importing questions via Excel on behalf of question teams. This feature is available for Admins only.</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+                <div class="toggle-switch"></div>
+                <span style="font-size:13px;font-weight:500;color:var(--text-primary)">On</span>
+              </div>
+            </div>
+            <div class="import-card">
+              <div class="import-card-body">
+                <div class="import-card-title">Similar Questions</div>
+                <div class="import-card-desc">Enables the answer team to identify similar questions</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+                <div class="toggle-switch"></div>
+                <span style="font-size:13px;font-weight:500;color:var(--text-primary)">On</span>
+              </div>
             </div>
           </div>
-          <div class="import-card">
-            <div class="import-card-body">
-              <div class="import-card-title">Import Questions via Excel</div>
-              <div class="import-card-desc">Enable importing questions via Excel on behalf of question teams. This feature is available for Admins only.</div>
+
+          <!-- Question Team view -->
+          <div id="team-view-question" style="display:none;">
+            <div class="wiz-section-row" style="margin-bottom:4px;">
+              <div class="wiz-section-title">Question Team</div>
             </div>
-            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-              <div class="toggle-switch"></div>
-              <span style="font-size:13px;font-weight:500;color:var(--text-primary)">On</span>
+            <div style="font-size:14px;color:var(--text-primary);line-height:1.6;margin-bottom:20px;">
+              Invite users to this project to add them to Q&amp;A. Invited users will not receive any notifications and will be unable to interact with Q&amp;A until they have registered. Question teams will not be able to view questions from other teams.
+            </div>
+
+            <!-- Team name field -->
+            <div style="margin-bottom:24px;">
+              <div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px;font-weight:500;">Question Team Name *</div>
+              <input type="text" value="Question Team" style="width:280px;height:32px;border:none;border-bottom:1px solid var(--border);background:transparent;font-size:14px;font-family:'Roboto',sans-serif;color:var(--text-primary);outline:none;padding:0;" />
+            </div>
+
+            <!-- Members table -->
+            <div class="members-table">
+              <div class="members-table-head">
+                <div class="members-table-head-cell">Name</div>
+                <div class="members-table-head-cell">Role</div>
+                <div class="members-table-head-cell">Company</div>
+                <div class="members-table-head-cell">Email</div>
+                <div class="members-table-head-cell">Status</div>
+              </div>
+              <div class="members-table-rows">
+                <div class="members-table-row">
+                  <div class="members-table-cell member-name-cell">
+                    <div class="avatar avatar--dc" style="width:32px;height:32px;font-size:11px;">DC</div>
+                    <span class="member-name-text">Chung, Deborah</span>
+                  </div>
+                  <div class="members-table-cell">Due Diligence Manager</div>
+                  <div class="members-table-cell">Bidder Team A</div>
+                  <div class="members-table-cell" style="color:var(--text-secondary);">deborah.chung@biddera.com</div>
+                  <div class="members-table-cell"><span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span></div>
+                </div>
+                <div class="members-table-row">
+                  <div class="members-table-cell member-name-cell">
+                    <div class="avatar avatar--slate" style="width:32px;height:32px;font-size:11px;">JW</div>
+                    <span class="member-name-text">Walsh, James</span>
+                  </div>
+                  <div class="members-table-cell">Associate</div>
+                  <div class="members-table-cell">Bidder Team A</div>
+                  <div class="members-table-cell" style="color:var(--text-secondary);">james.walsh@biddera.com</div>
+                  <div class="members-table-cell"><span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span></div>
+                </div>
+              </div>
+              <div class="members-add-link" onclick="openAddMembersDialog()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                Add/remove question team members
+              </div>
+            </div>
+
+            <!-- Status cards row -->
+            <div id="status-cards-row" style="display:flex;flex-direction:column;gap:0;margin-top:16px;margin-bottom:16px;">
+              <div class="import-card" style="flex-direction:column;align-items:flex-start;gap:0;width:100%;">
+                <div class="import-card-title">Q&amp;A Status</div>
+                <div class="import-card-desc" style="margin-top:6px;margin-bottom:16px;color:var(--text-primary);"><strong>ON:</strong> Team is active and Q&amp;A is available.<br><strong>OFF:</strong> Team is deactivated and Q&amp;A is unavailable.</div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="toggle-switch"></div>
+                  <span style="font-size:13px;font-weight:500;color:var(--text-primary)">On</span>
+                </div>
+              </div>
+              <div class="import-card" style="flex-direction:column;align-items:flex-start;gap:0;width:100%;padding:16px;margin-top:12px!important;">
+                <div class="import-card-title">Question Submission</div>
+                <div class="import-card-desc" style="margin-top:6px;margin-bottom:16px;color:var(--text-primary);"><strong>ON:</strong> Team can draft and submit questions.<br><strong>OFF:</strong> Team can draft questions, but cannot submit.</div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="toggle-switch"></div>
+                  <span style="font-size:13px;font-weight:500;color:var(--text-primary)">On</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Question Limit card -->
+            <div class="import-card" style="flex-direction:column;align-items:flex-start;gap:16px;">
+              <div class="import-card-body">
+                <div class="import-card-title">Question Limit</div>
+                <div class="import-card-desc" style="margin-top:4px;">Set a limit on the number of questions this team can ask and mark as priority.</div>
+              </div>
+              <div style="display:flex;flex-direction:row;gap:40px;width:100%;align-items:flex-end;">
+                <div>
+                  <div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px;">Total Questions</div>
+                  <input id="ql-total" type="text" value="500" oninput="calcQLimit()" style="width:120px;height:32px;border:none;border-bottom:1px solid var(--border);background:transparent;font-size:14px;font-family:'Roboto',sans-serif;color:var(--text-primary);outline:none;padding:0;" />
+                </div>
+                <div>
+                  <div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px;">High Priority Questions</div>
+                  <input id="ql-priority" type="text" value="50" oninput="calcQLimit()" style="width:120px;height:32px;border:none;border-bottom:1px solid var(--border);background:transparent;font-size:14px;font-family:'Roboto',sans-serif;color:var(--text-primary);outline:none;padding:0;" />
+                </div>
+                <div>
+                  <div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px;">Questions Without a Priority</div>
+                  <input id="ql-remaining" type="text" value="450" readonly style="width:120px;height:32px;border:none;border-bottom:1px solid var(--border-light);background:transparent;font-size:14px;font-family:'Roboto',sans-serif;color:var(--text-secondary);outline:none;padding:0;cursor:default;" />
+                </div>
+              </div>
             </div>
           </div>
-          <div class="import-card">
-            <div class="import-card-body">
-              <div class="import-card-title">Similar Questions</div>
-              <div class="import-card-desc">Enables the answer team to identify similar questions</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-              <div class="toggle-switch"></div>
-              <span style="font-size:13px;font-weight:500;color:var(--text-primary)">On</span>
-            </div>
-          </div>
+
         </div>
       </div>
 
@@ -4603,8 +4783,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <div class="wizard-step" id="wstep-confirm" style="flex-direction:column;overflow:hidden;">
         <div style="flex:1;overflow-y:auto;padding:40px;display:flex;flex-direction:column;align-items:center;">
         <div style="width:100%;max-width:600px;">
-          <h1 class="confirm-headline">Review setup for Project Orion</h1>
-          <p class="confirm-subtitle">Confirm the details below before going live. Q&amp;A activity will be tracked for reporting and analytics purposes.</p>
+          <h1 class="confirm-headline">Ready to Launch Q&amp;A</h1>
+          <p class="confirm-subtitle">Confirm the details below before launching.</p>
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:24px;">
             <div class="confirm-section-label" style="margin-bottom:12px;">Default Workflow</div>
@@ -4612,7 +4792,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <!-- Populated by activateQA() -->
               <div style="display:flex;align-items:center;gap:12px;">
                 <div class="confirm-team-card" style="flex:1;">
-                  <div class="confirm-grid-item-label">Question Team</div>
+                  <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">Question Team</div>
                   <div class="confirm-team-card-value" id="confirm-question-team">Bidder Team B</div>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
@@ -4623,7 +4803,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                   </svg>
                 </div>
                 <div class="confirm-team-card" style="flex:1;">
-                  <div class="confirm-grid-item-label">Answer Team</div>
+                  <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">Answer Team</div>
                   <div class="confirm-team-card-value" id="confirm-answer-team">Microsoft</div>
                 </div>
               </div>
@@ -4632,26 +4812,37 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           </div>
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
-            <div class="confirm-section-label" style="margin-bottom:12px;">Question Limits</div>
+            <div class="confirm-section-label" style="margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+              Question Limits
+              <span class="info-icon-wrap tooltip-wide" style="position:relative;display:inline-flex;align-items:center;cursor:default;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-disabled);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span class="info-tooltip">To edit question limits go to Advanced Settings. This can also be edited after launch.</span>
+              </span>
+            </div>
             <div class="confirm-stats-row">
               <div class="confirm-stat">
-                <div class="confirm-grid-item-label">Total Questions</div>
+                <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">Total</div>
                 <div class="confirm-stat-value">500</div>
               </div>
               <div class="confirm-stat">
-                <div class="confirm-grid-item-label">High Priority</div>
+                <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">High Priority</div>
                 <div class="confirm-stat-value">50</div>
               </div>
               <div class="confirm-stat">
-                <div class="confirm-grid-item-label">No Priority</div>
+                <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">No Priority</div>
                 <div class="confirm-stat-value">450</div>
               </div>
             </div>
-            <p class="team-confirm-hint" style="margin-top:8px;margin-bottom:0;">To edit the question limit go to <button class="confirm-hint-link" onclick="showWizardStep('adv-teams')">Advanced Settings</button>. This can also be edited after launch.</p>
           </div>
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
-            <div class="confirm-section-label" style="margin-bottom:12px;">Categories</div>
+            <div class="confirm-section-label" style="margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+              Categories
+              <span class="info-icon-wrap tooltip-wide" style="position:relative;display:inline-flex;align-items:center;cursor:default;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-disabled);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span class="info-tooltip">To edit categories go to Advanced Settings. Additional categories can also be added after launch.</span>
+              </span>
+            </div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;">
               <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Finance</span>
               <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">General</span>
@@ -4661,6 +4852,8 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Tax</span>
             </div>
           </div>
+
+          <p class="team-confirm-hint" style="margin-top:12px;margin-bottom:0;">Q&amp;A activity will be tracked for reporting and analytics purposes.</p>
 
         </div>
         </div>
@@ -4674,28 +4867,16 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
       <div class="wizard-step" id="wstep-launch" style="flex-direction:column;overflow:hidden;">
         <div style="flex:1;overflow-y:auto;padding:30px 40px 40px;display:flex;flex-direction:column;align-items:center;">
         <div style="width:100%;max-width:600px;">
-          <h1 class="confirm-headline">Ready to launch Q&amp;A</h1>
-          <p class="confirm-subtitle" style="margin-bottom:16px;">Review your workflow configuration before going live.</p>
-
-          <div class="confirm-next-box" style="margin-top:0;margin-bottom:20px;">
-            <div class="confirm-next-title">After you launch the project</div>
-            <ul class="confirm-next-list">
-              <li><span class="confirm-next-bullet"></span>Your question team will receive an email invitation shortly.</li>
-              <li><span class="confirm-next-bullet"></span>Submitted questions will appear in your Question List for review and response.</li>
-              <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics purposes.</li>
-            </ul>
-          </div>
-
+          <h1 class="confirm-headline">Ready to Launch Q&amp;A</h1>
+          <p class="confirm-subtitle" style="margin-bottom:16px;">Confirm the details below before launching.</p>
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;">
-            <div class="confirm-section-label" style="margin-bottom:12px;">Q&amp;A Teams</div>
-
-            <div style="font-size:11px;font-weight:500;color:var(--text-secondary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">Answer Team</div>
+            <div class="confirm-section-label" style="margin-bottom:12px;">Answer Team</div>
             <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
               <div style="display:flex;align-items:center;gap:10px;">
                 <div class="avatar avatar--ds" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">DS</div>
                 <div style="flex:1;">
                   <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Samuels, Daniel</div>
-                  <div style="font-size:12px;color:var(--text-secondary);">Project Admin · Microsoft</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Investment Banker · Company</div>
                 </div>
                 <span class="member-status-badge"><span class="member-status-dot"></span>Active</span>
               </div>
@@ -4703,35 +4884,78 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
                 <div class="avatar avatar--slate" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">PR</div>
                 <div style="flex:1;">
                   <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Park, Rachel</div>
-                  <div style="font-size:12px;color:var(--text-secondary);">Analyst · Microsoft</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">Analyst · Company</div>
                 </div>
                 <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
               </div>
             </div>
 
-            <div style="font-size:11px;font-weight:500;color:var(--text-secondary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">Question Team</div>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div class="avatar avatar--dc" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">DC</div>
-                <div style="flex:1;">
-                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Chung, Deborah</div>
-                  <div style="font-size:12px;color:var(--text-secondary);">Due Diligence Manager · Bidder Team A</div>
-                </div>
-                <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+            <!-- Bidder Teams -->
+            <div class="confirm-section-label" style="margin-top:12px;border-top:1px solid var(--border-light);padding-top:12px;margin-bottom:0;">Question Teams (3)</div>
+
+            <!-- Bidder Team A (expanded by default) -->
+            <div style="margin-top:8px;">
+              <div onclick="toggleBidderTeam('bidder-a')" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:8px;">
+                <div style="font-size:14px;color:var(--text-secondary);">Bidder Team A</div>
+                <svg id="icon-bidder-a" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;transform:rotate(180deg);"><polyline points="6 9 12 15 18 9"/></svg>
               </div>
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div class="avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0;background:#6D4C9C;">JW</div>
-                <div style="flex:1;">
-                  <div style="font-size:13px;font-weight:500;color:var(--text-primary);">Walsh, James</div>
-                  <div style="font-size:12px;color:var(--text-secondary);">Associate · Bidder Team A</div>
+              <div id="bidder-a" style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar avatar--dc" style="width:28px;height:28px;font-size:10px;flex-shrink:0;">DC</div>
+                  <div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--text-primary);">Chung, Deborah</div><div style="font-size:12px;color:var(--text-secondary);">Due Diligence Manager · Bidder Team A</div></div>
+                  <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
                 </div>
-                <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0;background:#6D4C9C;">JW</div>
+                  <div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--text-primary);">Walsh, James</div><div style="font-size:12px;color:var(--text-secondary);">Associate · Bidder Team A</div></div>
+                  <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bidder Team B (collapsed) -->
+            <div style="border-top:1px solid var(--border-light);margin-top:8px;padding-top:12px;">
+              <div onclick="toggleBidderTeam('bidder-b')" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
+                <div style="font-size:14px;color:var(--text-secondary);">Bidder Team B</div>
+                <svg id="icon-bidder-b" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div id="bidder-b" style="display:none;flex-direction:column;gap:8px;margin-top:8px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0;background:#1976A8;">MK</div>
+                  <div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--text-primary);">Kim, Michael</div><div style="font-size:12px;color:var(--text-secondary);">Managing Director · Bidder Team B</div></div>
+                  <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0;background:#5C6BC0;">SR</div>
+                  <div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--text-primary);">Reyes, Sofia</div><div style="font-size:12px;color:var(--text-secondary);">Analyst · Bidder Team B</div></div>
+                  <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bidder Team C (collapsed) -->
+            <div style="border-top:1px solid var(--border-light);margin-top:8px;padding-top:12px;">
+              <div onclick="toggleBidderTeam('bidder-c')" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
+                <div style="font-size:14px;color:var(--text-secondary);">Bidder Team C</div>
+                <svg id="icon-bidder-c" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div id="bidder-c" style="display:none;flex-direction:column;gap:8px;margin-top:8px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0;background:#2E7D32;">AL</div>
+                  <div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--text-primary);">Laurent, Antoine</div><div style="font-size:12px;color:var(--text-secondary);">VP Finance · Bidder Team C</div></div>
+                  <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0;background:#E64A19;">PN</div>
+                  <div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--text-primary);">Nguyen, Priya</div><div style="font-size:12px;color:var(--text-secondary);">Associate · Bidder Team C</div></div>
+                  <span class="member-status-badge" style="color:#B45309;background:rgba(251,191,36,0.15);"><span class="member-status-dot" style="background:#D97706;"></span>Invited</span>
+                </div>
               </div>
             </div>
           </div>
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
-            <div class="confirm-section-label" style="margin-bottom:12px;">Categories</div>
+            <div class="confirm-section-label" style="margin-bottom:12px;">Categories (8)</div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;">
               <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">Finance</span>
               <span class="q-chip chip-general" style="background:#fff;height:30px;padding:0 12px;font-size:13px;">General</span>
@@ -4745,28 +4969,26 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           </div>
 
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-top:16px;">
-            <div class="confirm-section-label" style="margin-bottom:12px;">Workflows</div>
+            <div class="confirm-section-label" style="margin-bottom:12px;">Workflows (2)</div>
             <div style="display:flex;flex-direction:column;gap:8px;">
               <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-light);">
                 <div>
                   <div style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:2px;">Standard Q&amp;A Review</div>
                   <div style="font-size:13px;color:var(--text-secondary);">Levels: 5</div>
                 </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;">
                 <div>
                   <div style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:2px;">Legal &amp; Compliance Escalation</div>
                   <div style="font-size:13px;color:var(--text-secondary);">Levels: 3</div>
                 </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
               </div>
             </div>
           </div>
 
         </div>
         </div>
-        <div style="flex-shrink:0;padding:16px 40px;border-top:1px solid var(--border-light);display:flex;justify-content:flex-end;gap:10px;">
+        <div style="flex-shrink:0;height:56px;padding:0 16px;border-top:1px solid var(--border-light);display:flex;align-items:center;justify-content:flex-end;gap:10px;">
           <button class="btn-confirm-back" onclick="showWizardStep('workflow')">Back</button>
           <button class="btn-confirm-primary" onclick="openLaunchConfirm()">Launch Q&amp;A</button>
         </div>
@@ -4776,10 +4998,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 
     <!-- Footer -->
     <div class="wizard-footer">
-      <button class="btn-wiz-back" id="wiz-back" onclick="wizardNav(-1)">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        Back
-      </button>
       <div class="wiz-footer-center">
         <div class="wiz-steps-dots">
           <div class="wiz-dot active" id="wdot-0"></div>
@@ -4788,10 +5006,14 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
           <div class="wiz-dot" id="wdot-3"></div>
         </div>
       </div>
-      <button class="btn-wiz-next" id="wiz-next" onclick="wizardNav(1)">
-        Next
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-wiz-back" id="wiz-back" onclick="wizardNav(-1)">
+          Back
+        </button>
+        <button class="btn-wiz-next" id="wiz-next" onclick="showWizardStep('workflow')">
+          Next
+        </button>
+      </div>
     </div>
 
   </div><!-- /.wizard-modal -->
@@ -4800,8 +5022,14 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
 <!-- Launch Confirm Dialog -->
 <div class="launch-confirm-overlay" id="launch-confirm-overlay" onclick="if(event.target===this)closeLaunchConfirm()">
   <div class="launch-confirm-modal">
-    <h2 class="launch-confirm-title">Ready to launch Q&amp;A?</h2>
-    <p class="launch-confirm-body">Once launched, Q&amp;A will be available to all question and answer team members. Q&amp;A cannot be unlaunched.</p>
+    <h2 class="launch-confirm-title">Ready to Launch Q&amp;A?</h2>
+    <p style="font-size:14px;color:var(--text-primary);margin-top:8px;">Q&amp;A cannot be unlaunched.</p>
+    <div style="font-size:14px;color:var(--text-primary);margin-top:12px;margin-bottom:4px;">Once you launch:</div>
+    <ul class="confirm-next-list launch-confirm-body" style="color:var(--text-primary);">
+      <li><span class="confirm-next-bullet"></span>Q&amp;A will be available to all question and answer team members.</li>
+      <li><span class="confirm-next-bullet"></span>Submitted questions will appear in your Question List for review and response.</li>
+      <li><span class="confirm-next-bullet"></span>Q&amp;A activity will be tracked for reporting and analytics purposes.</li>
+    </ul>
     <div class="launch-confirm-footer">
       <button class="btn-confirm-back" onclick="closeLaunchConfirm()">Cancel</button>
       <button class="btn-confirm-primary" onclick="closeLaunchConfirm(); goToDashboard()">Launch</button>
@@ -4862,15 +5090,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
         </div>
         <!-- Upload encouragement (shown for document requests) -->
         <div class="upload-section" id="upload-section">
-
-          <!-- Inline upload nudge -->
-          <div class="upload-nudge">
-            <span class="upload-nudge-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-            </span>
-            A document was requested —
-            <button class="upload-nudge-link" onclick="toggleDropzone()">Upload Requested Document</button>
-          </div>
 
           <!-- Drag-and-drop zone (toggled) -->
           <div class="upload-dropzone" id="upload-dropzone">
@@ -4945,7 +5164,6 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             </div>
           </div>
 
-          <hr class="reply-divider" />
           <div class="reply-footer">
             <button class="reply-footer-action">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
@@ -4953,8 +5171,9 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
             </button>
             <button class="reply-footer-action" onclick="toggleDropzone()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-              Upload Requested Document
+              Upload
             </button>
+            <span class="q-chip chip-doc-req" style="pointer-events:none;"><span class="q-chip-dot chip-dot-doc-req"></span>Document Requested</span>
             <div class="reply-footer-spacer"></div>
             <button class="buy-side-only q-chip chip-general" id="dialog-qtype-btn" onclick="openDialogTypeMenu(event)" style="cursor:pointer;border:none;gap:6px;">
               <span class="q-chip-dot chip-dot-general" id="dialog-qtype-dot"></span>
@@ -4962,7 +5181,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <button class="btn-edit" id="dialog-btn-draft" disabled>Save Draft</button>
-            <button class="btn-submit-next" id="dialog-btn-submit" disabled onclick="handleDialogSubmit()">Submit to Answer Team</button>
+            <button class="btn-submit-next" id="dialog-btn-submit" disabled onclick="handleDialogSubmit()">Submit to Next Level</button>
           </div>
         </div>
       </div>
@@ -4974,7 +5193,7 @@ body.state-empty:not(.side-buy) .fab-goto-list { display: flex; }
         <div>
           <div class="action-field-label">Question Type</div>
           <select class="action-select" id="dialog-type-select">
-            <option>Document Requested</option>
+            <option>Document Request</option>
             <option>Clarification</option>
             <option>Access Issue</option>
             <option>General</option>
@@ -5370,7 +5589,7 @@ function activateQA() {
       workflowRows.innerHTML = `
         <div style="display:flex;align-items:center;gap:12px;">
           <div class="confirm-team-card" style="flex:1;">
-            <div class="confirm-grid-item-label">Question Team</div>
+            <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">Question Team</div>
             <div class="confirm-team-card-value">${teams[0] || '—'}</div>
           </div>
           <div style="flex-shrink:0;">
@@ -5380,7 +5599,7 @@ function activateQA() {
             </svg>
           </div>
           <div class="confirm-team-card" style="flex:1;">
-            <div class="confirm-grid-item-label">Answer Team</div>
+            <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">Answer Team</div>
             <div class="confirm-team-card-value" id="confirm-answer-team">${answerVal}</div>
           </div>
         </div>`;
@@ -5409,7 +5628,7 @@ function activateQA() {
       workflowRows.innerHTML = `
         <div style="display:flex;align-items:flex-start;gap:12px;">
           <div style="flex:1;display:flex;flex-direction:column;">
-            <div class="confirm-grid-item-label" style="margin-bottom:8px;text-align:center;">Question Teams</div>
+            <div class="confirm-grid-item-label" style="margin-bottom:8px;text-align:center;text-transform:none;letter-spacing:normal;font-size:14px;">Question Teams</div>
             <div style="display:flex;flex-direction:column;gap:${cardGap}px;">
               ${teams.map(team => `
                 <div class="confirm-team-card" style="padding:14px 16px;">
@@ -5420,7 +5639,7 @@ function activateQA() {
           <div style="flex-shrink:0;margin-top:${labelH}px;">${connectorSvg}</div>
           <div style="flex:1;margin-top:${answerTop}px;">
             <div class="confirm-team-card">
-              <div class="confirm-grid-item-label">Answer Team</div>
+              <div class="confirm-grid-item-label" style="text-transform:none;letter-spacing:normal;font-size:14px;">Answer Team</div>
               <div class="confirm-team-card-value" id="confirm-answer-team">${answerVal}</div>
             </div>
           </div>
@@ -5433,6 +5652,41 @@ function activateQA() {
   }
 
   showWizardStep('confirm');
+}
+
+function calcQLimit() {
+  const total = parseInt(document.getElementById('ql-total').value) || 0;
+  const priority = parseInt(document.getElementById('ql-priority').value) || 0;
+  const remaining = Math.max(0, total - priority);
+  document.getElementById('ql-remaining').value = remaining;
+}
+
+function showTeamView(team) {
+  const answerView = document.getElementById('team-view-answer');
+  const questionView = document.getElementById('team-view-question');
+  const navAnswer = document.getElementById('nav-answer-team');
+  const navQuestion = document.getElementById('nav-question-team');
+  if (team === 'answer') {
+    answerView.style.display = '';
+    questionView.style.display = 'none';
+    navAnswer.classList.add('active');
+    navQuestion.classList.remove('active');
+    navQuestion.style.fontWeight = '400';
+  } else {
+    answerView.style.display = 'none';
+    questionView.style.display = '';
+    navQuestion.classList.add('active');
+    navQuestion.style.fontWeight = '';
+    navAnswer.classList.remove('active');
+  }
+}
+
+function toggleBidderTeam(id) {
+  const panel = document.getElementById(id);
+  const icon = document.getElementById('icon-' + id);
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'flex';
+  icon.style.transform = isOpen ? '' : 'rotate(180deg)';
 }
 
 function openLaunchConfirm() {
@@ -5487,7 +5741,7 @@ function openDialog(id) {
 
   const isNoAccess = id === NO_ACCESS_ID;
   document.getElementById('dialog-title').textContent = isNoAccess
-    ? `${row.team} - ${row.num} / No file access example`
+    ? `${row.team} - ${row.num}  (Example when file permissions need resolution)`
     : `${row.team} - ${row.num}`;
   document.getElementById('dialog-question').textContent = row.question;
   document.getElementById('dialog-team-name').textContent = row.team;
@@ -5523,6 +5777,13 @@ function openDialog(id) {
 
   document.getElementById('dialog-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+  // Re-trigger similar-bar emerge animation
+  const simBar = document.querySelector('.similar-bar');
+  if (simBar) {
+    simBar.style.animation = 'none';
+    simBar.offsetHeight; // force reflow
+    simBar.style.animation = '';
+  }
 }
 
 function checkDialogEdited() {
@@ -5539,7 +5800,7 @@ function closeDialog() {
   if (isBuyNewQuestion) {
     document.querySelector('.dialog').classList.remove('dialog--new');
     document.querySelector('.reply-textarea').placeholder = 'Write reply here';
-    document.querySelector('.btn-submit-next').textContent = 'Submit to Answer Team';
+    document.querySelector('.btn-submit-next').textContent = 'Submit to Next Level';
     document.querySelector('.btn-submit-next').onclick = null;
     isBuyNewQuestion = false;
   }
@@ -5742,12 +6003,34 @@ function setSide(side) {
 /* ── WIZARD ─────────────────────────────────────────── */
 const WIZARD_STEPS = ['overview', 'adv-teams', 'categories', 'workflow', 'alt-workflow', 'confirm', 'launch'];
 let wizardStep = 'overview';
+let lastQuickStartStep = 'confirm';
+let qaIsLaunched = false;
+
+function _applyBadgeState() {
+  document.querySelectorAll('.badge-not-launched, .badge-launched').forEach(el => {
+    el.className = qaIsLaunched ? 'badge-launched' : 'badge-not-launched';
+    el.textContent = qaIsLaunched ? 'Q&A Launched' : 'Q&A Not Launched';
+  });
+  const subLaunchTab = document.getElementById('sub-launch');
+  if (subLaunchTab) subLaunchTab.style.display = qaIsLaunched ? 'none' : '';
+}
 
 function openWizard() {
+  qaIsLaunched = false;
+  _applyBadgeState();
   wizardStep = 'overview';
   _applyWizardStep();
   document.getElementById('wizard-overlay').classList.add('open');
   document.body.classList.remove('state-empty');
+  document.body.classList.add('state-setup');
+}
+
+function openWizardLaunched() {
+  qaIsLaunched = true;
+  _applyBadgeState();
+  wizardStep = 'adv-teams';
+  _applyWizardStep();
+  document.getElementById('wizard-overlay').classList.add('open');
   document.body.classList.add('state-setup');
 }
 
@@ -5789,8 +6072,8 @@ function _applyWizardStep() {
   // Row 1: Quick Setup vs Advanced Settings
   const isQuickSetup = wizardStep === 'overview' || wizardStep === 'confirm';
   const isAdvanced   = !isQuickSetup;
-  document.getElementById('wtab-overview').classList.toggle('active', isQuickSetup);
-  document.getElementById('wtab-teams').classList.toggle('active', isAdvanced);
+  if (isQuickSetup) lastQuickStartStep = wizardStep;
+  document.getElementById('wizard-main-header').style.display = isQuickSetup ? '' : 'none';
   document.getElementById('wizard-sub-header').style.display = (isAdvanced || wizardStep === 'launch') ? '' : 'none';
 
   // Row 2: sub-tabs (only relevant when Advanced Settings is active)
@@ -5809,13 +6092,26 @@ function _applyWizardStep() {
   if (footer.style.display !== 'none') {
     const backBtn = document.getElementById('wiz-back');
     const nextBtn = document.getElementById('wiz-next');
-    backBtn.style.visibility = idx <= 2 ? 'hidden' : 'visible';
-    const isLast = idx === WIZARD_STEPS.length - 1;
-    const showLaunchText = wizardStep === 'workflow' || isLast;
-    nextBtn.innerHTML = showLaunchText
-      ? 'Launch Q&A <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
-      : 'Next <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
-    nextBtn.style.background = isLast ? 'var(--success-main)' : 'var(--primary-main)';
+    if (qaIsLaunched) {
+      backBtn.style.visibility = 'hidden';
+      nextBtn.innerHTML = 'Close';
+      nextBtn.style.background = 'transparent';
+      nextBtn.style.color = 'var(--text-secondary)';
+      nextBtn.style.border = '1px solid var(--border)';
+      nextBtn.onclick = () => closeWizard();
+    } else {
+      backBtn.style.visibility = wizardStep === 'adv-teams' ? 'hidden' : 'visible';
+      const isLast = idx === WIZARD_STEPS.length - 1;
+      nextBtn.innerHTML = wizardStep === 'workflow' ? 'Review' : (isLast ? 'Launch Q&A' : 'Next');
+      nextBtn.style.background = isLast ? 'var(--success-main)' : 'var(--primary-main)';
+      nextBtn.style.color = '#fff';
+      nextBtn.style.border = 'none';
+      // Set step-specific next destination
+      if (wizardStep === 'adv-teams') nextBtn.onclick = () => showWizardStep('categories');
+      else if (wizardStep === 'categories') nextBtn.onclick = () => showWizardStep('workflow');
+      else if (wizardStep === 'workflow') nextBtn.onclick = () => showWizardStep('launch');
+      else nextBtn.onclick = () => wizardNav(1);
+    }
   }
 }
 
@@ -5830,7 +6126,7 @@ function openTypeMenu(e, rowId) {
   _typeMenuRow = rowId;
 
   // Build options
-  const order = ['general', 'doc', 'access', 'clarif'];
+  const order = ['access', 'clarif', 'doc', 'general'];
   const dotColors = {
     doc:     'var(--chip-doc-req-dot)',
     clarif:  'var(--chip-clarif-dot)',
@@ -6082,7 +6378,7 @@ function openDialogTypeMenu(e) {
   const btn = document.getElementById('dialog-qtype-btn');
   const menu = document.getElementById('type-menu');
   const row = BUY_ROWS.find(r => r.id === currentBuyDialogId);
-  const order = ['general', 'doc', 'access', 'clarif'];
+  const order = ['access', 'clarif', 'doc', 'general'];
   menu.querySelector('.type-menu-items').innerHTML = order.map(key => {
     const m = TYPE_META[key];
     const selected = row && row.type === key;
@@ -6223,12 +6519,16 @@ document.addEventListener('DOMContentLoaded', renderBuyTable);
 <div id="global-tooltip"></div>
 
 <!-- FAB: Go to Question List (sell side empty state only) -->
-<button class="fab-goto-list" onclick="goToQuestionList()">
-  <span style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-    <span>Go to Question List</span>
-    <span style="font-size:11px;font-weight:400;opacity:0.75;">(for prototype purposes only)</span>
-  </span>
-</button>
+<div class="fab-split">
+  <button class="fab-split-section" onclick="window.open('qa-why-how-what.html', '_blank')">Why, How, What</button>
+  <div class="fab-split-divider"></div>
+  <button class="fab-split-section" onclick="goToQuestionList()">
+    <span style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+      <span>Go to Question List</span>
+      <span style="font-size:11px;font-weight:400;opacity:0.75;">(for prototype purposes only)</span>
+    </span>
+  </button>
+</div>
 
 <!-- TYPE CHANGE MENU -->
 <div class="type-menu" id="type-menu">
@@ -6384,27 +6684,11 @@ document.addEventListener('DOMContentLoaded', renderBuyTable);
         <div class="udlg-settings-section">
           <div class="udlg-settings-section-title">Permission Settings</div>
 
-          <!-- Inherit (selected, shows warning) -->
+          <!-- Inherit (selected) -->
           <label class="udlg-radio-row" style="align-items:flex-start;">
             <input type="radio" name="udlg-perms" value="inherit" checked style="margin-top:3px;accent-color:var(--primary-main);">
             <span class="udlg-radio-label-stack">
               <span style="font-weight:600;">Inherit destination permission settings</span>
-              <div class="udlg-perm-alert">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                Engage does not currently have access to 2_Financial and will not be able to access this document.
-              </div>
-            </span>
-          </label>
-
-          <!-- Grant access (recommended) -->
-          <label class="udlg-radio-row" style="align-items:flex-start;margin-top:10px;">
-            <input type="radio" name="udlg-perms" value="grant" style="margin-top:3px;">
-            <span class="udlg-radio-label-stack">
-              <span style="display:flex;align-items:center;gap:8px;font-weight:600;">
-                Grant access to Engage
-                <span class="udlg-recommended-chip">Recommended</span>
-              </span>
-              <span class="udlg-radio-sub">Engage will be able to view and download this document once published.</span>
             </span>
           </label>
 
@@ -6491,16 +6775,16 @@ document.addEventListener('DOMContentLoaded', renderBuyTable);
           <span style="font-size:12px;color:var(--text-disabled);margin-left:4px;">142.8 KB</span>
         </div>
         <div class="perm-recipient" style="margin-bottom:14px;">
-          This document is attached to your answer for <strong>Engage · Due Diligence Team</strong>.
+          This document is attached to your answer for <strong>Chung, Deborah</strong>.
         </div>
         <div class="perm-radio-opt" onclick="selectNoAccessPerm('grant')" id="perm-opt-grant">
           <div class="perm-radio-ctrl checked" id="perm-radio-grant"></div>
           <div>
             <div class="perm-radio-label">
-              Grant access to Engage
+              Grant access to this user
               <span style="font-size:10px;font-weight:600;color:var(--primary-main);background:rgba(72,94,240,0.10);padding:2px 6px;border-radius:999px;margin-left:4px;">Recommended</span>
             </div>
-            <div class="perm-radio-desc">Engage will be able to view this document once it's published.</div>
+            <div class="perm-radio-desc">They will be able to view this document once it's published.</div>
           </div>
         </div>
         <div class="perm-radio-opt" onclick="selectNoAccessPerm('hidden')" id="perm-opt-hidden">
@@ -6508,11 +6792,11 @@ document.addEventListener('DOMContentLoaded', renderBuyTable);
           <div>
             <div class="perm-radio-label">Keep hidden</div>
             <div class="perm-radio-desc">Visible only to admins and reviewers with manage rights.</div>
-            <div class="perm-hidden-warn" id="perm-hidden-warn">Engage will not be able to access this document.</div>
+            <div class="perm-hidden-warn" id="perm-hidden-warn">This user will not be able to access this document.</div>
           </div>
         </div>
       </div>
-      <div class="perm-modal-ftr">
+      <div class="perm-modal-ftr" id="perm-modal-ftr-form">
         <button class="btn-outline-sm" onclick="closeFixAccessModal()">Cancel</button>
         <button class="btn-primary-sm" onclick="saveNoAccessPerm()">Save</button>
       </div>
@@ -6647,6 +6931,18 @@ function openFixAccessModal() {
   document.getElementById('perm-modal-form').style.display = 'block';
   document.getElementById('perm-modal-success').style.display = 'none';
   document.getElementById('perm-fix-overlay').classList.add('open');
+  // Swap footer based on whether triggered from Submit to Next Level
+  const ftr = document.getElementById('perm-modal-ftr-form');
+  if (noAccessFromSubmit) {
+    ftr.innerHTML = `
+      <button class="btn-text-sm" onclick="closeFixAccessModal()">Cancel</button>
+      <button class="btn-outline-sm" onclick="saveNoAccessPerm()">Save</button>
+      <button class="btn-primary-sm" onclick="saveNoAccessPerm(true)">Submit to Next Level</button>`;
+  } else {
+    ftr.innerHTML = `
+      <button class="btn-outline-sm" onclick="closeFixAccessModal()">Cancel</button>
+      <button class="btn-primary-sm" onclick="saveNoAccessPerm()">Save</button>`;
+  }
 }
 
 function closeFixAccessModal(silent) {
@@ -6664,24 +6960,27 @@ function renderFixModal() {
   document.getElementById('perm-hidden-warn').style.display = noAccessPerm === 'hidden' ? 'block' : 'none';
 }
 
-function saveNoAccessPerm() {
+function saveNoAccessPerm(andSubmit) {
   if (noAccessPerm === 'grant') {
     noAccessResolved = true;
     const fromSubmit = noAccessFromSubmit;
     noAccessFromSubmit = false;
-    noAccessState = fromSubmit ? 5 : 3;
+    noAccessState = (fromSubmit || andSubmit) ? 5 : 3;
     closeFixAccessModal();
     renderNoAccessState();
     [1,2,3,4,5].forEach(i => {
       document.getElementById('na-btn-' + i).classList.toggle('active', i === noAccessState);
     });
-    if (fromSubmit) {
+    if (andSubmit) {
+      closeDialog();
+    } else if (fromSubmit) {
       updateSubmitGate();
       openSubmitGateModal();
     }
   } else {
     noAccessFromSubmit = false;
     closeFixAccessModal();
+    if (andSubmit) closeDialog();
   }
 }
 
@@ -6739,10 +7038,9 @@ function handleDialogSubmit() {
         document.getElementById('na-btn-' + i).classList.toggle('active', i === 4);
       });
     } else {
-      // Doc is permissioned — just close and submit
       closeDialog();
     }
-  } else if (document.getElementById('dialog-linked-files')?.style.display !== 'none') {
+  } else {
     closeDialog();
   }
 }
