@@ -5508,23 +5508,37 @@ function renderBidderChips() {
 function toggleCustSelect(id) {
   const el = document.getElementById(id);
   const isOpen = el.classList.contains('open');
-  // Close all open selects and reset any fixed positioning
+  // Close all open selects and return any teleported dropdowns to their owners
   document.querySelectorAll('.cust-select.open').forEach(s => {
     s.classList.remove('open');
-    const dd = s.querySelector('.cust-select-dropdown');
-    if (dd) { dd.style.position = ''; dd.style.top = ''; dd.style.left = ''; dd.style.width = ''; dd.style.right = ''; }
+    const dd = document.getElementById(s.id + '-dd-portal');
+    if (dd) {
+      dd.removeAttribute('id');
+      s.appendChild(dd);
+      dd.style.cssText = '';
+    }
   });
   if (!isOpen) {
     el.classList.add('open');
-    // Use fixed positioning so dropdown escapes overflow:hidden parent containers
+    // Teleport dropdown to body so no ancestor overflow:hidden or fixed container clips it
     const trigger = el.querySelector('.cust-select-trigger');
     const dropdown = el.querySelector('.cust-select-dropdown');
     const rect = trigger.getBoundingClientRect();
-    dropdown.style.position = 'fixed';
-    dropdown.style.top = (rect.bottom + 4) + 'px';
-    dropdown.style.left = rect.left + 'px';
-    dropdown.style.width = rect.width + 'px';
-    dropdown.style.right = 'auto';
+    dropdown.id = id + '-dd-portal';
+    document.body.appendChild(dropdown);
+    dropdown.style.cssText = [
+      'display:block',
+      'position:fixed',
+      'top:' + (rect.bottom + 4) + 'px',
+      'left:' + rect.left + 'px',
+      'width:' + rect.width + 'px',
+      'z-index:9999',
+      'background:#fff',
+      'border-radius:8px',
+      'box-shadow:0 4px 20px rgba(0,0,0,0.13)',
+      'overflow:hidden',
+      'padding:6px 0'
+    ].join(';');
   }
 }
 
