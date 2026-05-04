@@ -127,12 +127,12 @@ ul.problem-list li::before {
 .flow {
   display: flex;
   align-items: flex-start;
-  gap: 0;
+  justify-content: space-between;
   margin-bottom: 16px;
 }
 
 .flow-step {
-  flex: 1;
+  flex: 0 0 18%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,7 +143,7 @@ ul.problem-list li::before {
 .flow-step:not(:last-child)::after {
   content: '→';
   position: absolute;
-  right: -10px;
+  right: -28px;
   top: 10px;
   font-size: 14px;
   color: rgba(31,34,39,0.2);
@@ -198,7 +198,7 @@ ul.problem-list li::before {
 
 .initiative-name {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   color: rgba(31,34,39,0.87);
   margin-bottom: 6px;
 }
@@ -208,6 +208,15 @@ ul.problem-list li::before {
   color: rgba(31,34,39,0.55);
   line-height: 1.55;
 }
+
+.prd-link {
+  font-size: 12px;
+  font-weight: 400;
+  color: #485EF0;
+  text-decoration: none;
+  margin-left: 4px;
+}
+.prd-link:hover { text-decoration: underline; }
 
 /* Outcomes */
 .outcomes {
@@ -285,24 +294,17 @@ ul.problem-list li::before {
 </a>
 <div class="page">
 
-  <h1>Q&A Quick Wins</h1>
+  <h1>Q&A Quick Wins - Why, How, What</h1>
 
 
-  <div class="prd-section-label">Product Requirement Documents</div>
-  <div class="prd-links">
-    <a href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6518702110" target="_blank">Q&A Quick Launch (Simplify Q&A Settings)</a>
-    <a href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6519324680" target="_blank">Question Categorisation (Document Requests)</a>
-    <a href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6519062571" target="_blank">Upload Document Answer Action</a>
-    <a href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6519095374" target="_blank">Q&A Document Permissions</a>
-  </div>
 
   <div class="section">
     <div class="section-label">01 / Why</div>
-    <div class="section-title">The Problem</div>
+    <div class="section-title">The Problems</div>
     <ul class="problem-list">
       <li>Setup is too complex for medium and smaller deals. Admins must configure teams, categories, workflows, limits, and routing before a single question can be asked. Many skip it and default to email or Excel.</li>
       <li>Document requests get lost in the question queue. There's no way to distinguish a question that needs an uploaded file from one that needs a text reply.</li>
-      <li>Upload isn't a natural answer path. Answer teams often respond with text or upload outside Q&A — missing the chance to create a tracked, Q&A-driven upload.</li>
+      <li>Upload isn't a natural answer path. Answer teams often respond with text or attach files outside Q&A, losing the chance to create a tracked, Q&A-driven upload.</li>
       <li>Bidders can't always access documents shared in answers. The resulting support escalation erodes trust in the workflow.</li>
     </ul>
     <p><strong style="color:rgba(31,34,39,0.87);">Phase 1 goal:</strong> Increase Active Q&A adoption (projects that reach 10 or more questions asked) by reducing the setup, classification, answer, and permissions barriers that prevent projects from reaching that threshold.</p>
@@ -311,7 +313,6 @@ ul.problem-list li::before {
   <div class="section">
     <div class="section-label">02 / How</div>
     <div class="section-title">The Approach</div>
-    <hr>
     <div class="flow">
       <div class="flow-step">
         <div class="flow-num">01</div>
@@ -343,22 +344,22 @@ ul.problem-list li::before {
     <div class="initiatives">
       <div class="initiative">
         <div class="initiative-num">01</div>
-        <div class="initiative-name">Q&A Quick Launch</div>
+        <div class="initiative-name">Q&A Quick Launch <a class="prd-link" href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6518702110/PRD+Q+A+Quick+Launch+Simplify+Q+A+Settings" target="_blank">(PRD)</a></div>
         <div class="initiative-desc">A simplified setup path using safe defaults so admins can launch Q&A without configuring custom workflows. Advanced setup remains available for complex deals.</div>
       </div>
       <div class="initiative">
         <div class="initiative-num">02</div>
-        <div class="initiative-name">Question Categorisation</div>
+        <div class="initiative-name">Question Categorisation <a class="prd-link" href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6519324680" target="_blank">(PRD)</a></div>
         <div class="initiative-desc">A lightweight question type field that lets teams flag Document Requests. Answer teams can filter, prioritise, and reclassify.</div>
       </div>
       <div class="initiative">
         <div class="initiative-num">03</div>
-        <div class="initiative-name">Upload Document Answer Action</div>
-        <div class="initiative-desc">Upload becomes a first-class action in the Q&A answer flow, especially for Document Request questions. Answer teams no longer need to leave Q&A to attach a file.</div>
+        <div class="initiative-name">Upload Document Answer Action <a class="prd-link" href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6519062571" target="_blank">(PRD)</a></div>
+        <div class="initiative-desc">Upload becomes a first-class action in the Q&A answer flow, especially for Document Request questions.</div>
       </div>
       <div class="initiative">
         <div class="initiative-num">04</div>
-        <div class="initiative-name">Q&A Document Permissions</div>
+        <div class="initiative-name">Q&A Document Permissions <a class="prd-link" href="https://datasite.atlassian.net/wiki/spaces/DE1/pages/6519095374" target="_blank">(PRD)</a></div>
         <div class="initiative-desc">Before submitting an answer, users can confirm or set visibility for the intended bidder. A warning appears when access isn't yet granted.</div>
       </div>
     </div>
