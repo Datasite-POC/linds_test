@@ -4275,21 +4275,21 @@ body:not(.state-empty) .fab-split { display: none; }
             <div style="margin-top:16px;">
               <div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;">Default answer team</div>
               <div class="cust-select" id="answer-cust-select">
-                <div class="cust-select-trigger" onclick="toggleCustSelect('answer-cust-select')">
-                  <span class="cust-select-trigger-text placeholder" id="answer-cust-select-text">Select from role…</span>
-                  <svg class="cust-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                <div class="cust-select-trigger cust-select-trigger--multi" onclick="toggleCustSelect('answer-cust-select')" style="height:auto;min-height:44px;flex-wrap:wrap;gap:6px;padding:6px 14px;align-items:center;">
+                  <div id="answer-chips" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;">
+                    <span class="cust-select-trigger-text placeholder" id="answer-cust-select-text">Select from role…</span>
+                  </div>
+                  <svg class="cust-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;align-self:center;"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="cust-select-dropdown">
-                  <div class="cust-select-option" onclick="pickCustOption('answer-cust-select','wiz-answer-team-select','Role A')">Role A</div>
-                  <div class="cust-select-option" onclick="pickCustOption('answer-cust-select','wiz-answer-team-select','Role B')">Role B</div>
-                  <div class="cust-select-option" onclick="pickCustOption('answer-cust-select','wiz-answer-team-select','Role C')">Role C</div>
+                  <div class="cust-select-option cust-select-option--check selected" onclick="toggleAnswerOption(this, 'Project Admin')">
+                    <span class="cust-check-box"></span>Project Admin
+                  </div>
+                  <div class="cust-select-option cust-select-option--check" onclick="toggleAnswerOption(this, 'Internal Role')">
+                    <span class="cust-check-box"></span>Internal Role
+                  </div>
                 </div>
-                <select id="wiz-answer-team-select" style="display:none" onchange="checkWizReady()">
-                  <option value="" disabled selected>Select from role…</option>
-                  <option>Role A</option>
-                  <option>Role B</option>
-                  <option>Role C</option>
-                </select>
+                <input type="hidden" id="wiz-answer-team-select" value="Project Admin">
               </div>
             </div>
           </div>
@@ -5441,6 +5441,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setSide('sell');
   renderTable();
   document.body.classList.add('state-empty');
+  renderAnswerChips();
+  checkWizReady();
 });
 
 function goToEmpty() {
@@ -5464,6 +5466,45 @@ function checkWizReady() {
   const a = document.getElementById('wiz-answer-team-select').value;
   const b = document.getElementById('wiz-bidder-team-select').value;
   document.getElementById('wiz-btn-confirm-launch').disabled = !(a && b);
+}
+
+// Multi-select for answer team
+const answerSelections = new Set(['Project Admin']);
+
+function toggleAnswerOption(el, value) {
+  if (answerSelections.has(value)) {
+    answerSelections.delete(value);
+    el.classList.remove('selected');
+  } else {
+    answerSelections.add(value);
+    el.classList.add('selected');
+  }
+  renderAnswerChips();
+  document.getElementById('wiz-answer-team-select').value = answerSelections.size > 0 ? Array.from(answerSelections).join(', ') : '';
+  checkWizReady();
+}
+
+function removeAnswerChip(value, event) {
+  event.stopPropagation();
+  answerSelections.delete(value);
+  document.querySelectorAll('#answer-cust-select .cust-select-option--check').forEach(opt => {
+    if (opt.textContent.trim() === value) opt.classList.remove('selected');
+  });
+  renderAnswerChips();
+  document.getElementById('wiz-answer-team-select').value = answerSelections.size > 0 ? Array.from(answerSelections).join(', ') : '';
+  checkWizReady();
+}
+
+function renderAnswerChips() {
+  const container = document.getElementById('answer-chips');
+  if (!container) return;
+  if (answerSelections.size === 0) {
+    container.innerHTML = '<span class="cust-select-trigger-text placeholder" id="answer-cust-select-text">Select from role…</span>';
+  } else {
+    container.innerHTML = Array.from(answerSelections).map(v =>
+      `<span class="ms-chip">${v}<button class="ms-chip-remove" onclick="removeAnswerChip('${v}', event)">✕</button></span>`
+    ).join('');
+  }
 }
 
 // Multi-select for bidder teams
