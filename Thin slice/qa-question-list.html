@@ -5520,19 +5520,21 @@ function toggleCustSelect(id) {
   });
   if (!isOpen) {
     el.classList.add('open');
-    // Teleport dropdown to body so no ancestor overflow:hidden or fixed container clips it
     const trigger = el.querySelector('.cust-select-trigger');
     const dropdown = el.querySelector('.cust-select-dropdown');
     const rect = trigger.getBoundingClientRect();
+    // css zoom on <html> makes getBoundingClientRect return visual coords but
+    // position:fixed uses CSS (unzoomed) coords — divide to compensate
+    const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
     dropdown.id = id + '-dd-portal';
     document.body.appendChild(dropdown);
     dropdown.style.cssText = [
       'display:block',
       'position:fixed',
-      'top:' + (rect.bottom + 4) + 'px',
-      'left:' + rect.left + 'px',
+      'top:' + ((rect.bottom + 4) / zoom) + 'px',
+      'left:' + (rect.left / zoom) + 'px',
       'right:auto',
-      'width:' + rect.width + 'px',
+      'width:' + (rect.width / zoom) + 'px',
       'z-index:9999',
       'background:#fff',
       'border-radius:8px',
@@ -5559,8 +5561,14 @@ function pickCustOption(selectId, nativeId, value) {
     if (native.options[i].text === value) { native.selectedIndex = i; break; }
   }
   native.dispatchEvent(new Event('change'));
-  // Close dropdown
+  // Close dropdown and return any teleported portal back to its owner
   selectEl.classList.remove('open');
+  const portal = document.getElementById(selectId + '-dd-portal');
+  if (portal) {
+    portal.removeAttribute('id');
+    selectEl.appendChild(portal);
+    portal.style.cssText = '';
+  }
 }
 
 // Close custom dropdowns when clicking outside
