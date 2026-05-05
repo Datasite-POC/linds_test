@@ -1705,7 +1705,7 @@ body:not(.state-empty) .fab-split { display: none; }
   gap: 4px;
 }
 .confirm-stat-value {
-  font-size: 14px;
+  font-size: 21px;
   font-weight: 400;
   color: var(--text-primary);
   line-height: 1;
@@ -4268,9 +4268,41 @@ body:not(.state-empty) .fab-split { display: none; }
           <h1 class="setup-card-headline">Q&amp;A Quick Start</h1>
           <p class="setup-card-desc">Get started with Q&amp;A right away. Minimal setup required.</p>
 
+          <!-- Who will manage -->
+          <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:16px;">
+            <div class="setup-inline-headline">1. Who will manage Q&amp;A?</div>
+            <p class="setup-inline-desc" style="margin-bottom:8px;">Project admins can configure settings, manage teams, and launch Q&amp;A.</p>
+            <div style="margin-top:16px;">
+              <div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;">Project admin(s)</div>
+              <div class="cust-select" id="admin-cust-select">
+                <div class="cust-select-trigger cust-select-trigger--multi" onclick="toggleCustSelect('admin-cust-select')" style="height:auto;min-height:44px;flex-wrap:wrap;gap:6px;padding:6px 14px;align-items:center;">
+                  <div id="admin-chips" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;">
+                    <span class="cust-select-trigger-text placeholder" id="admin-cust-select-text">Select admins…</span>
+                  </div>
+                  <svg class="cust-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;align-self:center;"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="cust-select-dropdown">
+                  <div class="cust-select-option cust-select-option--check selected" onclick="toggleAdminOption(this, 'Daniel Samuels')">
+                    <span class="cust-check-box"></span>Daniel Samuels
+                  </div>
+                  <div class="cust-select-option cust-select-option--check" onclick="toggleAdminOption(this, 'Rachel Park')">
+                    <span class="cust-check-box"></span>Rachel Park
+                  </div>
+                  <div class="cust-select-option cust-select-option--check" onclick="toggleAdminOption(this, 'Alex Johnson')">
+                    <span class="cust-check-box"></span>Alex Johnson
+                  </div>
+                  <div class="cust-select-option cust-select-option--check" onclick="toggleAdminOption(this, 'Michael Torres')">
+                    <span class="cust-check-box"></span>Michael Torres
+                  </div>
+                </div>
+                <input type="hidden" id="wiz-admin-select" value="Daniel Samuels">
+              </div>
+            </div>
+          </div>
+
           <!-- Who will answer -->
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:16px;">
-            <div class="setup-inline-headline">1. Who will answer questions?</div>
+            <div class="setup-inline-headline">2. Who will answer questions?</div>
             <p class="setup-inline-desc" style="margin-bottom:8px;">All questions from bidder teams will be routed to this group.</p>
             <div style="margin-top:16px;">
               <div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;">Default answer team</div>
@@ -4282,21 +4314,18 @@ body:not(.state-empty) .fab-split { display: none; }
                   <svg class="cust-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;align-self:center;"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="cust-select-dropdown">
-                  <div class="cust-select-option cust-select-option--check selected" onclick="toggleAnswerOption(this, 'Project Admin')">
-                    <span class="cust-check-box"></span>Project Admin
-                  </div>
                   <div class="cust-select-option cust-select-option--check" onclick="toggleAnswerOption(this, 'Internal Role')">
                     <span class="cust-check-box"></span>Internal Role
                   </div>
                 </div>
-                <input type="hidden" id="wiz-answer-team-select" value="Project Admin">
+                <input type="hidden" id="wiz-answer-team-select" value="">
               </div>
             </div>
           </div>
 
           <!-- Who will ask -->
           <div style="border:1px solid var(--border-light);border-radius:8px;padding:16px;margin-bottom:16px;">
-            <div class="setup-inline-headline">2. Who will ask questions?</div>
+            <div class="setup-inline-headline">3. Who will ask questions?</div>
             <div style="margin-top:16px;">
               <div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;">Question team(s)</div>
               <div class="cust-select" id="bidder-cust-select">
@@ -5441,6 +5470,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setSide('sell');
   renderTable();
   document.body.classList.add('state-empty');
+  renderAdminChips();
   renderAnswerChips();
   checkWizReady();
 });
@@ -5463,13 +5493,53 @@ function calcStandard() {
   document.getElementById('ql-standard').value = Math.max(0, total - priority);
 }
 function checkWizReady() {
+  const admin = document.getElementById('wiz-admin-select').value;
   const a = document.getElementById('wiz-answer-team-select').value;
   const b = document.getElementById('wiz-bidder-team-select').value;
-  document.getElementById('wiz-btn-confirm-launch').disabled = !(a && b);
+  document.getElementById('wiz-btn-confirm-launch').disabled = !(admin && a && b);
+}
+
+// Multi-select for project admins
+const adminSelections = new Set(['Daniel Samuels']);
+
+function toggleAdminOption(el, value) {
+  if (adminSelections.has(value)) {
+    adminSelections.delete(value);
+    el.classList.remove('selected');
+  } else {
+    adminSelections.add(value);
+    el.classList.add('selected');
+  }
+  renderAdminChips();
+  document.getElementById('wiz-admin-select').value = adminSelections.size > 0 ? Array.from(adminSelections).join(', ') : '';
+  checkWizReady();
+}
+
+function removeAdminChip(value, event) {
+  event.stopPropagation();
+  adminSelections.delete(value);
+  document.querySelectorAll('#admin-cust-select .cust-select-option--check').forEach(opt => {
+    if (opt.textContent.trim() === value) opt.classList.remove('selected');
+  });
+  renderAdminChips();
+  document.getElementById('wiz-admin-select').value = adminSelections.size > 0 ? Array.from(adminSelections).join(', ') : '';
+  checkWizReady();
+}
+
+function renderAdminChips() {
+  const container = document.getElementById('admin-chips');
+  if (!container) return;
+  if (adminSelections.size === 0) {
+    container.innerHTML = '<span class="cust-select-trigger-text placeholder" id="admin-cust-select-text">Select admins…</span>';
+  } else {
+    container.innerHTML = Array.from(adminSelections).map(v =>
+      `<span class="ms-chip">${v}<button class="ms-chip-remove" onclick="removeAdminChip('${v}', event)">✕</button></span>`
+    ).join('');
+  }
 }
 
 // Multi-select for answer team
-const answerSelections = new Set(['Project Admin']);
+const answerSelections = new Set();
 
 function toggleAnswerOption(el, value) {
   if (answerSelections.has(value)) {
@@ -5546,10 +5616,19 @@ function renderBidderChips() {
   }
 }
 
-function toggleCustSelect(id) {
-  const el = document.getElementById(id);
-  const isOpen = el.classList.contains('open');
-  // Close all open selects and return any teleported dropdowns to their owners
+// Tracks the active scroll listener so it can be removed on close
+let _custSelectScrollCleanup = null;
+
+function _positionPortal(dropdown, trigger) {
+  const rect = trigger.getBoundingClientRect();
+  const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+  dropdown.style.top   = ((rect.bottom + 4) / zoom) + 'px';
+  dropdown.style.left  = (rect.left / zoom) + 'px';
+  dropdown.style.width = (rect.width / zoom) + 'px';
+}
+
+function _closeAllCustSelects() {
+  if (_custSelectScrollCleanup) { _custSelectScrollCleanup(); _custSelectScrollCleanup = null; }
   document.querySelectorAll('.cust-select.open').forEach(s => {
     s.classList.remove('open');
     const dd = document.getElementById(s.id + '-dd-portal');
@@ -5559,23 +5638,24 @@ function toggleCustSelect(id) {
       dd.style.cssText = '';
     }
   });
+}
+
+function toggleCustSelect(id) {
+  const el = document.getElementById(id);
+  const isOpen = el.classList.contains('open');
+  _closeAllCustSelects();
   if (!isOpen) {
     el.classList.add('open');
     const trigger = el.querySelector('.cust-select-trigger');
     const dropdown = el.querySelector('.cust-select-dropdown');
-    const rect = trigger.getBoundingClientRect();
-    // css zoom on <html> makes getBoundingClientRect return visual coords but
-    // position:fixed uses CSS (unzoomed) coords — divide to compensate
     const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
     dropdown.id = id + '-dd-portal';
     document.body.appendChild(dropdown);
+    // Initial base styles (position/display/decoration)
     dropdown.style.cssText = [
       'display:block',
       'position:fixed',
-      'top:' + ((rect.bottom + 4) / zoom) + 'px',
-      'left:' + (rect.left / zoom) + 'px',
       'right:auto',
-      'width:' + (rect.width / zoom) + 'px',
       'z-index:9999',
       'background:#fff',
       'border-radius:8px',
@@ -5583,6 +5663,19 @@ function toggleCustSelect(id) {
       'overflow:hidden',
       'padding:6px 0'
     ].join(';');
+    _positionPortal(dropdown, trigger);
+    // Reposition on scroll so the dropdown tracks the field
+    const scrollEl = (function findScroller(n) {
+      while (n && n !== document.body) {
+        const ov = getComputedStyle(n).overflowY;
+        if (ov === 'auto' || ov === 'scroll') return n;
+        n = n.parentElement;
+      }
+      return window;
+    })(el);
+    const onScroll = () => _positionPortal(dropdown, trigger);
+    scrollEl.addEventListener('scroll', onScroll, { passive: true });
+    _custSelectScrollCleanup = () => scrollEl.removeEventListener('scroll', onScroll);
   }
 }
 
